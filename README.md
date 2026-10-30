@@ -70,6 +70,8 @@ No server-side environment variables are required for the current browser-only r
 - User-facing changes: [CHANGELOG.md](CHANGELOG.md)
 - Support and bug reports: [SUPPORT.md](SUPPORT.md)
 - Security reporting: [SECURITY.md](SECURITY.md)
+- Search Console and sitemap owner setup: [SEARCH_CONSOLE.md](SEARCH_CONSOLE.md)
+- GitHub branch protection and repository settings: [GITHUB_SETTINGS.md](GITHUB_SETTINGS.md)
 
 ## Product policy
 PixelTools is free to use. The current release has no ads, subscriptions or paid gates.

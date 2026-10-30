@@ -94,4 +94,11 @@ describe("published site contract", () => {
     expect(workflow).toContain("retention-days: 30");
   });
 
+  it("provides owner setup instructions for Search Console and repository protection", () => {
+    expect(existsSync(resolve(root, "SEARCH_CONSOLE.md"))).toBe(true);
+    expect(existsSync(resolve(root, "GITHUB_SETTINGS.md"))).toBe(true);
+    expect(read("SEARCH_CONSOLE.md")).toContain("https://pixeltools-9xe.pages.dev/sitemap.xml");
+    expect(read("GITHUB_SETTINGS.md")).toContain("main");
+  });
+
 });
