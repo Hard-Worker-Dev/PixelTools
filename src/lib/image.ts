@@ -46,6 +46,19 @@ export function clampCrop(crop: CropRect, imageWidth: number, imageHeight: numbe
   return { x, y, width, height };
 }
 
+export function centeredCropForRatio(imageWidth: number, imageHeight: number, ratio: number): CropRect {
+  if (!Number.isFinite(ratio) || ratio <= 0 || imageWidth < 1 || imageHeight < 1) {
+    throw new Error("A valid image size and aspect ratio are required.");
+  }
+  const imageRatio = imageWidth / imageHeight;
+  if (imageRatio > ratio) {
+    const width = Math.max(1, Math.floor(imageHeight * ratio));
+    return { x: Math.floor((imageWidth - width) / 2), y: 0, width, height: imageHeight };
+  }
+  const height = Math.max(1, Math.floor(imageWidth / ratio));
+  return { x: 0, y: Math.floor((imageHeight - height) / 2), width: imageWidth, height };
+}
+
 export function rgbToHex(r: number, g: number, b: number): string {
   return `#${[r, g, b].map(channel => Math.max(0, Math.min(255, Math.round(channel))).toString(16).padStart(2, "0")).join("")}`.toUpperCase();
 }
