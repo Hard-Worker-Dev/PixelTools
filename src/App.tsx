@@ -5,7 +5,7 @@ import {
   LockKeyhole, Menu, RotateCcw, ShieldCheck, Sparkles, UploadCloud, X
 } from "lucide-react";
 import {
-  centeredCropForRatio, formatBytes, outputName, renderImage, rgbToHsl, sampleImageColor,
+  centeredCropForRatio, formatBytes, outputName, renderImage, renderImageToTargetSize, rgbToHsl, sampleImageColor,
   type ImageFormat, type RenderOptions
 } from "./lib/image";
 
@@ -63,6 +63,9 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [quality, setQuality] = useState(80);
+  const [compressionMode, setCompressionMode] = useState<"quality" | "target">("quality");
+  const [targetSizeKb, setTargetSizeKb] = useState("200");
+  const [compressionMessage, setCompressionMessage] = useState("");
   const [aspectLocked, setAspectLocked] = useState(true);
   const [cropRatio, setCropRatio] = useState("free");
   const [toolSearch, setToolSearch] = useState("");
@@ -113,6 +116,7 @@ export default function App() {
     setFile(null);
     setResult(null);
     setResultPreview("");
+    setCompressionMessage("");
     setError("");
     setPreview("");
     setBase64Text("");
@@ -177,6 +181,9 @@ export default function App() {
     setBlur(4);
     setFormat("image/webp");
     setQuality(80);
+    setCompressionMode("quality");
+    setTargetSizeKb("200");
+    setCompressionMessage("");
     setJpegBackground("#FFFFFF");
     setMobileMenuOpen(false);
   };
@@ -226,6 +233,7 @@ export default function App() {
     setError("");
     setResult(null);
     setResultPreview("");
+    setCompressionMessage("");
     try {
       const options: RenderOptions = { quality: quality / 100, format };
       switch (active) {
@@ -294,7 +302,17 @@ export default function App() {
           throw new Error("This tool does not need image processing.");
       }
       if (options.format === "image/jpeg") options.backgroundColor = jpegBackground;
-      const blob = await renderImage(file, options);
+      let blob: Blob;
+      if (active === "compress" && compressionMode === "target") {
+        const targetBytes = Number(targetSizeKb) * 1024;
+        const compressed = await renderImageToTargetSize(file, { ...options, quality: 1 }, targetBytes);
+        blob = compressed.blob;
+        setCompressionMessage(compressed.targetReached
+          ? "Target reached at " + Math.round(compressed.quality * 100) + "% quality."
+          : "The target could not be reached at the lowest tested quality. The closest result is shown; try WebP or set a larger target.");
+      } else {
+        blob = await renderImage(file, options);
+      }
       setResult(blob);
       setResultPreview(URL.createObjectURL(blob));
     } catch (e) {
