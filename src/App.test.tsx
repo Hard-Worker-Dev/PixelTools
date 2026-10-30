@@ -64,6 +64,14 @@ describe("PixelTools ease-of-use workflows", () => {
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
   });
+  it("resets the tool URL when the close button is used", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Compressor/ }));
+    expect(window.location.search).toContain("tool=compress");
+    fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(window.location.search).toBe("");
+  });
   it("opens a requested tool from a shareable URL", () => {
     window.history.replaceState({}, "", "/?tool=resize#tools");
     render(<App />);
