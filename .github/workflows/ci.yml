@@ -37,7 +37,7 @@ jobs:
         run: npm run build
       - name: Preserve production build artifact
         if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pixeltools-dist-${{ github.sha }}
           path: dist/
