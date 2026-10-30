@@ -49,6 +49,22 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.getByText(/JPG, PNG, WebP/i)).toBeTruthy();
   });
 
+  it("opens the upload workflow for every implemented image tool", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const titles = [
+      "Image Compressor", "Image Resizer", "Image Cropper", "Image Converter",
+      "Image Rotator", "Image Flipper", "Image Watermark", "Rounded Corners",
+      "Image Blur", "Grayscale Converter", "Image Color Picker",
+      "Image Metadata Viewer", "Image to Base64", "Image Metadata Cleaner"
+    ];
+    for (const title of titles) {
+      await user.click(screen.getByRole("button", { name: new RegExp(title) }));
+      expect(screen.getByRole("dialog", { name: title })).toBeTruthy();
+      expect(screen.getByText(/Drop your image here/i)).toBeTruthy();
+      await user.click(screen.getByRole("button", { name: "Close tool" }));
+    }
+  });
   it("opens a requested tool from a shareable URL", () => {
     window.history.replaceState({}, "", "/?tool=resize#tools");
     render(<App />);
