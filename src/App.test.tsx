@@ -297,4 +297,49 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.queryByAltText("Selected watermark logo")).toBeNull();
   });
 
+  it("runs the processing and export flow for every image-editing tool", async () => {
+    const context = {
+      fillStyle: "#000000", filter: "none", globalAlpha: 1, font: "", textAlign: "left",
+      textBaseline: "alphabetic", shadowColor: "", shadowBlur: 0,
+      save: vi.fn(), restore: vi.fn(), fillRect: vi.fn(), drawImage: vi.fn(),
+      translate: vi.fn(), rotate: vi.fn(), scale: vi.fn(), beginPath: vi.fn(),
+      roundRect: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(), arcTo: vi.fn(),
+      closePath: vi.fn(), clip: vi.fn(), fillText: vi.fn()
+    } as unknown as CanvasRenderingContext2D;
+    vi.stubGlobal("createImageBitmap", vi.fn(async () => ({
+      width: 640, height: 480, close: vi.fn()
+    } as unknown as ImageBitmap)));
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(() => context);
+    vi.spyOn(HTMLCanvasElement.prototype, "toBlob").mockImplementation((callback, type) => {
+      callback(new Blob(["processed-image"], { type: type ?? "image/png" }));
+    });
+
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const source = new File([buffer], "smoke-test.png", { type: "image/png" });
+    const toolNames = [
+      "Image Compressor", "Image Resizer", "Image Cropper", "Image Converter",
+      "Image Rotator", "Image Flipper", "Image Watermark", "Rounded Corners",
+      "Image Blur", "Grayscale Converter", "Image Metadata Cleaner"
+    ];
+
+    const { container } = render(<App />);
+    for (const name of toolNames) {
+      fireEvent.click(screen.getByRole("button", { name: new RegExp(name) }));
+      const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+      expect(upload, name + " should provide an image input").toBeTruthy();
+      fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
+      await screen.findByAltText("Selected image preview");
+      fireEvent.click(screen.getByRole("button", { name: /Process image|Process again/ }));
+      expect(await screen.findByText("Your image is ready"), name + " should produce an exported result").toBeTruthy();
+      expect(screen.getByAltText("Processed image preview")).toBeTruthy();
+      expect(screen.getByRole("button", { name: /Download image/ })).toBeTruthy();
+      fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
+    }
+  }, 30000);
+
 });
