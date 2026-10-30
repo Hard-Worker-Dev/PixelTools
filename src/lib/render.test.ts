@@ -180,4 +180,16 @@ describe("browser image rendering pipeline", () => {
     expect(close).toHaveBeenCalledOnce();
   });
 
+  it.each([
+    ["image/jpeg", "image/jpeg"],
+    ["image/png", "image/png"],
+    ["image/webp", "image/webp"]
+  ] as const)("exports %s with the matching blob MIME type", async (format, expectedMime) => {
+    const file = new File(["source"], "format-check.png", { type: "image/png" });
+    const output = await renderImage(file, { format, quality: 0.63 });
+    expect(output.type).toBe(expectedMime);
+    expect(toBlobSpy).toHaveBeenCalledWith(expect.any(Function), expectedMime, 0.63);
+    expect(close).toHaveBeenCalledOnce();
+  });
+
 });

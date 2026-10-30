@@ -17,6 +17,7 @@ describe("image utilities", () => {
 
   it("creates safe output names with the right extension", () => {
     expect(outputName("holiday photo.png", "image/webp")).toBe("holiday photo-pixeltools.webp");
+    expect(outputName("holiday photo.png", "image/png")).toBe("holiday photo-pixeltools.png");
     expect(outputName(".png", "image/jpeg")).toBe("pixeltools-image-pixeltools.jpg");
   });
 

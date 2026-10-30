@@ -394,4 +394,61 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(await screen.findByText("#FF0000")).toBeTruthy();
   }, 30000);
 
+  it("keeps both AI tools disabled and clearly marked as Coming Soon", () => {
+    render(<App />);
+    const background = screen.getByRole("button", { name: /Background Remover/i }) as HTMLButtonElement;
+    const upscaler = screen.getByRole("button", { name: /AI Image Upscaler/i }) as HTMLButtonElement;
+    expect(background.disabled).toBe(true);
+    expect(upscaler.disabled).toBe(true);
+    expect(background.textContent).toMatch(/Coming soon/i);
+    expect(upscaler.textContent).toMatch(/Coming soon/i);
+  });
+
+  it("downloads the processed image with an extension matching the exported MIME type", async () => {
+    const context = {
+      fillStyle: "#000000", filter: "none", globalAlpha: 1, font: "", textAlign: "left",
+      textBaseline: "alphabetic", shadowColor: "", shadowBlur: 0,
+      save: vi.fn(), restore: vi.fn(), fillRect: vi.fn(), drawImage: vi.fn(),
+      translate: vi.fn(), rotate: vi.fn(), scale: vi.fn(), beginPath: vi.fn(),
+      roundRect: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(), arcTo: vi.fn(),
+      closePath: vi.fn(), clip: vi.fn(), fillText: vi.fn()
+    } as unknown as CanvasRenderingContext2D;
+    vi.stubGlobal("createImageBitmap", vi.fn(async () => ({
+      width: 640, height: 480, close: vi.fn()
+    } as unknown as ImageBitmap)));
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(() => context);
+    vi.spyOn(HTMLCanvasElement.prototype, "toBlob").mockImplementation((callback, type) => {
+      callback(new Blob(["verified-output"], { type: type ?? "image/png" }));
+    });
+    const createdBlobs: Blob[] = [];
+    vi.spyOn(URL, "createObjectURL").mockImplementation(blob => {
+      createdBlobs.push(blob);
+      return "blob:pixeltools-test-" + createdBlobs.length;
+    });
+    const downloadedNames: string[] = [];
+    vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function () {
+      downloadedNames.push(this.download);
+    });
+
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const source = new File([buffer], "source.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Converter/ }));
+    const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
+    await screen.findByAltText("Selected image preview");
+    fireEvent.change(screen.getByLabelText("Convert to"), { target: { value: "image/jpeg" } });
+    fireEvent.click(screen.getByRole("button", { name: /Process image/ }));
+    expect(await screen.findByText("Your image is ready")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: /Download image/ }));
+    expect(downloadedNames).toEqual(["source-pixeltools.jpg"]);
+    expect(createdBlobs.at(-1)?.type).toBe("image/jpeg");
+    expect(createdBlobs.at(-1)?.size).toBeGreaterThan(0);
+  }, 20000);
+
 });

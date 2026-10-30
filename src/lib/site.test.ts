@@ -68,4 +68,26 @@ describe("published site contract", () => {
     expect(privacy).toContain("fonts.gstatic.com");
   });
 
+  it("ships public support, security, release and dependency-maintenance guidance", () => {
+    for (const path of [
+      "SUPPORT.md",
+      "SECURITY.md",
+      "CHANGELOG.md",
+      "RELEASE_CHECKLIST.md",
+      ".github/dependabot.yml",
+      ".github/ISSUE_TEMPLATE/bug_report.yml",
+      ".github/ISSUE_TEMPLATE/feature_request.yml",
+      ".github/ISSUE_TEMPLATE/config.yml"
+    ]) expect(existsSync(resolve(root, path)), path).toBe(true);
+    expect(read("package.json")).toContain('"version": "1.0.0-rc.1"');
+    expect(read("RELEASE_CHECKLIST.md")).toContain("Manual acceptance still required");
+  });
+  it("runs release CI manually and preserves successful build artifacts", () => {
+    const workflow = read(".github/workflows/ci.yml");
+    expect(workflow).toContain("workflow_dispatch:");
+    expect(workflow).toContain("npm audit --omit=dev --audit-level=high");
+    expect(workflow).toContain("actions/upload-artifact@v4");
+    expect(workflow).toContain("retention-days: 30");
+  });
+
 });
