@@ -92,6 +92,7 @@ export default function App() {
   const [copied, setCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const fileSelectionId = useRef(0);
 
   useEffect(() => {
     return () => { if (preview) URL.revokeObjectURL(preview); };
@@ -108,6 +109,7 @@ export default function App() {
   }, [active, file]);
 
   const clear = () => {
+    fileSelectionId.current += 1;
     setFile(null);
     setResult(null);
     setResultPreview("");
@@ -173,6 +175,9 @@ export default function App() {
     setWatermarkOpacity(70);
     setCornerRadius(32);
     setBlur(4);
+    setFormat("image/webp");
+    setQuality(80);
+    setJpegBackground("#FFFFFF");
     setMobileMenuOpen(false);
   };
 
@@ -188,6 +193,7 @@ export default function App() {
       setError("For this release, please choose an image smaller than 25 MB.");
       return;
     }
+    const selectionId = ++fileSelectionId.current;
     setFile(picked);
     setDimensions({ width: 0, height: 0 });
     setResult(null);
@@ -198,9 +204,10 @@ export default function App() {
     setPreview(URL.createObjectURL(picked));
     if (inputRef.current) inputRef.current.value = "";
     createImageBitmap(picked).then(bitmap => {
+      if (selectionId !== fileSelectionId.current) { bitmap.close(); return; }
       if (bitmap.width > 12000 || bitmap.height > 12000 || bitmap.width * bitmap.height > 60000000) {
         bitmap.close();
-        setFile(null); setPreview("");
+        setFile(null); setPreview(""); setDimensions({ width: 0, height: 0 });
         setError("This image is too large to process safely. Maximum dimensions are 12,000 px per side and 60 megapixels total.");
         return;
       }
@@ -210,7 +217,7 @@ export default function App() {
       setCropWidth(String(bitmap.width));
       setCropHeight(String(bitmap.height));
       bitmap.close();
-    }).catch(() => { setFile(null); setPreview(""); setError("This image could not be opened by your browser. Try exporting it as JPG, PNG or WebP."); });
+    }).catch(() => { if (selectionId !== fileSelectionId.current) return; setFile(null); setPreview(""); setDimensions({ width: 0, height: 0 }); setError("This image could not be opened by your browser. Try exporting it as JPG, PNG or WebP."); });
   };
 
   const process = async () => {
