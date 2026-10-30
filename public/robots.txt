@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pixeltools.pages.dev/sitemap.xml
