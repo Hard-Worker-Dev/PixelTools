@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { centeredCropForRatio, clampCrop, formatBytes, getOutputMime, outputName, rgbToHex, rgbToHsl, rotatedBounds } from "./image";
+import { centeredCropForRatio, clampCrop, formatBytes, getOutputMime, outputName, renderImageToTargetSize, rgbToHex, rgbToHsl, rotatedBounds } from "./image";
 
 describe("image utilities", () => {
   it("formats byte sizes consistently", () => {
@@ -59,6 +59,21 @@ describe("image utilities", () => {
   it("converts RGB colors to HSL", () => {
     expect(rgbToHsl(255, 0, 0)).toEqual({ h: 0, s: 100, l: 50 });
     expect(rgbToHsl(128, 128, 128)).toEqual({ h: 0, s: 0, l: 50 });
+  });
+
+  it("requires a valid minimum target size", async () => {
+    const file = new File(["sample"], "sample.webp", { type: "image/webp" });
+    await expect(renderImageToTargetSize(file, { format: "image/webp" }, 512)).rejects.toThrow("Choose a target between 1 KB and 25 MB.");
+  });
+
+  it("does not offer lossy target-size mode for PNG", async () => {
+    const file = new File(["sample"], "sample.png", { type: "image/png" });
+    await expect(renderImageToTargetSize(file, { format: "image/png" }, 20 * 1024)).rejects.toThrow("Target-size compression is available for JPG and WebP.");
+  });
+
+  it("rejects non-image files in target-size mode", async () => {
+    const file = new File(["not an image"], "notes.txt", { type: "text/plain" });
+    await expect(renderImageToTargetSize(file, { format: "image/webp" }, 20 * 1024)).rejects.toThrow("Choose a valid image file.");
   });
 
   it("normalizes RGB values into uppercase hex colors", () => {
