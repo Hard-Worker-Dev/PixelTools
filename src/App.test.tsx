@@ -1,11 +1,13 @@
 // @vitest-environment jsdom
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
 afterEach(() => {
   cleanup();
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
   window.history.replaceState({}, "", "/");
 });
 
@@ -63,6 +65,24 @@ describe("PixelTools ease-of-use workflows", () => {
       expect(screen.getByText(/Drop your image here/i)).toBeTruthy();
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
+  });
+  it("rejects an oversized image from its header before browser pixel decoding", async () => {
+    const decode = vi.fn();
+    vi.stubGlobal("createImageBitmap", decode);
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 12001, false);
+    view.setUint32(20, 1000, false);
+    const largePng = new File([buffer], "oversized.png", { type: "image/png" });
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Compressor/ }));
+    const fileInput = document.querySelector<HTMLInputElement>("input[type=file]");
+    expect(fileInput).toBeTruthy();
+    fireEvent.change(fileInput as HTMLInputElement, { target: { files: [largePng] } });
+    expect(await screen.findByText(/This image is too large to process safely/i)).toBeTruthy();
+    expect(decode).not.toHaveBeenCalled();
   });
   it("resets the tool URL when the close button is used", () => {
     render(<App />);
