@@ -57,4 +57,15 @@ describe("published site contract", () => {
     for (const value of ["X-Content-Type-Options: nosniff","Referrer-Policy:","X-Frame-Options: DENY","Content-Security-Policy:","frame-ancestors \'none\'"]) expect(headers).toContain(value);
   });
   it("does not claim AI tools are live", () => expect(read("public/about/index.html")).toContain("not available yet"));
+  it("allows and discloses the external font hosts used by the site", () => {
+    const css = read("src/styles.css");
+    const headers = read("public/_headers");
+    const privacy = read("public/privacy/index.html");
+    expect(css).toContain("fonts.googleapis.com");
+    expect(headers).toContain("style-src 'self' 'unsafe-inline' https://fonts.googleapis.com");
+    expect(headers).toContain("font-src 'self' data: https://fonts.gstatic.com");
+    expect(privacy).toContain("fonts.googleapis.com");
+    expect(privacy).toContain("fonts.gstatic.com");
+  });
+
 });
