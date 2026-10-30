@@ -16,7 +16,7 @@ A premium, free online image toolkit. The product focuses on practical image wor
 4. Image Converter — JPG, PNG and WebP, quality controls and configurable JPG background
 5. Image Rotator — arbitrary-angle rotation, quick quarter turns and reset
 6. Image Flipper — horizontal and vertical mirroring
-7. Image Watermark — text, color, position, opacity and adjustable text size
+7. Image Watermark — text or transparent PNG/WebP logo, color, position, opacity and size controls
 8. Rounded Corners — adjustable radius with transparent PNG export
 9. Image Blur — adjustable blur strength
 10. Grayscale Converter — monochrome output
