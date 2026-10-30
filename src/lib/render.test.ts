@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { renderImage } from "./image";
+import { renderImage, renderImageToTargetSize } from "./image";
 
 describe("browser image rendering pipeline", () => {
   let bitmap: ImageBitmap;
@@ -86,6 +86,31 @@ describe("browser image rendering pipeline", () => {
     expect(close).toHaveBeenCalledOnce();
   });
 
+  it("finds the highest tested quality that stays within the requested file size", async () => {
+    toBlobSpy.mockImplementation((callback, type, quality) => {
+      const size = Math.max(1, Math.round((quality ?? 1) * 10000));
+      callback(new Blob([new Uint8Array(size)], { type: type ?? "image/webp" }));
+    });
+    const file = new File(["source"], "source.webp", { type: "image/webp" });
+    const target = 6 * 1024;
+    const result = await renderImageToTargetSize(file, { format: "image/webp", quality: 1 }, target);
+    expect(result.targetReached).toBe(true);
+    expect(result.blob.size).toBeLessThanOrEqual(target);
+    expect(result.quality).toBeGreaterThan(0.55);
+    expect(result.quality).toBeLessThanOrEqual(0.6144);
+  });
+
+  it("returns the closest tested output and explains when the target is impossible", async () => {
+    toBlobSpy.mockImplementation((callback, type, quality) => {
+      const size = Math.max(1, Math.round((quality ?? 1) * 10000));
+      callback(new Blob([new Uint8Array(size)], { type: type ?? "image/webp" }));
+    });
+    const file = new File(["source"], "source.webp", { type: "image/webp" });
+    const result = await renderImageToTargetSize(file, { format: "image/webp", quality: 1 }, 1024);
+    expect(result.targetReached).toBe(false);
+    expect(result.blob.size).toBeGreaterThan(1024);
+    expect(result.quality).toBeGreaterThan(0.1);
+  });
   it("closes the bitmap if output dimensions exceed the safety limit", async () => {
     bitmap = { width: 10000, height: 10000, close } as unknown as ImageBitmap;
     vi.mocked(createImageBitmap).mockResolvedValue(bitmap);
