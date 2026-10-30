@@ -15,10 +15,20 @@ describe("published site contract", () => {
       expect(html, slug).toContain("<title>");
       expect(html, slug).toContain('name="description"');
       expect(html, slug).toContain('rel="canonical"');
+      expect(html, slug).toContain("https://pixeltools-9xe.pages.dev/tools/" + slug + "/");
       expect(html, slug).toContain("<h1>");
       expect(html, slug).toContain("FAQPage");
     }
   });
+  it("keeps homepage, informational canonicals and robots on the production hostname", () => {
+    expect(read("index.html")).toContain('href="https://pixeltools-9xe.pages.dev/"');
+    for (const page of ["about", "privacy", "terms", "contact"]) {
+      expect(read("public/" + page + "/index.html")).toContain('href="https://pixeltools-9xe.pages.dev/' + page + '/">');
+    }
+    expect(read("public/robots.txt")).toContain("Sitemap: https://pixeltools-9xe.pages.dev/sitemap.xml");
+    expect(read("index.html")).not.toContain("pixeltools.pages.dev");
+  });
+
   it("includes every published page in the sitemap", () => {
     const sitemap = read("public/sitemap.xml");
     const paths = ["/","/about/","/privacy/","/terms/","/contact/","/tools/image-compressor/","/tools/image-resizer/","/tools/image-cropper/","/tools/image-converter/","/tools/image-rotator/","/tools/image-flipper/","/tools/image-watermark/","/tools/rounded-corners/","/tools/image-blur/","/tools/grayscale-converter/","/tools/image-color-picker/","/tools/image-metadata-viewer/","/tools/image-to-base64/","/tools/image-metadata-cleaner/"];
