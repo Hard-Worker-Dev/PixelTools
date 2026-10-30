@@ -191,7 +191,7 @@ describe("PixelTools ease-of-use workflows", () => {
     const ids = Array.from(container.querySelectorAll<HTMLElement>("[id]")).map(element => element.id);
     expect(new Set(ids).size).toBe(ids.length);
     const labels = Array.from(container.querySelectorAll<HTMLLabelElement>("label[for]"));
-    for (const label of labels) expect(container.querySelector("#" + CSS.escape(label.htmlFor))).toBeTruthy();
+    for (const label of labels) expect(ids).toContain(label.htmlFor);
   });
 
 });
