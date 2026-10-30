@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { clampCrop, formatBytes, getOutputMime, outputName, rgbToHex } from "./image";
+import { centeredCropForRatio, clampCrop, formatBytes, getOutputMime, outputName, rgbToHex } from "./image";
 
 describe("image utilities", () => {
   it("formats byte sizes consistently", () => {
@@ -30,6 +30,19 @@ describe("image utilities", () => {
     expect(clampCrop({ x: 200, y: -5, width: 0, height: 0 }, 12, 10)).toEqual({
       x: 11, y: 0, width: 1, height: 1
     });
+  });
+
+  it("centers a square crop inside a landscape image", () => {
+    expect(centeredCropForRatio(1600, 900, 1)).toEqual({ x: 350, y: 0, width: 900, height: 900 });
+  });
+
+  it("centers a landscape crop inside a portrait image", () => {
+    expect(centeredCropForRatio(900, 1600, 16 / 9)).toEqual({ x: 0, y: 547, width: 900, height: 506 });
+  });
+
+  it("rejects invalid crop ratios", () => {
+    expect(() => centeredCropForRatio(100, 100, 0)).toThrow();
+    expect(() => centeredCropForRatio(0, 100, 1)).toThrow();
   });
 
   it("normalizes RGB values into uppercase hex colors", () => {
