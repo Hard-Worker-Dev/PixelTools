@@ -125,4 +125,25 @@ describe("browser image rendering pipeline", () => {
     await expect(renderImage(file)).rejects.toThrow("Choose a valid image file.");
     expect(createImageBitmap).not.toHaveBeenCalled();
   });
+
+  it("contains a full image inside the requested canvas without distortion", async () => {
+    const file = new File(["source"], "source.png", { type: "image/png" });
+    await renderImage(file, { width: 300, height: 300, fitMode: "contain", format: "image/png" });
+    expect(context.scale).toHaveBeenCalledWith(1.5, 1.5);
+    expect(drawImage).toHaveBeenCalledWith(bitmap, 0, 0, 200, 100, -100, -50, 200, 100);
+  });
+
+  it("covers the requested canvas and crops overflow without distortion", async () => {
+    const file = new File(["source"], "source.png", { type: "image/png" });
+    await renderImage(file, { width: 300, height: 300, fitMode: "cover", format: "image/png" });
+    expect(context.scale).toHaveBeenCalledWith(3, 3);
+    expect(drawImage).toHaveBeenCalledWith(bitmap, 0, 0, 200, 100, -100, -50, 200, 100);
+  });
+
+  it("keeps stretch as the explicit non-proportional option", async () => {
+    const file = new File(["source"], "source.png", { type: "image/png" });
+    await renderImage(file, { width: 300, height: 300, fitMode: "stretch", format: "image/png" });
+    expect(context.scale).toHaveBeenCalledWith(1.5, 3);
+  });
+
 });
