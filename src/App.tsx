@@ -628,7 +628,7 @@ export default function App() {
       if (event.key !== "Tab" || !dialogRef.current) return;
       const focusable = Array.from(dialogRef.current.querySelectorAll<HTMLElement>(
         'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )).filter(element => element.getAttribute("aria-hidden") !== "true");
+      )).filter(element => !element.hidden && element.getAttribute("aria-hidden") !== "true");
       if (focusable.length === 0) {
         event.preventDefault();
         dialogRef.current.focus();
