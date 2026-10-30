@@ -21,6 +21,8 @@ export interface RenderOptions {
   cornerRadius?: number;
   watermark?: string;
   watermarkOpacity?: number;
+  watermarkPosition?: "bottom-right" | "bottom-left" | "top-right" | "top-left" | "center";
+  watermarkColor?: string;
   backgroundColor?: string;
 }
 
@@ -60,6 +62,42 @@ export function centeredCropForRatio(imageWidth: number, imageHeight: number, ra
   return { x: 0, y: Math.floor((imageHeight - height) / 2), width: imageWidth, height };
 }
 
+export function rotatedBounds(width: number, height: number, degrees: number): { width: number; height: number } {
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width < 1 || height < 1 || !Number.isFinite(degrees)) {
+    throw new Error("Valid dimensions and a finite rotation angle are required.");
+  }
+  const radians = ((degrees % 360) * Math.PI) / 180;
+  const rawCos = Math.abs(Math.cos(radians));
+  const rawSin = Math.abs(Math.sin(radians));
+  const cos = rawCos < 1e-10 ? 0 : rawCos;
+  const sin = rawSin < 1e-10 ? 0 : rawSin;
+  return {
+    width: Math.max(1, Math.ceil(width * cos + height * sin - 1e-10)),
+    height: Math.max(1, Math.ceil(width * sin + height * cos - 1e-10))
+  };
+}
+
+export function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
+  const red = Math.max(0, Math.min(255, r)) / 255;
+  const green = Math.max(0, Math.min(255, g)) / 255;
+  const blue = Math.max(0, Math.min(255, b)) / 255;
+  const max = Math.max(red, green, blue);
+  const min = Math.min(red, green, blue);
+  const delta = max - min;
+  let h = 0;
+  const l = (max + min) / 2;
+  let s = 0;
+  if (delta !== 0) {
+    s = delta / (1 - Math.abs(2 * l - 1));
+    if (max === red) h = ((green - blue) / delta) % 6;
+    else if (max === green) h = (blue - red) / delta + 2;
+    else h = (red - green) / delta + 4;
+    h *= 60;
+    if (h < 0) h += 360;
+  }
+  return { h: Math.round(h), s: Math.round(s * 100), l: Math.round(l * 100) };
+}
+
 export function rgbToHex(r: number, g: number, b: number): string {
   return `#${[r, g, b].map(channel => Math.max(0, Math.min(255, Math.round(channel))).toString(16).padStart(2, "0")).join("")}`.toUpperCase();
 }
@@ -68,13 +106,11 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
   if (!file.type.startsWith("image/")) throw new Error("Choose a valid image file.");
   const bitmap = await createImageBitmap(file);
   try {
-    const crop = options.crop
-      ? clampCrop(options.crop, bitmap.width, bitmap.height)
-      : { x: 0, y: 0, width: bitmap.width, height: bitmap.height };
+    const crop = options.crop ? clampCrop(options.crop, bitmap.width, bitmap.height) : { x: 0, y: 0, width: bitmap.width, height: bitmap.height };
     const rotate = ((options.rotate ?? 0) % 360 + 360) % 360;
-    const swaps = rotate === 90 || rotate === 270;
-    const width = Math.max(1, Math.round(options.width ?? (swaps ? crop.height : crop.width)));
-    const height = Math.max(1, Math.round(options.height ?? (swaps ? crop.width : crop.height)));
+    const bounds = rotatedBounds(crop.width, crop.height, rotate);
+    const width = Math.max(1, Math.round(options.width ?? bounds.width));
+    const height = Math.max(1, Math.round(options.height ?? bounds.height));
     if (width > 12000 || height > 12000 || width * height > 60000000) throw new Error("Output cannot exceed 12,000 pixels per side or 60 megapixels total.");
     const mime = (options.cornerRadius ?? 0) > 0 ? "image/png" : getOutputMime(options.format ?? "image/jpeg");
     const canvas = document.createElement("canvas");
@@ -87,38 +123,42 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
       ctx.fillRect(0, 0, width, height);
     }
     ctx.save();
-    ctx.translate(width / 2, height / 2);
-    ctx.rotate((rotate * Math.PI) / 180);
-    ctx.scale(options.flipX ? -1 : 1, options.flipY ? -1 : 1);
-    if (options.grayscale) ctx.filter = "grayscale(1)";
-    const blur = Math.max(0, Math.min(20, options.blur ?? 0));
-    if (blur > 0) ctx.filter = `${options.grayscale ? "grayscale(1) " : ""}blur(${blur}px)`;
     if ((options.cornerRadius ?? 0) > 0) {
       const radius = Math.min(options.cornerRadius ?? 0, Math.min(width, height) / 2);
       ctx.beginPath();
-      ctx.roundRect(-width / 2, -height / 2, width, height, radius);
+      ctx.roundRect(0, 0, width, height, radius);
       ctx.clip();
     }
-    const drawWidth = swaps ? height : width;
-    const drawHeight = swaps ? width : height;
-    ctx.drawImage(bitmap, crop.x, crop.y, crop.width, crop.height, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+    const scaleX = width / bounds.width;
+    const scaleY = height / bounds.height;
+    ctx.translate(width / 2, height / 2);
+    ctx.scale(scaleX, scaleY);
+    ctx.rotate((rotate * Math.PI) / 180);
+    ctx.scale(options.flipX ? -1 : 1, options.flipY ? -1 : 1);
+    const blur = Math.max(0, Math.min(20, options.blur ?? 0));
+    const filters = [options.grayscale ? "grayscale(1)" : "", blur > 0 ? "blur(" + blur + "px)" : ""].filter(Boolean);
+    if (filters.length) ctx.filter = filters.join(" ");
+    ctx.drawImage(bitmap, crop.x, crop.y, crop.width, crop.height, -crop.width / 2, -crop.height / 2, crop.width, crop.height);
     ctx.restore();
-
     const watermark = options.watermark?.trim();
     if (watermark) {
       ctx.save();
       const fontSize = Math.max(14, Math.round(Math.min(width, height) * 0.035));
-      ctx.font = `600 ${fontSize}px system-ui, sans-serif`;
-      ctx.textAlign = "right";
-      ctx.textBaseline = "bottom";
+      const margin = Math.max(12, Math.round(fontSize * 0.7));
+      const position = options.watermarkPosition ?? "bottom-right";
+      const align = position.endsWith("left") ? "left" : position.endsWith("right") ? "right" : "center";
+      const x = position.endsWith("left") ? margin : position.endsWith("right") ? width - margin : width / 2;
+      const y = position.startsWith("top") ? margin : position === "center" ? height / 2 : height - margin;
+      ctx.font = "600 " + fontSize + "px system-ui, sans-serif";
+      ctx.textAlign = align;
+      ctx.textBaseline = position.startsWith("top") ? "top" : position === "center" ? "middle" : "bottom";
       ctx.globalAlpha = Math.max(0.1, Math.min(1, options.watermarkOpacity ?? 0.7));
-      ctx.fillStyle = "#FFFFFF";
-      ctx.shadowColor = "rgba(0,0,0,.65)";
+      ctx.fillStyle = options.watermarkColor ?? "#FFFFFF";
+      ctx.shadowColor = options.watermarkColor === "#FFFFFF" ? "rgba(0,0,0,.65)" : "rgba(255,255,255,.45)";
       ctx.shadowBlur = 4;
-      ctx.fillText(watermark, width - fontSize * 0.7, height - fontSize * 0.65, width * 0.86);
+      ctx.fillText(watermark, x, y, width * 0.86);
       ctx.restore();
     }
-
     return await new Promise<Blob>((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("Could not export this image format.")), mime, Math.min(1, Math.max(0.1, options.quality ?? 0.85))));
   } finally {
     bitmap.close();
