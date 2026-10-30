@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://pixeltools.pages.dev/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/about/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/privacy/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/terms/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/contact/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-compressor/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-resizer/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-cropper/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-converter/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-rotator/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-flipper/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-watermark/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/rounded-corners/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-blur/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/grayscale-converter/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-color-picker/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-metadata-viewer/</loc></url>
+  <url><loc>https://pixeltools.pages.dev/tools/image-to-base64/</loc></url>
 </urlset>
