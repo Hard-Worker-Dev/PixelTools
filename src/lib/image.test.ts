@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildPaletteFromPixels, centeredCropForRatio, clampCrop, formatBytes, getOutputMime, outputName, renderImageToTargetSize, rgbToHex, rgbToHsl, rotatedBounds } from "./image";
+import { buildPaletteFromPixels, centeredCropForRatio, clampCrop, formatBytes, getOutputMime, outputName, readImageDimensions, renderImageToTargetSize, rgbToHex, rgbToHsl, rotatedBounds } from "./image";
 
 describe("image utilities", () => {
   it("formats byte sizes consistently", () => {
@@ -90,6 +90,50 @@ describe("image utilities", () => {
     expect(palette).toHaveLength(2);
   });
 
+  it("reads PNG dimensions without decoding image pixels", async () => {
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 1920, false);
+    view.setUint32(20, 1080, false);
+    const file = new File([buffer], "portrait.png", { type: "image/png" });
+    await expect(readImageDimensions(file)).resolves.toEqual({ width: 1920, height: 1080 });
+  });
+
+  it("reads JPEG dimensions from a start-of-frame marker", async () => {
+    const buffer = new ArrayBuffer(15);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0xff,0xd8,0xff,0xc0], 0);
+    view.setUint16(4, 11, false);
+    bytes[6] = 8;
+    view.setUint16(7, 800, false);
+    view.setUint16(9, 1200, false);
+    const file = new File([buffer], "portrait.jpg", { type: "image/jpeg" });
+    await expect(readImageDimensions(file)).resolves.toEqual({ width: 1200, height: 800 });
+  });
+
+  it("reads extended WebP canvas dimensions", async () => {
+    const buffer = new ArrayBuffer(30);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x52,0x49,0x46,0x46], 0);
+    view.setUint32(4, 22, true);
+    bytes.set([0x57,0x45,0x42,0x50,0x56,0x50,0x38,0x58], 8);
+    view.setUint32(16, 10, true);
+    const widthMinusOne = 1920 - 1;
+    const heightMinusOne = 1080 - 1;
+    bytes[24] = widthMinusOne & 255; bytes[25] = (widthMinusOne >> 8) & 255; bytes[26] = (widthMinusOne >> 16) & 255;
+    bytes[27] = heightMinusOne & 255; bytes[28] = (heightMinusOne >> 8) & 255; bytes[29] = (heightMinusOne >> 16) & 255;
+    const file = new File([buffer], "portrait.webp", { type: "image/webp" });
+    await expect(readImageDimensions(file)).resolves.toEqual({ width: 1920, height: 1080 });
+  });
+
+  it("rejects files whose header does not match a supported image", async () => {
+    const file = new File(["not an image"], "bad.png", { type: "image/png" });
+    await expect(readImageDimensions(file)).rejects.toThrow("Could not read image dimensions");
+  });
   it("normalizes RGB values into uppercase hex colors", () => {
     expect(rgbToHex(255, 16, 0)).toBe("#FF1000");
     expect(rgbToHex(-5, 400, 12.7)).toBe("#00FF0D");
