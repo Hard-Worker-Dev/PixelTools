@@ -33,8 +33,19 @@ export interface ImageDimensions {
   height: number;
 }
 
+function readBlobArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => reader.result instanceof ArrayBuffer
+      ? resolve(reader.result)
+      : reject(new Error("The browser could not read this image file."));
+    reader.onerror = () => reject(new Error("The browser could not read this image file."));
+    reader.readAsArrayBuffer(blob);
+  });
+}
+
 export async function readImageDimensions(file: File): Promise<ImageDimensions> {
-  const bytes = new Uint8Array(await file.slice(0, 1024 * 1024).arrayBuffer());
+  const bytes = new Uint8Array(await readBlobArrayBuffer(file.slice(0, 1024 * 1024)));
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   const ascii = (offset: number, length: number) => String.fromCharCode(...bytes.subarray(offset, offset + length));
   const dimensions = (width: number, height: number): ImageDimensions => {
