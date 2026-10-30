@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import {
   ArrowDownToLine, ArrowRight, Check, Copy, FileImage, Image as ImageIcon,
   LockKeyhole, Menu, RotateCcw, ShieldCheck, Sparkles, UploadCloud, X
@@ -13,7 +13,7 @@ type ToolId =
   | "watermark" | "rounded" | "blur" | "grayscale" | "color"
   | "metadata" | "base64";
 
-const tools = [
+const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean }> = [
   { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular" },
   { id: "resize", title: "Image Resizer", desc: "Set precise width and height in pixels.", icon: "▧", tag: "Quick" },
   { id: "crop", title: "Image Cropper", desc: "Crop to the exact rectangle you need.", icon: "▣", tag: "Precision" },
@@ -29,7 +29,7 @@ const tools = [
   { id: "base64", title: "Image to Base64", desc: "Create a Base64 data URL and copy it.", icon: "⌘", tag: "Developer" },
   { id: "background", title: "Background Remover", desc: "AI-powered background removal.", icon: "✧", tag: "Coming soon", comingSoon: true },
   { id: "upscaler", title: "AI Image Upscaler", desc: "Increase image resolution with an AI model.", icon: "⤢", tag: "Coming soon", comingSoon: true }
-] as const;
+];
 
 function readAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -216,7 +216,7 @@ export default function App() {
     URL.revokeObjectURL(url);
   };
 
-  const sampleColor = async (event: React.MouseEvent<HTMLImageElement>) => {
+  const sampleColor = async (event: MouseEvent<HTMLImageElement>) => {
     if (!file) return;
     const rect = event.currentTarget.getBoundingClientRect();
     try {
