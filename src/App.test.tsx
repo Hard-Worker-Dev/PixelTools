@@ -221,4 +221,50 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.getByLabelText(/Opacity/)).toBeTruthy();
   });
 
+
+  it("keeps every working tool workspace form control labeled and IDs unique", async () => {
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const image = new File([buffer], "accessibility-source.png", { type: "image/png" });
+    const { container } = render(<App />);
+    const titles = [
+      "Image Compressor", "Image Resizer", "Image Cropper", "Image Converter",
+      "Image Rotator", "Image Flipper", "Image Watermark", "Rounded Corners",
+      "Image Blur", "Grayscale Converter", "Image Color Picker",
+      "Image Metadata Viewer", "Image to Base64", "Image Metadata Cleaner"
+    ];
+    for (const title of titles) {
+      fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
+      const fileInput = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+      fireEvent.change(fileInput as HTMLInputElement, { target: { files: [image] } });
+      await screen.findByAltText("Selected image preview");
+      const ids = Array.from(container.querySelectorAll<HTMLElement>("[id]")).map(element => element.id);
+      expect(new Set(ids).size, title + " must not contain duplicate IDs").toBe(ids.length);
+      const labels = Array.from(container.querySelectorAll<HTMLLabelElement>("label[for]"));
+      for (const label of labels) {
+        expect(ids, title + " label " + label.htmlFor).toContain(label.htmlFor);
+      }
+      fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
+    }
+  }, 20000);
+
+  it("traps modal keyboard focus and restores page scrolling after close", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const openButton = screen.getByRole("button", { name: /Image Compressor/ });
+    await user.click(openButton);
+    const closeButton = screen.getByRole("button", { name: "Close tool" });
+    expect(document.activeElement).toBe(closeButton);
+    expect(document.body.style.overflow).toBe("hidden");
+    fireEvent.keyDown(window, { key: "Tab", shiftKey: true });
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Close" }));
+    await user.keyboard("{Escape}");
+    expect(document.body.style.overflow).toBe("");
+    expect(document.activeElement).toBe(openButton);
+  });
+
 });
