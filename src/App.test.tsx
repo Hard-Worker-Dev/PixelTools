@@ -45,7 +45,7 @@ describe("PixelTools ease-of-use workflows", () => {
     render(<App />);
     await user.click(screen.getByRole("button", { name: /Image Metadata Cleaner/ }));
     expect(screen.getByRole("dialog", { name: "Image Metadata Cleaner" })).toBeTruthy();
-    expect(screen.getByText(/re-encoding the image/i)).toBeTruthy();
+    expect(screen.getByText(/fresh copy by decoding and re-encoding the image/i)).toBeTruthy();
   });
 
   it("opens a requested tool from a shareable URL", () => {
