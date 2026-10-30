@@ -422,11 +422,11 @@ describe("PixelTools ease-of-use workflows", () => {
     });
     const createdBlobs: Blob[] = [];
     vi.spyOn(URL, "createObjectURL").mockImplementation(blob => {
-      createdBlobs.push(blob);
+      createdBlobs.push(blob as Blob);
       return "blob:pixeltools-test-" + createdBlobs.length;
     });
     const downloadedNames: string[] = [];
-    vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function () {
+    vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (this: HTMLAnchorElement) {
       downloadedNames.push(this.download);
     });
 
