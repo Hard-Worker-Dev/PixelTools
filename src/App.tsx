@@ -139,6 +139,10 @@ export default function App() {
     setPreview("");
     setBase64Text("");
     setBase64Mode("data-url");
+    setWatermarkImageFile(null);
+    setWatermarkImagePreview("");
+    setWatermarkImageSize(20);
+    if (watermarkInputRef.current) watermarkInputRef.current.value = "";
     setSample(null);
     setPalette([]);
     setCopied(false);
