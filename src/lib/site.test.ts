@@ -93,4 +93,13 @@ describe("published site contract", () => {
     expect(workflow).toContain("retention-days: 30");
   });
 
+  it("bootstraps a lockfile only after verified main-branch CI", () => {
+    const workflow = read(".github/workflows/ci.yml");
+    expect(workflow).toContain("bootstrap-lockfile:");
+    expect(workflow).toContain("needs: verify");
+    expect(workflow).toContain("hashFiles('package-lock.json') == ''");
+    expect(workflow).toContain("npm install --package-lock-only --ignore-scripts");
+    expect(workflow).toContain("git push origin HEAD:main");
+  });
+
 });
