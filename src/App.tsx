@@ -12,7 +12,7 @@ import {
 type ToolId =
   | "compress" | "resize" | "crop" | "convert" | "rotate" | "flip"
   | "watermark" | "rounded" | "blur" | "grayscale" | "color"
-  | "metadata" | "base64";
+  | "metadata" | "base64" | "metadata-cleaner";
 
 const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean }> = [
   { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular" },
@@ -27,6 +27,7 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
   { id: "grayscale", title: "Grayscale Converter", desc: "Convert an image to monochrome.", icon: "◐", tag: "One click" },
   { id: "color", title: "Image Color Picker", desc: "Click any pixel to inspect its color value.", icon: "◉", tag: "Pixel sampling" },
   { id: "metadata", title: "Image Metadata Viewer", desc: "Inspect file details, type and image dimensions.", icon: "ⓘ", tag: "File details" },
+  { id: "metadata-cleaner", title: "Image Metadata Cleaner", desc: "Export a fresh image copy without the source photo metadata.", icon: "⌁", tag: "Privacy" },
   { id: "base64", title: "Image to Base64", desc: "Create a Base64 data URL and copy it.", icon: "⌘", tag: "Developer" },
   { id: "background", title: "Background Remover", desc: "AI-powered background removal.", icon: "✧", tag: "Coming soon", comingSoon: true },
   { id: "upscaler", title: "AI Image Upscaler", desc: "Increase image resolution with an AI model.", icon: "⤢", tag: "Coming soon", comingSoon: true }
@@ -46,7 +47,7 @@ const toolSlugs: Record<ToolId, string> = {
   convert: "image-converter", rotate: "image-rotator", flip: "image-flipper",
   watermark: "image-watermark", rounded: "rounded-corners", blur: "image-blur",
   grayscale: "grayscale-converter", color: "image-color-picker",
-  metadata: "image-metadata-viewer", base64: "image-to-base64"
+  metadata: "image-metadata-viewer", base64: "image-to-base64", "metadata-cleaner": "image-metadata-cleaner"
 };
 
 function getInitialTool(): ToolId | null {
@@ -275,6 +276,9 @@ export default function App() {
           options.grayscale = true;
           options.format = format;
           break;
+        case "metadata-cleaner":
+          options.format = format;
+          break;
         default:
           throw new Error("This tool does not need image processing.");
       }
@@ -344,7 +348,7 @@ export default function App() {
   const filteredTools = tools.filter(tool => {
     const matchesSearch = (tool.title + " " + tool.desc).toLowerCase().includes(toolSearch.trim().toLowerCase());
     const id = String(tool.id);
-    const category = toolCategory === "all" || (toolCategory === "optimize" && ["compress","resize","convert"].includes(id)) || (toolCategory === "edit" && ["crop","rotate","flip","watermark","rounded","blur","grayscale"].includes(id)) || (toolCategory === "inspect" && ["color","metadata","base64"].includes(id));
+    const category = toolCategory === "all" || (toolCategory === "optimize" && ["compress","resize","convert"].includes(id)) || (toolCategory === "edit" && ["crop","rotate","flip","watermark","rounded","blur","grayscale"].includes(id)) || (toolCategory === "inspect" && ["color","metadata","base64","metadata-cleaner"].includes(id));
     return matchesSearch && category;
   });
 
@@ -447,6 +451,7 @@ export default function App() {
             {active === "blur" && <><label>Blur strength <b>{blur}px</b></label><input type="range" min="1" max="20" value={blur} onChange={e => setBlur(Number(e.target.value))}/><label>Output format</label><select className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select></>}
             {active === "grayscale" && <><p className="hint">Convert the image to grayscale while preserving its dimensions.</p><label>Output format</label><select className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select></>}
             {active === "color" && <>{sample ? <div className="sample-result"><span style={{ background: sample.hex }}></span><div><b>{sample.hex}</b><small>RGB({sample.r}, {sample.g}, {sample.b}) · HSL({rgbToHsl(sample.r, sample.g, sample.b).h}, {rgbToHsl(sample.r, sample.g, sample.b).s}%, {rgbToHsl(sample.r, sample.g, sample.b).l}%)</small></div><button className="secondary-btn" onClick={() => copyText(sample.hex)}><Copy size={14}/>{copied ? "Copied" : "Copy HEX"}</button><button className="secondary-btn" onClick={() => copyText(`rgb(${sample.r}, ${sample.g}, ${sample.b})`)}><Copy size={14}/>Copy RGB</button><button className="secondary-btn" onClick={() => { const hsl = rgbToHsl(sample.r, sample.g, sample.b); copyText(`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`); }}><Copy size={14}/>Copy HSL</button></div> : <p className="hint">Click a pixel on the image, or focus the preview and press Enter to sample its center. The color is read from the original file.</p>}</>}
+            {active === "metadata-cleaner" && <><p className="hint">Create a fresh copy by decoding and re-encoding the image in your browser. This removes the source file’s embedded camera metadata and GPS tags rather than copying the original binary file.</p><label>Clean copy format</label><select className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select>{format !== "image/png" && <><label>Output quality <b>{quality}%</b></label><input type="range" min="20" max="100" value={quality} onChange={e => setQuality(Number(e.target.value))}/></>}<p className="metadata-privacy">Your source file is not changed. The browser may write basic output metadata during re-encoding, but original EXIF/GPS camera tags are not copied by this workflow.</p></>}
             {active === "metadata" && <div className="metadata-list"><div><span>File name</span><b>{file.name}</b></div><div><span>Format / MIME</span><b>{file.type}</b></div><div><span>File size</span><b>{formatBytes(file.size)}</b></div><div><span>Dimensions</span><b>{dimensions.width} × {dimensions.height} px</b></div><div><span>Last modified</span><b>{new Date(file.lastModified).toLocaleString()}</b></div>{exifData && Object.entries(exifData).filter(([key,value]) => ["Make","Model","DateTimeOriginal","CreateDate","ModifyDate","LensModel","ISO","FNumber","ExposureTime","FocalLength","Orientation","Software","GPSLatitude","GPSLongitude"].includes(key) && value != null).map(([key,value]) => <div key={key}><span>{key}</span><b>{Array.isArray(value) ? value.join(", ") : value instanceof Date ? value.toLocaleString() : String(value)}</b></div>)}<p className="metadata-privacy">EXIF can contain camera details and sometimes GPS coordinates. This information is read locally and never uploaded by PixelTools.</p>{!exifData && <p className="hint">No readable EXIF data was found in this image. Some formats and apps strip camera metadata.</p>}</div>}
             {active === "base64" && <><label>Base64 data URL</label><textarea className="base64-output" readOnly value={base64Text} placeholder="Encoding image…" rows={8}/><div className="button-row"><button className="secondary-btn" onClick={() => copyText(base64Text)} disabled={!base64Text}><Copy size={14}/>{copied ? "Copied" : "Copy Base64"}</button><button className="secondary-btn" onClick={saveBase64} disabled={!base64Text}><ArrowDownToLine size={14}/> Save .txt</button></div><p className="hint">Base64 is larger than the original binary image. Avoid embedding very large images directly in HTML or CSS.</p></>}
             {format === "image/jpeg" && !["color","metadata","base64","rounded"].includes(active ?? "") && <><label>JPG background color</label><input className="text-input color-input" type="color" value={jpegBackground} onChange={e => setJpegBackground(e.target.value)}/><p className="hint">Transparent areas are filled with this color when exporting to JPG.</p></>}{error && <p className="error-msg" role="alert" aria-live="polite">{error}</p>}
