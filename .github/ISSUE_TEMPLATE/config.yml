@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: PixelTools support instructions
+    url: https://github.com/Hard-Worker-Dev/PixelTools/blob/main/SUPPORT.md
+    about: Read how to report bugs, request features and ask privacy questions.
+  - name: Security vulnerability reporting
+    url: https://github.com/Hard-Worker-Dev/PixelTools/security/advisories/new
+    about: Do not publish security vulnerabilities in public issues.

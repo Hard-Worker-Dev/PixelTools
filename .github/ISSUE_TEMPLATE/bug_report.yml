@@ -1,0 +1,64 @@
+name: Bug report
+description: Report a reproducible problem with PixelTools.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use a non-sensitive sample image only. Never attach private images, passwords or personal data.
+  - type: input
+    id: tool
+    attributes:
+      label: Tool
+      description: Which PixelTools tool is affected?
+      placeholder: Image Compressor
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open...
+        2. Choose...
+        3. Click...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 130
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and operating system
+      placeholder: Windows 11 desktop / Android 15 phone
+    validations:
+      required: true
+  - type: dropdown
+    id: file_type
+    attributes:
+      label: Sample image type
+      options:
+        - JPG
+        - PNG
+        - WebP
+        - No file involved
+        - Other
+    validations:
+      required: true

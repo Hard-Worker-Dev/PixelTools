@@ -1,5 +1,7 @@
 # PixelTools
 
+> Release candidate: **1.0.0-rc.1**. The public beta is deployed; see [release readiness](RELEASE_CHECKLIST.md) for remaining manual launch checks.
+
 A premium, free online image toolkit. The product focuses on practical image workflows, clear controls and browser-local processing.
 
 ## Stack
@@ -52,7 +54,7 @@ npm run build
 npm audit --audit-level=high
 ```
 
-CI runs dependency auditing, TypeScript checks, image utility and rendering-pipeline unit tests, user-flow tests, static SEO contract tests and a production build on pushes and pull requests to `main`.
+CI runs full and production-only dependency audits, TypeScript checks, image utility and rendering-pipeline unit tests, tool user-flow tests, static SEO/security contract tests and a production build on pushes, pull requests and manual dispatches to main. Successful builds are retained as 30-day GitHub Actions artifacts.
 
 ## Cloudflare Pages
 - Project: `pixeltools`
@@ -62,6 +64,12 @@ CI runs dependency auditing, TypeScript checks, image utility and rendering-pipe
 - Live project hostname: `https://pixeltools-9xe.pages.dev`
 
 No server-side environment variables are required for the current browser-only release. If the production hostname changes, update canonical URLs, sitemap and robots.txt.
+
+## Release and support
+- Release status and manual acceptance gates: [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md)
+- User-facing changes: [CHANGELOG.md](CHANGELOG.md)
+- Support and bug reports: [SUPPORT.md](SUPPORT.md)
+- Security reporting: [SECURITY.md](SECURITY.md)
 
 ## Product policy
 PixelTools is free to use. The current release has no ads, subscriptions or paid gates.

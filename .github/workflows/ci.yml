@@ -1,19 +1,45 @@
 name: PixelTools CI
+
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pixeltools-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install
-      - run: npm audit --audit-level=high
-      - run: npm run typecheck
-      - run: npm test
-      - run: npm run build
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Audit all dependencies
+        run: npm audit --audit-level=high
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+      - name: TypeScript checks
+        run: npm run typecheck
+      - name: Automated tests
+        run: npm test
+      - name: Production build
+        run: npm run build
+      - name: Preserve production build artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pixeltools-dist-${{ github.sha }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
