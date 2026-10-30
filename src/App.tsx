@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import exifr from "exifr";
 import {
   ArrowDownToLine, ArrowRight, Check, Copy, FileImage, Image as ImageIcon,
@@ -82,6 +82,7 @@ export default function App() {
   const [cropY, setCropY] = useState("0");
   const [cropWidth, setCropWidth] = useState("");
   const [cropHeight, setCropHeight] = useState("");
+  const [cropSelection, setCropSelection] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
   const [watermark, setWatermark] = useState("PixelTools");
   const [watermarkColor, setWatermarkColor] = useState("#FFFFFF");
   const [watermarkPosition, setWatermarkPosition] = useState<"bottom-right" | "bottom-left" | "top-right" | "top-left" | "center">("bottom-right");
@@ -99,6 +100,8 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const fileSelectionId = useRef(0);
+  const cropSelectionRef = useRef<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
+  const cropDragging = useRef(false);
 
   useEffect(() => {
     return () => { if (preview) URL.revokeObjectURL(preview); };
@@ -128,6 +131,8 @@ export default function App() {
     setPalette([]);
     setCopied(false);
     setDimensions({ width: 0, height: 0 });
+    cropSelectionRef.current = null;
+    setCropSelection(null);
     setExifData(null);
     if (inputRef.current) inputRef.current.value = "";
   };
@@ -138,17 +143,91 @@ export default function App() {
     window.history.replaceState({}, "", "/#tools");
   };
 
+  const setCropSelectionValue = (selection: { x1: number; y1: number; x2: number; y2: number } | null) => {
+    cropSelectionRef.current = selection;
+    setCropSelection(selection);
+  };
+
   const applyCropRatio = (value: string) => {
     setCropRatio(value);
     if (value === "free" || dimensions.width < 1 || dimensions.height < 1) {
       setCropX("0"); setCropY("0");
       setCropWidth(String(dimensions.width)); setCropHeight(String(dimensions.height));
+      setCropSelectionValue(dimensions.width > 0 && dimensions.height > 0 ? { x1: 0, y1: 0, x2: 1, y2: 1 } : null);
       return;
     }
     const [rw, rh] = value.split(":").map(Number);
     const crop = centeredCropForRatio(dimensions.width, dimensions.height, rw / rh);
     setCropX(String(crop.x)); setCropY(String(crop.y));
     setCropWidth(String(crop.width)); setCropHeight(String(crop.height));
+    setCropSelectionValue({
+      x1: crop.x / dimensions.width,
+      y1: crop.y / dimensions.height,
+      x2: (crop.x + crop.width) / dimensions.width,
+      y2: (crop.y + crop.height) / dimensions.height
+    });
+  };
+
+  const syncCropSelectionFromPixels = (x: string, y: string, width: string, height: string) => {
+    const values = [x, y, width, height].map(Number);
+    if (dimensions.width < 1 || dimensions.height < 1 || !values.every(Number.isFinite) || values[0] < 0 || values[1] < 0 || values[2] < 1 || values[3] < 1 || values[0] + values[2] > dimensions.width || values[1] + values[3] > dimensions.height) {
+      setCropSelectionValue(null);
+      return;
+    }
+    setCropSelectionValue({
+      x1: values[0] / dimensions.width,
+      y1: values[1] / dimensions.height,
+      x2: (values[0] + values[2]) / dimensions.width,
+      y2: (values[1] + values[3]) / dimensions.height
+    });
+  };
+
+  const cropPointFromEvent = (event: PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    return {
+      x: Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)),
+      y: Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height))
+    };
+  };
+
+  const cropPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (active !== "crop" || dimensions.width < 1 || dimensions.height < 1) return;
+    event.preventDefault();
+    const point = cropPointFromEvent(event);
+    cropDragging.current = true;
+    if (event.currentTarget.setPointerCapture) event.currentTarget.setPointerCapture(event.pointerId);
+    setCropRatio("custom");
+    setCropSelectionValue({ x1: point.x, y1: point.y, x2: point.x, y2: point.y });
+  };
+
+  const cropPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (!cropDragging.current) return;
+    const point = cropPointFromEvent(event);
+    const current = cropSelectionRef.current;
+    if (!current) return;
+    setCropSelectionValue({ ...current, x2: point.x, y2: point.y });
+  };
+
+  const cropPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    if (!cropDragging.current) return;
+    cropDragging.current = false;
+    const point = cropPointFromEvent(event);
+    const current = cropSelectionRef.current;
+    if (!current) return;
+    const left = Math.min(current.x1, point.x);
+    const top = Math.min(current.y1, point.y);
+    const right = Math.max(current.x1, point.x);
+    const bottom = Math.max(current.y1, point.y);
+    const x = Math.max(0, Math.min(dimensions.width - 1, Math.round(left * dimensions.width)));
+    const y = Math.max(0, Math.min(dimensions.height - 1, Math.round(top * dimensions.height)));
+    const width = Math.max(1, Math.min(dimensions.width - x, Math.round((right - left) * dimensions.width)));
+    const height = Math.max(1, Math.min(dimensions.height - y, Math.round((bottom - top) * dimensions.height)));
+    setCropX(String(x));
+    setCropY(String(y));
+    setCropWidth(String(width));
+    setCropHeight(String(height));
+    setCropSelectionValue({ x1: x / dimensions.width, y1: y / dimensions.height, x2: (x + width) / dimensions.width, y2: (y + height) / dimensions.height });
+    setCropRatio("custom");
   };
 
   const updateResizeWidth = (value: string) => {
@@ -231,6 +310,8 @@ export default function App() {
       setHeight(String(imageHeight));
       setCropWidth(String(imageWidth));
       setCropHeight(String(imageHeight));
+      setCropRatio("free");
+      setCropSelectionValue({ x1: 0, y1: 0, x2: 1, y2: 1 });
       setPreview(URL.createObjectURL(picked));
     }).catch((e: unknown) => {
       if (selectionId !== fileSelectionId.current) return;
