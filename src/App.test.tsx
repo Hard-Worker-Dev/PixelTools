@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
@@ -49,8 +49,7 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.getByText(/JPG, PNG, WebP/i)).toBeTruthy();
   });
 
-  it("opens the upload workflow for every implemented image tool", async () => {
-    const user = userEvent.setup();
+  it("opens the upload workflow for every implemented image tool", () => {
     render(<App />);
     const titles = [
       "Image Compressor", "Image Resizer", "Image Cropper", "Image Converter",
@@ -59,10 +58,10 @@ describe("PixelTools ease-of-use workflows", () => {
       "Image Metadata Viewer", "Image to Base64", "Image Metadata Cleaner"
     ];
     for (const title of titles) {
-      await user.click(screen.getByRole("button", { name: new RegExp(title) }));
+      fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
       expect(screen.getByRole("dialog", { name: title })).toBeTruthy();
       expect(screen.getByText(/Drop your image here/i)).toBeTruthy();
-      await user.click(screen.getByRole("button", { name: "Close tool" }));
+      fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
   });
   it("opens a requested tool from a shareable URL", () => {
