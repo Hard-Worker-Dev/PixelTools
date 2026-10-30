@@ -66,6 +66,25 @@ describe("PixelTools ease-of-use workflows", () => {
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
   }, 15000);
+  it("uses accessible output labels and explains the PNG lossless mode", async () => {
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const image = new File([buffer], "sample.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Compressor/ }));
+    const fileInput = container.querySelector<HTMLInputElement>("input[type=file]");
+    fireEvent.change(fileInput as HTMLInputElement, { target: { files: [image] } });
+    await screen.findByAltText("Selected image preview");
+    const outputFormat = screen.getByLabelText("Output format");
+    expect(outputFormat).toBeTruthy();
+    fireEvent.change(outputFormat, { target: { value: "image/png" } });
+    expect(screen.getByText(/PNG is lossless/i)).toBeTruthy();
+    expect(screen.queryByLabelText(/Image quality/i)).toBeNull();
+  });
   it("rejects an oversized image from its header before browser pixel decoding", async () => {
     const decode = vi.fn();
     vi.stubGlobal("createImageBitmap", decode);
