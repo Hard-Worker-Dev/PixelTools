@@ -21,6 +21,7 @@ export interface RenderOptions {
   cornerRadius?: number;
   watermark?: string;
   watermarkOpacity?: number;
+  backgroundColor?: string;
 }
 
 export function formatBytes(bytes: number): string {
@@ -74,12 +75,17 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
     const swaps = rotate === 90 || rotate === 270;
     const width = Math.max(1, Math.round(options.width ?? (swaps ? crop.height : crop.width)));
     const height = Math.max(1, Math.round(options.height ?? (swaps ? crop.width : crop.height)));
-    if (width > 12000 || height > 12000) throw new Error("Output dimensions cannot exceed 12,000 pixels.");
+    if (width > 12000 || height > 12000 || width * height > 60000000) throw new Error("Output cannot exceed 12,000 pixels per side or 60 megapixels total.");
+    const mime = (options.cornerRadius ?? 0) > 0 ? "image/png" : getOutputMime(options.format ?? "image/jpeg");
     const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Your browser could not start image processing.");
+    if (mime === "image/jpeg") {
+      ctx.fillStyle = options.backgroundColor ?? "#FFFFFF";
+      ctx.fillRect(0, 0, width, height);
+    }
     ctx.save();
     ctx.translate(width / 2, height / 2);
     ctx.rotate((rotate * Math.PI) / 180);
@@ -113,8 +119,6 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
       ctx.restore();
     }
 
-    // PNG is required to preserve transparent rounded corners.
-    const mime = (options.cornerRadius ?? 0) > 0 ? "image/png" : getOutputMime(options.format ?? "image/jpeg");
     return await new Promise<Blob>((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("Could not export this image format.")), mime, Math.min(1, Math.max(0.1, options.quality ?? 0.85))));
   } finally {
     bitmap.close();
