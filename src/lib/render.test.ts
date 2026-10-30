@@ -146,4 +146,19 @@ describe("browser image rendering pipeline", () => {
     expect(context.scale).toHaveBeenCalledWith(1.5, 3);
   });
 
+
+  it("draws a logo image watermark at the selected position and closes its bitmap", async () => {
+    const file = new File(["source"], "source.webp", { type: "image/webp" });
+    const logo = new File(["logo"], "brand.png", { type: "image/png" });
+    await renderImage(file, {
+      watermarkImage: logo,
+      watermarkImageSizePercent: 20,
+      watermarkOpacity: 0.5,
+      watermarkPosition: "bottom-right",
+      format: "image/webp"
+    });
+    expect(drawImage).toHaveBeenCalledWith(bitmap, 152, 72, 40, 20);
+    expect(close).toHaveBeenCalledTimes(2);
+  });
+
 });
