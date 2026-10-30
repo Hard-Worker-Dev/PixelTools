@@ -342,4 +342,56 @@ describe("PixelTools ease-of-use workflows", () => {
     }
   }, 30000);
 
+  it("verifies the output UI for color sampling, metadata inspection and Base64 encoding", async () => {
+    const pixelData = new Uint8ClampedArray([255, 0, 0, 255]);
+    const context = {
+      drawImage: vi.fn(),
+      getImageData: vi.fn(() => ({ data: pixelData }))
+    } as unknown as CanvasRenderingContext2D;
+    vi.stubGlobal("createImageBitmap", vi.fn(async () => ({
+      width: 640, height: 480, close: vi.fn()
+    } as unknown as ImageBitmap)));
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(() => context);
+
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const source = new File([buffer], "inspection-source.png", { type: "image/png" });
+    const { container } = render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: /Image Metadata Viewer/ }));
+    let upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
+    await screen.findByAltText("Selected image preview");
+    expect(await screen.findByText("640 × 480 px")).toBeTruthy();
+    expect(screen.getByRole("button", { name: /Download metadata JSON/ })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
+
+    fireEvent.click(screen.getByRole("button", { name: /Image to Base64/ }));
+    upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
+    await screen.findByAltText("Selected image preview");
+    const dataUrl = await screen.findByLabelText("Base64 data URL") as HTMLTextAreaElement;
+    expect(dataUrl.value.startsWith("data:image/png;base64,")).toBe(true);
+    fireEvent.change(screen.getByLabelText("Output type"), { target: { value: "raw" } });
+    const rawBase64 = screen.getByLabelText("Raw Base64 text") as HTMLTextAreaElement;
+    expect(rawBase64.value).not.toContain(",");
+    fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
+
+    fireEvent.click(screen.getByRole("button", { name: /Image Color Picker/ }));
+    upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
+    const preview = await screen.findByAltText("Selected image preview") as HTMLImageElement;
+    expect(await screen.findByText("#F01010")).toBeTruthy();
+    vi.spyOn(preview, "getBoundingClientRect").mockReturnValue({
+      x: 0, y: 0, left: 0, top: 0, right: 640, bottom: 480,
+      width: 640, height: 480, toJSON: () => ({})
+    } as DOMRect);
+    fireEvent.click(preview, { clientX: 10, clientY: 10 });
+    expect(await screen.findByText("#FF0000")).toBeTruthy();
+  }, 30000);
+
 });
