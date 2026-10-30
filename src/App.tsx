@@ -86,6 +86,10 @@ export default function App() {
   }, [preview]);
 
   useEffect(() => {
+    return () => { if (resultPreview) URL.revokeObjectURL(resultPreview); };
+  }, [resultPreview]);
+
+  useEffect(() => {
     if (active === "base64" && file) {
       readAsDataUrl(file).then(setBase64Text).catch(e => setError(e instanceof Error ? e.message : "Could not encode this image."));
     }
@@ -94,6 +98,7 @@ export default function App() {
   const clear = () => {
     setFile(null);
     setResult(null);
+    setResultPreview("");
     setError("");
     setPreview("");
     setBase64Text("");
@@ -240,11 +245,16 @@ export default function App() {
     if (!file) return;
     const rect = event.currentTarget.getBoundingClientRect();
     try {
-      setSample(await sampleImageColor(
-        file,
-        (event.clientX - rect.left) / rect.width,
-        (event.clientY - rect.top) / rect.height
-      ));
+      const imageRatio = dimensions.width / dimensions.height;
+      const boxRatio = rect.width / rect.height;
+      const renderedWidth = boxRatio > imageRatio ? rect.height * imageRatio : rect.width;
+      const renderedHeight = boxRatio > imageRatio ? rect.height : rect.width / imageRatio;
+      const offsetX = (rect.width - renderedWidth) / 2;
+      const offsetY = (rect.height - renderedHeight) / 2;
+      const x = (event.clientX - rect.left - offsetX) / renderedWidth;
+      const y = (event.clientY - rect.top - offsetY) / renderedHeight;
+      if (x < 0 || x > 1 || y < 0 || y > 1) return;
+      setSample(await sampleImageColor(file, x, y));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not sample this pixel.");
     }
