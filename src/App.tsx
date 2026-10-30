@@ -64,7 +64,7 @@ export default function App() {
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [format, setFormat] = useState<ImageFormat>("image/webp");
-  const [rotate, setRotate] = useState(90);
+  const [rotate, setRotate] = useState(0);
   const [flipAxis, setFlipAxis] = useState<"horizontal" | "vertical">("horizontal");
   const [cropX, setCropX] = useState("0");
   const [cropY, setCropY] = useState("0");
@@ -113,7 +113,7 @@ export default function App() {
     setActive(id);
     window.history.pushState({}, "", "/?tool=" + id + "#tools");
     clear();
-    setRotate(90);
+    setRotate(0);
     setFlipAxis("horizontal");
     setCropX("0");
     setCropY("0");
@@ -289,7 +289,7 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <a className="brand" href="#" onClick={closeTool}><span className="brand-mark"><ImageIcon size={19}/></span>pixel<span>tools</span></a>
-      <nav className={mobileMenuOpen ? "open" : ""}><a href="#tools" onClick={() => setMobileMenuOpen(false)}>All tools</a><a href="#how" onClick={() => setMobileMenuOpen(false)}>How it works</a><a href="#privacy" onClick={() => setMobileMenuOpen(false)}>Privacy</a></nav>
+      <nav className={mobileMenuOpen ? "open" : ""}><a href="#tools" onClick={() => setMobileMenuOpen(false)}>All tools</a><a href="#how" onClick={() => setMobileMenuOpen(false)}>How it works</a><a href="#privacy" onClick={() => setMobileMenuOpen(false)}>Privacy</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
       <a className="header-cta" href="#tools">Explore tools <ArrowRight size={15}/></a>
       <button className="mobile-menu" aria-label="Toggle menu" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(v => !v)}><Menu size={21}/></button>
     </header>
@@ -317,7 +317,7 @@ export default function App() {
       <section className="privacy-section" id="privacy"><div className="privacy-icon"><ShieldCheck size={25}/></div><div><div className="eyebrow">YOUR PRIVACY MATTERS</div><h2>Your images are <span>yours.</span></h2><p>Working tools process your images directly in your browser. Your files are not uploaded to PixelTools servers, and there is no account to create. AI background removal and upscaling are not enabled yet.</p></div><div className="privacy-stamp"><LockKeyhole size={18}/><b>PRIVATE</b><small>By design</small></div></section>
       <section className="how-section" id="how"><div className="eyebrow">THREE SIMPLE STEPS</div><h2>From upload to <span>done.</span></h2><div className="steps"><div><b>01</b><h3>Choose a tool</h3><p>Pick the image task you want to get done.</p></div><div><b>02</b><h3>Add your image</h3><p>Drop a file or browse your device. That's it.</p></div><div><b>03</b><h3>Download & go</h3><p>Process locally and save your finished image.</p></div></div></section>
     </main>
-    <footer><a className="brand" href="#"><span className="brand-mark"><ImageIcon size={17}/></span>pixel<span>tools</span></a><p>Thoughtful image tools. Free for everyone.</p><small>© 2026 PixelTools. Made for the web.</small></footer>
+    <footer><a className="brand" href="/"><span className="brand-mark"><ImageIcon size={17}/></span>pixel<span>tools</span></a><p>Thoughtful image tools. Free for everyone.</p><nav className="footer-links"><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><small>© 2026 PixelTools. Made for the web.</small></footer>
 
     {active && <div className="modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) closeTool() }}>
       <section className="tool-modal" role="dialog" aria-modal="true" aria-label={toolName}>
