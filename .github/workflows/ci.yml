@@ -67,7 +67,7 @@ jobs:
         if: hashFiles('package-lock.json') == ''
         run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
       - name: Commit generated lockfile once
-        if: hashFiles('package-lock.json') == ''
+        if: success()
         run: |
           if [ -f package-lock.json ] && [ -n "$(git status --short -- package-lock.json)" ]; then
             git config user.name "github-actions[bot]"
