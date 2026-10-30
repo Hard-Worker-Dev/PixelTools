@@ -20,6 +20,8 @@ export interface RenderOptions {
   blur?: number;
   cornerRadius?: number;
   watermark?: string;
+  watermarkImage?: Blob;
+  watermarkImageSizePercent?: number;
   watermarkOpacity?: number;
   watermarkSizePercent?: number;
   watermarkPosition?: "bottom-right" | "bottom-left" | "top-right" | "top-left" | "center";
@@ -261,6 +263,25 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
       ctx.shadowBlur = 4;
       ctx.fillText(watermark, x, y, width * 0.86);
       ctx.restore();
+    }
+    if (options.watermarkImage) {
+      const logo = await createImageBitmap(options.watermarkImage);
+      try {
+        const position = options.watermarkPosition ?? "bottom-right";
+        const maxWidth = width * (Math.max(5, Math.min(45, options.watermarkImageSizePercent ?? 20)) / 100);
+        const logoScale = Math.min(1, maxWidth / logo.width);
+        const logoWidth = Math.max(1, logo.width * logoScale);
+        const logoHeight = Math.max(1, logo.height * logoScale);
+        const margin = Math.max(8, Math.round(Math.min(logoWidth, logoHeight) * 0.12));
+        const x = position.endsWith("left") ? margin : position.endsWith("right") ? width - logoWidth - margin : (width - logoWidth) / 2;
+        const y = position.startsWith("top") ? margin : position === "center" ? (height - logoHeight) / 2 : height - logoHeight - margin;
+        ctx.save();
+        ctx.globalAlpha = Math.max(0.1, Math.min(1, options.watermarkOpacity ?? 0.7));
+        ctx.drawImage(logo, x, y, logoWidth, logoHeight);
+        ctx.restore();
+      } finally {
+        logo.close();
+      }
     }
     return await new Promise<Blob>((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("Could not export this image format.")), mime, Math.min(1, Math.max(0.1, options.quality ?? 0.85))));
   } finally {
