@@ -72,6 +72,14 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
     expect(window.location.search).toBe("");
   });
+  it("closes and clears the workspace when browser history leaves a tool URL", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Compressor/ }));
+    expect(screen.getByRole("dialog", { name: "Image Compressor" })).toBeTruthy();
+    window.history.replaceState({}, "", "/");
+    fireEvent(window, new PopStateEvent("popstate"));
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
   it("opens a requested tool from a shareable URL", () => {
     window.history.replaceState({}, "", "/?tool=resize#tools");
     render(<App />);
