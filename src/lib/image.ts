@@ -179,6 +179,23 @@ export function rgbToHex(r: number, g: number, b: number): string {
   return `#${[r, g, b].map(channel => Math.max(0, Math.min(255, Math.round(channel))).toString(16).padStart(2, "0")).join("")}`.toUpperCase();
 }
 
+function roundedRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number): void {
+  const r = Math.max(0, Math.min(radius, width / 2, height / 2));
+  if (typeof ctx.roundRect === "function") {
+    ctx.roundRect(x, y, width, height, r);
+    return;
+  }
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + width - r, y);
+  ctx.arcTo(x + width, y, x + width, y + r, r);
+  ctx.lineTo(x + width, y + height - r);
+  ctx.arcTo(x + width, y + height, x + width - r, y + height, r);
+  ctx.lineTo(x + r, y + height);
+  ctx.arcTo(x, y + height, x, y + height - r, r);
+  ctx.lineTo(x, y + r);
+  ctx.arcTo(x, y, x + r, y, r);
+  ctx.closePath();
+}
 export async function renderImage(file: File, options: RenderOptions = {}): Promise<Blob> {
   if (!file.type.startsWith("image/")) throw new Error("Choose a valid image file.");
   const bitmap = await createImageBitmap(file);
@@ -203,7 +220,7 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
     if ((options.cornerRadius ?? 0) > 0) {
       const radius = Math.min(options.cornerRadius ?? 0, Math.min(width, height) / 2);
       ctx.beginPath();
-      ctx.roundRect(0, 0, width, height, radius);
+      roundedRectPath(ctx, 0, 0, width, height, radius);
       ctx.clip();
     }
     const scaleX = width / bounds.width;
