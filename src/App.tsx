@@ -450,11 +450,17 @@ export default function App() {
           options.format = format;
           break;
         case "watermark":
-          if (!watermark.trim()) throw new Error("Enter watermark text first.");
-          options.watermark = watermark;
+          if (watermarkMode === "text" && !watermark.trim()) throw new Error("Enter watermark text first.");
+          if (watermarkMode === "image" && !watermarkImageFile) throw new Error("Choose a PNG or WebP logo image first.");
+          if (watermarkMode === "text") {
+            options.watermark = watermark;
+            options.watermarkSizePercent = watermarkSize;
+            options.watermarkColor = watermarkColor;
+          } else {
+            options.watermarkImage = watermarkImageFile ?? undefined;
+            options.watermarkImageSizePercent = watermarkImageSize;
+          }
           options.watermarkOpacity = watermarkOpacity / 100;
-          options.watermarkSizePercent = watermarkSize;
-          options.watermarkColor = watermarkColor;
           options.watermarkPosition = watermarkPosition;
           options.format = format;
           break;
