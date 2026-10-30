@@ -30,3 +30,56 @@
 }
 
 footer .footer-links{display:flex;align-items:center;gap:14px}footer .footer-links a{font-size:10px;color:#737c90;font-weight:600}footer .footer-links a:hover{color:#6657e8}@media(max-width:560px){footer .footer-links{order:4;flex-basis:100%;justify-content:flex-start;flex-wrap:wrap}}
+/* Discoverability, step-by-step workflow and clearer feedback */
+:focus-visible{outline:3px solid #9388ff!important;outline-offset:3px}
+.tool-discovery{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:12px 20px;margin:26px 0 22px}
+.tool-search-label{grid-column:1/-1;font-size:12px;font-weight:700;color:#4b5368}
+.tool-search{width:100%;min-height:46px;border:1px solid #e2e5ef;border-radius:10px;background:#fff;padding:0 15px 0 42px;color:#273149;font-size:13px;background-image:radial-gradient(circle at 19px 20px,transparent 6px,#81899b 6px,#81899b 7px,transparent 7.5px),linear-gradient(45deg,transparent 46%,#81899b 46%,#81899b 55%,transparent 56%);background-size:28px 28px,8px 8px;background-position:5px 6px,29px 27px;background-repeat:no-repeat}
+.tool-search:focus{outline:3px solid #9388ff30;border-color:#9a91f3}
+.tool-filters{display:flex;flex-wrap:wrap;gap:7px}
+.filter-chip,.size-chip{border:1px solid #e3e5ef;border-radius:24px;padding:8px 12px;background:#fff;color:#697387;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap}
+.filter-chip.active,.size-chip.selected{background:#efedff;border-color:#d9d4ff;color:#6255d9}
+.filter-chip:hover,.size-chip:hover{border-color:#bdb6ff;color:#6255d9}
+.tool-count{grid-column:1/-1;margin:0;color:#8b93a2;font-size:10px}
+.empty-tools{padding:32px;border:1px dashed #dedfee;border-radius:12px;text-align:center;color:#7e8798;font-size:13px}
+.workflow-steps{display:flex;align-items:center;gap:10px;padding:12px 14px;margin:-6px 0 18px;background:#f8f8fc;border:1px solid #eff0f5;border-radius:10px}
+.workflow-steps span{display:flex;align-items:center;gap:7px;color:#9aa1af;font-size:10px;font-weight:650}
+.workflow-steps span b{width:22px;height:22px;border-radius:50%;background:#e9ebf2;color:#747e91;display:grid;place-items:center;font-size:10px}
+.workflow-steps span.current{color:#6457dc}
+.workflow-steps span.current b{background:#eae7ff;color:#6355dd}
+.workflow-steps span.done b{background:#e1f5ee;color:#289977}
+.modal-subtitle{font-size:11px;color:#828b9c;margin:6px 0 0;max-width:400px;line-height:1.5}
+.tool-modal{max-height:calc(100vh - 40px);overflow:auto}
+.settings-panel{min-width:0}
+.settings-panel label{line-height:1.5}
+.ratio-lock{margin:4px 0 9px}
+.quick-sizes,.crop-ratios{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:2px 0 8px}
+.quick-sizes>span{font-size:10px;color:#8790a0;margin-right:2px}
+.size-chip{padding:7px 10px;font-size:9px}
+.result-preview{display:block;width:100%;max-height:180px;object-fit:contain;background:#fff;border:1px solid #e5e8f0;border-radius:9px;margin:12px 0}
+.result-sizes{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.result-sizes span{display:flex;align-items:center;gap:5px}
+.result-savings{font-size:10px!important;font-weight:750;color:#308e73!important;margin:0 0 10px!important}
+.metadata-privacy{margin:0;padding:12px;background:#fff8e8;color:#806331;font-size:10px;line-height:1.65}
+.preview-caption{word-break:break-word}
+.change-file{min-height:34px}
+.dropzone{outline-offset:4px}
+.tool-card:focus-visible{border-color:#9288f0}
+@media(max-width:850px){
+  .tool-discovery{grid-template-columns:1fr;align-items:start}
+  .tool-filters{grid-row:3}
+  .tool-count{grid-row:4}
+}
+@media(max-width:560px){
+  .workflow-steps{gap:5px;padding:10px 8px;justify-content:space-between}
+  .workflow-steps span{font-size:9px;gap:4px}
+  .workflow-steps span b{width:19px;height:19px}
+  .tool-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .filter-chip{padding:10px 8px}
+  .tool-search{min-height:44px}
+  .tool-modal{max-height:calc(100vh - 16px);padding:16px}
+  .modal-head h2{font-size:22px}
+  .result-preview{max-height:145px}
+  .crop-ratios{gap:5px}
+  .size-chip{padding:7px 9px}
+}
