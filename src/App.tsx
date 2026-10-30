@@ -91,6 +91,7 @@ export default function App() {
   const [blur, setBlur] = useState(4);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [base64Text, setBase64Text] = useState("");
+  const [base64Mode, setBase64Mode] = useState<"data-url" | "raw">("data-url");
   const [sample, setSample] = useState<{ r: number; g: number; b: number; hex: string } | null>(null);
   const [palette, setPalette] = useState<Array<{ hex: string; count: number }>>([]);
   const [copied, setCopied] = useState(false);
@@ -121,6 +122,7 @@ export default function App() {
     setError("");
     setPreview("");
     setBase64Text("");
+    setBase64Mode("data-url");
     setSample(null);
     setPalette([]);
     setCopied(false);
@@ -389,16 +391,18 @@ export default function App() {
   };
   const saveBase64 = () => {
     if (!base64Text || !file) return;
-    const blob = new Blob([base64Text], { type: "text/plain;charset=utf-8" });
+    const output = base64Mode === "data-url" ? base64Text : base64Text.slice(base64Text.indexOf(",") + 1);
+    const blob = new Blob([output], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `${file.name}.base64.txt`;
+    anchor.download = `${file.name}.${base64Mode === "data-url" ? "data-url" : "base64"}.txt`;
     anchor.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 1500);
   };
 
   const toolName = tools.find(t => t.id === active)?.title ?? "";
+  const base64Output = base64Mode === "data-url" ? base64Text : base64Text.slice(base64Text.indexOf(",") + 1);
   const filteredTools = tools.filter(tool => {
     const matchesSearch = (tool.title + " " + tool.desc).toLowerCase().includes(toolSearch.trim().toLowerCase());
     const id = String(tool.id);
@@ -514,7 +518,7 @@ export default function App() {
             {active === "color" && <><p className="hint">Click a pixel in the preview to sample it. The palette below is generated from the whole image.</p>{sample && <div className="sample-result"><span style={{ background: sample.hex }}></span><div><b>{sample.hex}</b><small>RGB({sample.r}, {sample.g}, {sample.b}) · HSL({rgbToHsl(sample.r, sample.g, sample.b).h}, {rgbToHsl(sample.r, sample.g, sample.b).s}%, {rgbToHsl(sample.r, sample.g, sample.b).l}%)</small></div><button className="secondary-btn" onClick={() => copyText(sample.hex)}><Copy size={14}/>{copied ? "Copied" : "Copy HEX"}</button><button className="secondary-btn" onClick={() => copyText("rgb(" + sample.r + ", " + sample.g + ", " + sample.b + ")")}><Copy size={14}/>Copy RGB</button><button className="secondary-btn" onClick={() => { const hsl = rgbToHsl(sample.r, sample.g, sample.b); copyText("hsl(" + hsl.h + ", " + hsl.s + "%, " + hsl.l + "%)"); }}><Copy size={14}/>Copy HSL</button></div>}<div className="palette-panel"><div className="palette-heading"><b>Image color palette</b><button type="button" className="secondary-btn" onClick={() => copyText(palette.map(color => color.hex).join(", "))} disabled={palette.length === 0}><Copy size={13}/> Copy all</button></div>{palette.length > 0 ? <div className="palette-grid">{palette.map(color => <button type="button" key={color.hex} className="palette-color" onClick={() => copyText(color.hex)} title={"Copy " + color.hex + " · " + color.count + " pixels"}><span style={{ background: color.hex }}></span><b>{color.hex}</b></button>)}</div> : <p className="hint">Building a palette from the image…</p>}</div></>}
             {active === "metadata-cleaner" && <><p className="hint">Create a fresh copy by decoding and re-encoding the image in your browser. This removes the source file’s embedded camera metadata and GPS tags rather than copying the original binary file.</p><label>Clean copy format</label><select className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select>{format !== "image/png" && <><label>Output quality <b>{quality}%</b></label><input type="range" min="20" max="100" value={quality} onChange={e => setQuality(Number(e.target.value))}/></>}<p className="metadata-privacy">Your source file is not changed. The browser may write basic output metadata during re-encoding, but original EXIF/GPS camera tags are not copied by this workflow.</p></>}
             {active === "metadata" && <div className="metadata-list"><div><span>File name</span><b>{file.name}</b></div><div><span>Format / MIME</span><b>{file.type}</b></div><div><span>File size</span><b>{formatBytes(file.size)}</b></div><div><span>Dimensions</span><b>{dimensions.width} × {dimensions.height} px</b></div><div><span>Last modified</span><b>{new Date(file.lastModified).toLocaleString()}</b></div>{exifData && Object.entries(exifData).filter(([key,value]) => ["Make","Model","DateTimeOriginal","CreateDate","ModifyDate","LensModel","ISO","FNumber","ExposureTime","FocalLength","Orientation","Software","GPSLatitude","GPSLongitude"].includes(key) && value != null).map(([key,value]) => <div key={key}><span>{key}</span><b>{Array.isArray(value) ? value.join(", ") : value instanceof Date ? value.toLocaleString() : String(value)}</b></div>)}<p className="metadata-privacy">EXIF can contain camera details and sometimes GPS coordinates. This information is read locally and never uploaded by PixelTools. Review sensitive fields before sharing this report.</p>{!exifData && <p className="hint">No readable EXIF data was found in this image. Some formats and apps strip camera metadata.</p>}<div className="metadata-actions"><button type="button" className="secondary-btn" onClick={saveMetadataReport}><ArrowDownToLine size={14}/> Download metadata JSON</button><button type="button" className="secondary-btn" onClick={() => copyText(JSON.stringify({fileName:file.name,mimeType:file.type,sizeBytes:file.size,width:dimensions.width,height:dimensions.height,lastModified:file.lastModified,exif:exifData},null,2))}><Copy size={14}/> Copy metadata JSON</button></div></div>}
-            {active === "base64" && <><label>Base64 data URL</label><textarea className="base64-output" readOnly value={base64Text} placeholder="Encoding image…" rows={8}/><div className="button-row"><button className="secondary-btn" onClick={() => copyText(base64Text)} disabled={!base64Text}><Copy size={14}/>{copied ? "Copied" : "Copy Base64"}</button><button className="secondary-btn" onClick={saveBase64} disabled={!base64Text}><ArrowDownToLine size={14}/> Save .txt</button></div><p className="hint">Base64 is larger than the original binary image. Avoid embedding very large images directly in HTML or CSS.</p></>}
+            {active === "base64" && <><label>Output type</label><select className="text-input" value={base64Mode} onChange={e => setBase64Mode(e.target.value as "data-url" | "raw")}><option value="data-url">Data URL (includes MIME prefix)</option><option value="raw">Raw Base64 only</option></select><label>{base64Mode === "data-url" ? "Base64 data URL" : "Raw Base64 text"}</label><textarea className="base64-output" readOnly value={base64Output} placeholder="Encoding image…" rows={8}/><div className="button-row"><button className="secondary-btn" onClick={() => copyText(base64Output)} disabled={!base64Output}><Copy size={14}/>{copied ? "Copied" : "Copy Base64"}</button><button className="secondary-btn" onClick={saveBase64} disabled={!base64Output}><ArrowDownToLine size={14}/> Save .txt</button></div><p className="hint">Data URLs include the MIME type prefix. Raw Base64 contains only the encoded payload. Both are larger than the original binary file.</p></>}
             {["crop","rotate","flip","watermark","blur","grayscale"].includes(active ?? "") && format !== "image/png" && <><label>Export quality <b>{quality}%</b></label><input type="range" min="20" max="100" value={quality} onChange={e => setQuality(Number(e.target.value))}/><div className="quick-sizes quality-presets">{[["small","Smaller",65],["balanced","Balanced",80],["best","Best quality",92]].map(([id,label,value]) => <button type="button" key={id} className={quality===Number(value) ? "size-chip selected" : "size-chip"} aria-pressed={quality===Number(value)} onClick={() => setQuality(Number(value))}>{label}</button>)}</div></>}
             {format === "image/jpeg" && !["color","metadata","base64","rounded"].includes(active ?? "") && <><label>JPG background color</label><input className="text-input color-input" type="color" value={jpegBackground} onChange={e => setJpegBackground(e.target.value)}/><p className="hint">Transparent areas are filled with this color when exporting to JPG.</p></>}{error && <p className="error-msg" role="alert" aria-live="polite">{error}</p>}
             {!informationalTool && <button className="primary-btn process-btn" onClick={process} disabled={busy || !dimensions.width}>{busy ? "Processing…" : result ? "Process again" : "Process image"} <ArrowRight size={16}/></button>}
