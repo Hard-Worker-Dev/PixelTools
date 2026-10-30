@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { centeredCropForRatio, clampCrop, formatBytes, getOutputMime, outputName, rgbToHex } from "./image";
+import { centeredCropForRatio, clampCrop, formatBytes, getOutputMime, outputName, rgbToHex, rgbToHsl, rotatedBounds } from "./image";
 
 describe("image utilities", () => {
   it("formats byte sizes consistently", () => {
@@ -43,6 +43,22 @@ describe("image utilities", () => {
   it("rejects invalid crop ratios", () => {
     expect(() => centeredCropForRatio(100, 100, 0)).toThrow();
     expect(() => centeredCropForRatio(0, 100, 1)).toThrow();
+  });
+
+  it("calculates bounds for quarter-turn and arbitrary rotations", () => {
+    expect(rotatedBounds(100, 50, 90)).toEqual({ width: 50, height: 100 });
+    expect(rotatedBounds(100, 50, 0)).toEqual({ width: 100, height: 50 });
+    expect(rotatedBounds(100, 100, 45)).toEqual({ width: 142, height: 142 });
+  });
+
+  it("rejects invalid rotation dimensions", () => {
+    expect(() => rotatedBounds(0, 100, 90)).toThrow();
+    expect(() => rotatedBounds(100, 100, Number.NaN)).toThrow();
+  });
+
+  it("converts RGB colors to HSL", () => {
+    expect(rgbToHsl(255, 0, 0)).toEqual({ h: 0, s: 100, l: 50 });
+    expect(rgbToHsl(128, 128, 128)).toEqual({ h: 0, s: 0, l: 50 });
   });
 
   it("normalizes RGB values into uppercase hex colors", () => {
