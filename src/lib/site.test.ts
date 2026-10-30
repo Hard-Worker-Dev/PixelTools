@@ -54,7 +54,7 @@ describe("published site contract", () => {
   });
   it("ships baseline browser security headers", () => {
     const headers = read("public/_headers");
-    for (const value of ["X-Content-Type-Options: nosniff","Referrer-Policy:","X-Frame-Options: DENY","Content-Security-Policy:","frame-ancestors \'none\'"]) expect(headers).toContain(value);
+    for (const value of ["Strict-Transport-Security: max-age=31536000; includeSubDomains","X-Content-Type-Options: nosniff","Referrer-Policy:","X-Frame-Options: DENY","Content-Security-Policy:","frame-ancestors \'none\'"]) expect(headers).toContain(value);
   });
   it("does not claim AI tools are live", () => expect(read("public/about/index.html")).toContain("not available yet"));
   it("allows and discloses the external font hosts used by the site", () => {
@@ -86,7 +86,10 @@ describe("published site contract", () => {
     const workflow = read(".github/workflows/ci.yml");
     expect(workflow).toContain("workflow_dispatch:");
     expect(workflow).toContain("npm audit --omit=dev --audit-level=high");
-    expect(workflow).toContain("actions/upload-artifact@v4");
+    expect(workflow).toContain("actions/checkout@v7");
+    expect(workflow).toContain("actions/setup-node@v7");
+    expect(workflow).toContain("actions/upload-artifact@v7");
+    expect(workflow).toContain("package-lock.json");
     expect(workflow).toContain("retention-days: 30");
   });
 

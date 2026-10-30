@@ -41,6 +41,7 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [x] GitHub issue templates and support instructions are present.
 - [x] Security reporting instructions are present.
 - [x] GitHub Actions supports manual runs and preserves successful dist artifacts for 30 days.
+- [x] CI captures the generated npm dependency lockfile so it can be committed for reproducible installs.
 - [x] A Git backup branch is created for this candidate.
 - [ ] Owner verifies repository backup and release permissions in GitHub.
 - [ ] Owner performs and documents a controlled rollback rehearsal before a high-traffic launch.
