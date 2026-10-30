@@ -190,6 +190,8 @@ export default function App() {
     setCompressionMessage("");
     setAspectLocked(true);
     setResizeFitMode("contain");
+    setWidth(String(dimensions.width));
+    setHeight(String(dimensions.height));
     setCropRatio("free");
     setCropX("0");
     setCropY("0");
