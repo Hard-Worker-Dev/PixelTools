@@ -4,7 +4,7 @@ import {
   LockKeyhole, Menu, RotateCcw, ShieldCheck, Sparkles, UploadCloud, X
 } from "lucide-react";
 import {
-  formatBytes, outputName, renderImage, sampleImageColor,
+  centeredCropForRatio, formatBytes, outputName, renderImage, sampleImageColor,
   type ImageFormat, type RenderOptions
 } from "./lib/image";
 
@@ -60,7 +60,7 @@ export default function App() {
   const [result, setResult] = useState<Blob | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [quality, setQuality] = useState(80);
+  const [quality, setQuality] = useState(80);\n  const [aspectLocked, setAspectLocked] = useState(true);\n  const [cropRatio, setCropRatio] = useState("free");\n  const [toolSearch, setToolSearch] = useState("");\n  const [toolCategory, setToolCategory] = useState("all");\n  const [resultPreview, setResultPreview] = useState("");\n  const [exifData, setExifData] = useState<Record<string, unknown> | null>(null);
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [format, setFormat] = useState<ImageFormat>("image/webp");
@@ -99,7 +99,7 @@ export default function App() {
     setBase64Text("");
     setSample(null);
     setCopied(false);
-    setDimensions({ width: 0, height: 0 });
+    setDimensions({ width: 0, height: 0 });\n    setExifData(null);
     if (inputRef.current) inputRef.current.value = "";
   };
 
@@ -180,7 +180,7 @@ export default function App() {
           if (![x, y, w, h].every(Number.isInteger) || x < 0 || y < 0 || w < 1 || h < 1 || x >= dimensions.width || y >= dimensions.height) {
             throw new Error("Enter valid whole-pixel crop coordinates inside the image.");
           }
-          options.crop = { x, y, width: w, height: h };
+          if (x + w > dimensions.width || y + h > dimensions.height) throw new Error("The crop must fit inside the image. Reduce its size or move it inward.");\n          options.crop = { x, y, width: w, height: h };
           options.format = format;
           break;
         }
@@ -217,7 +217,7 @@ export default function App() {
         default:
           throw new Error("This tool does not need image processing.");
       }
-      setResult(await renderImage(file, options));
+      const blob = await renderImage(file, options);\n      setResult(blob);\n      setResultPreview(URL.createObjectURL(blob));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong while processing the image.");
     } finally {
@@ -271,7 +271,7 @@ export default function App() {
     URL.revokeObjectURL(url);
   };
 
-  const toolName = tools.find(t => t.id === active)?.title ?? "";
+  const toolName = tools.find(t => t.id === active)?.title ?? "";\n  const filteredTools = tools.filter(tool => {\n    const matchesSearch = (tool.title + " " + tool.desc).toLowerCase().includes(toolSearch.trim().toLowerCase());\n    const id = String(tool.id);\n    const category = toolCategory === "all" || (toolCategory === "optimize" && ["compress","resize","convert"].includes(id)) || (toolCategory === "edit" && ["crop","rotate","flip","watermark","rounded","blur","grayscale"].includes(id)) || (toolCategory === "inspect" && ["color","metadata","base64"].includes(id));\n    return matchesSearch && category;\n  });
 
   useEffect(() => {
     const tool = tools.find(item => item.id === active);
@@ -284,7 +284,7 @@ export default function App() {
     if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
     canonical.href = tool ? window.location.origin + "/tools/" + toolSlugs[active as ToolId] + "/" : window.location.origin + "/";
   }, [active]);
-  const informationalTool = active === "color" || active === "metadata" || active === "base64";
+  useEffect(() => {\n    if (active !== "metadata" || !file) return;\n    let cancelled = false;\n    exifr.parse(file).then(data => { if (!cancelled) setExifData((data ?? null) as Record<string, unknown> | null); })\n      .catch(() => { if (!cancelled) setExifData(null); });\n    return () => { cancelled = true; };\n  }, [active, file]);\n\n  useEffect(() => {\n    const handleKey = (event: KeyboardEvent) => { if (event.key === "Escape" && active) closeTool(); };\n    window.addEventListener("keydown", handleKey);\n    return () => window.removeEventListener("keydown", handleKey);\n  }, [active]);\n\n  useEffect(() => {\n    const handlePopState = () => { setActive(getInitialTool()); };\n    window.addEventListener("popstate", handlePopState);\n    return () => window.removeEventListener("popstate", handlePopState);\n  }, []);\n\n  const informationalTool = active === "color" || active === "metadata" || active === "base64";
 
   return <div className="app-shell">
     <header className="topbar">
