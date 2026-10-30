@@ -107,10 +107,10 @@ export default function App() {
   }, [resultPreview]);
 
   useEffect(() => {
-    if (active === "base64" && file) {
+    if (active === "base64" && file && dimensions.width > 0) {
       readAsDataUrl(file).then(setBase64Text).catch(e => setError(e instanceof Error ? e.message : "Could not encode this image."));
     }
-  }, [active, file]);
+  }, [active, file, dimensions.width]);
 
   const clear = () => {
     fileSelectionId.current += 1;
@@ -418,20 +418,20 @@ export default function App() {
     canonical.href = tool ? window.location.origin + "/tools/" + toolSlugs[active as ToolId] + "/" : window.location.origin + "/";
   }, [active]);
   useEffect(() => {
-    if (active !== "metadata" || !file) return;
+    if (active !== "metadata" || !file || dimensions.width < 1) return;
     let cancelled = false;
     exifr.parse(file).then(data => { if (!cancelled) setExifData((data ?? null) as Record<string, unknown> | null); })
       .catch(() => { if (!cancelled) setExifData(null); });
     return () => { cancelled = true; };
-  }, [active, file]);
+  }, [active, file, dimensions.width]);
 
   useEffect(() => {
-    if (active !== "color" || !file) return;
+    if (active !== "color" || !file || dimensions.width < 1) return;
     let cancelled = false;
     extractImagePalette(file, 6).then(colors => { if (!cancelled) setPalette(colors); })
       .catch(() => { if (!cancelled) setPalette([]); });
     return () => { cancelled = true; };
-  }, [active, file]);
+  }, [active, file, dimensions.width]);
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => { if (event.key === "Escape" && active) closeTool(); };
     window.addEventListener("keydown", handleKey);
