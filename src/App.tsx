@@ -21,7 +21,7 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
   { id: "convert", title: "Image Converter", desc: "Convert between JPG, PNG and WebP.", icon: "⇄", tag: "3 formats" },
   { id: "rotate", title: "Image Rotator", desc: "Rotate an image in 90-degree steps.", icon: "↻", tag: "Quick" },
   { id: "flip", title: "Image Flipper", desc: "Mirror images horizontally or vertically.", icon: "⇋", tag: "Quick" },
-  { id: "watermark", title: "Image Watermark", desc: "Add a custom text watermark to your image.", icon: "✎", tag: "Custom" },
+  { id: "watermark", title: "Image Watermark", desc: "Add text or a transparent logo watermark with position and opacity controls.", icon: "✎", tag: "Custom" },
   { id: "rounded", title: "Rounded Corners", desc: "Create smooth rounded image corners.", icon: "▢", tag: "Transparent PNG" },
   { id: "blur", title: "Image Blur", desc: "Apply adjustable blur to the full image.", icon: "◌", tag: "Creative" },
   { id: "grayscale", title: "Grayscale Converter", desc: "Convert an image to monochrome.", icon: "◐", tag: "One click" },
