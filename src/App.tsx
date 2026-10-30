@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ArrowDownToLine, ArrowRight, Check, ChevronDown, FileImage, Image as ImageIcon, LockKeyhole, Menu, RotateCcw, ShieldCheck, Sparkles, UploadCloud, X } from "lucide-react";
+import { ArrowDownToLine, ArrowRight, Check, FileImage, Image as ImageIcon, LockKeyhole, Menu, RotateCcw, ShieldCheck, Sparkles, UploadCloud, X } from "lucide-react";
 import { formatBytes, outputName, renderImage, type ImageFormat } from "./lib/image";
 
 type ToolId = "compress" | "resize" | "convert" | "edit";
