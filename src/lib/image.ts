@@ -199,6 +199,44 @@ export async function renderImageToTargetSize(file: File, options: RenderOptions
   return bestWithin ?? bestAny ?? { blob: await renderImage(file, { ...options, format: mime, quality: 0.1 }), quality: 0.1, targetReached: false };
 }
 
+
+export interface PaletteColor {
+  hex: string;
+  count: number;
+}
+
+export function buildPaletteFromPixels(pixels: Uint8ClampedArray, maxColors = 5): PaletteColor[] {
+  const counts = new Map<string, number>();
+  for (let index = 0; index + 3 < pixels.length; index += 4) {
+    if (pixels[index + 3] < 128) continue;
+    const quantize = (channel: number) => Math.min(255, Math.floor(channel / 32) * 32 + 16);
+    const hex = rgbToHex(quantize(pixels[index]), quantize(pixels[index + 1]), quantize(pixels[index + 2]));
+    counts.set(hex, (counts.get(hex) ?? 0) + 1);
+  }
+  return Array.from(counts, ([hex, count]) => ({ hex, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, Math.max(1, Math.min(12, Math.floor(maxColors))));
+}
+
+export async function extractImagePalette(file: File, maxColors = 5): Promise<PaletteColor[]> {
+  if (!file.type.startsWith("image/")) throw new Error("Choose a valid image file.");
+  const bitmap = await createImageBitmap(file);
+  try {
+    const scale = Math.min(1, 64 / Math.max(bitmap.width, bitmap.height));
+    const width = Math.max(1, Math.round(bitmap.width * scale));
+    const height = Math.max(1, Math.round(bitmap.height * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) throw new Error("Your browser could not extract a color palette.");
+    ctx.drawImage(bitmap, 0, 0, width, height);
+    return buildPaletteFromPixels(ctx.getImageData(0, 0, width, height).data, maxColors);
+  } finally {
+    bitmap.close();
+  }
+}
+
 export async function sampleImageColor(file: File, normalizedX: number, normalizedY: number): Promise<{ r: number; g: number; b: number; hex: string }> {
   if (!file.type.startsWith("image/")) throw new Error("Choose a valid image file.");
   const bitmap = await createImageBitmap(file);
