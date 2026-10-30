@@ -149,4 +149,49 @@ describe("PixelTools ease-of-use workflows", () => {
     render(<App />);
     expect(screen.getByRole("dialog", { name: "Image Resizer" })).toBeTruthy();
   });
+
+  it("offers safe resize fit choices and reset restores the original dimensions", async () => {
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 1200, false);
+    view.setUint32(20, 800, false);
+    const image = new File([buffer], "resize-source.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Resizer/ }));
+    const input = container.querySelector<HTMLInputElement>('input[type="file"]');
+    fireEvent.change(input as HTMLInputElement, { target: { files: [image] } });
+    await screen.findByAltText("Selected image preview");
+    const fit = screen.getByLabelText("How should the image fit?");
+    expect((fit as HTMLSelectElement).value).toBe("contain");
+    fireEvent.change(fit, { target: { value: "stretch" } });
+    const width = screen.getByLabelText("Width (pixels)");
+    fireEvent.change(width, { target: { value: "500" } });
+    fireEvent.click(screen.getByRole("button", { name: "Reset settings to defaults" }));
+    expect((screen.getByLabelText("Width (pixels)") as HTMLInputElement).value).toBe("1200");
+    expect((screen.getByLabelText("Height (pixels)") as HTMLInputElement).value).toBe("800");
+    expect((screen.getByLabelText("How should the image fit?") as HTMLSelectElement).value).toBe("contain");
+  });
+
+  it("provides a labeled checkbox for aspect ratio and no dangling form labels", async () => {
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const image = new File([buffer], "flip-source.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Resizer/ }));
+    const input = container.querySelector<HTMLInputElement>('input[type="file"]');
+    fireEvent.change(input as HTMLInputElement, { target: { files: [image] } });
+    await screen.findByAltText("Selected image preview");
+    expect(screen.getByLabelText("Keep original aspect ratio")).toBeTruthy();
+    const ids = Array.from(container.querySelectorAll<HTMLElement>("[id]")).map(element => element.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    const labels = Array.from(container.querySelectorAll<HTMLLabelElement>("label[for]"));
+    for (const label of labels) expect(container.querySelector("#" + CSS.escape(label.htmlFor))).toBeTruthy();
+  });
+
 });
