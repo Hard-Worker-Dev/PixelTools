@@ -67,6 +67,7 @@ export default function App() {
   const [targetSizeKb, setTargetSizeKb] = useState("200");
   const [compressionMessage, setCompressionMessage] = useState("");
   const [aspectLocked, setAspectLocked] = useState(true);
+  const [resizeFitMode, setResizeFitMode] = useState<"contain" | "cover" | "stretch">("contain");
   const [cropRatio, setCropRatio] = useState("free");
   const [toolSearch, setToolSearch] = useState("");
   const [toolCategory, setToolCategory] = useState("all");
@@ -182,6 +183,41 @@ export default function App() {
     });
   };
 
+  const resetOptions = () => {
+    setQuality(80);
+    setCompressionMode("quality");
+    setTargetSizeKb("200");
+    setCompressionMessage("");
+    setAspectLocked(true);
+    setResizeFitMode("contain");
+    setCropRatio("free");
+    setCropX("0");
+    setCropY("0");
+    setCropWidth(String(dimensions.width));
+    setCropHeight(String(dimensions.height));
+    setCropSelectionValue(dimensions.width > 0 && dimensions.height > 0
+      ? { x1: 0, y1: 0, x2: 1, y2: 1 }
+      : null);
+    setFormat("image/webp");
+    setRotate(0);
+    setFlipX(false);
+    setFlipY(false);
+    setWatermark("PixelTools");
+    setWatermarkColor("#FFFFFF");
+    setWatermarkPosition("bottom-right");
+    setWatermarkOpacity(70);
+    setWatermarkSize(3.5);
+    setJpegBackground("#FFFFFF");
+    setCornerRadius(32);
+    setBlur(4);
+    setBase64Mode("data-url");
+    setSample(null);
+    setCopied(false);
+    setResult(null);
+    setResultPreview("");
+    setError("");
+  };
+
   const cropPointFromEvent = (event: PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     return {
@@ -254,6 +290,7 @@ export default function App() {
     setFlipX(false);
     setFlipY(false);
     setAspectLocked(true);
+    setResizeFitMode("contain");
     setCropRatio("free");
     setCropX("0");
     setCropY("0");
@@ -344,6 +381,7 @@ export default function App() {
           }
           options.width = w;
           options.height = h;
+          options.fitMode = resizeFitMode;
           break;
         }
         case "crop": {
