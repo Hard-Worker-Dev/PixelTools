@@ -105,3 +105,7 @@ footer .footer-links{display:flex;align-items:center;gap:14px}footer .footer-lin
 .preview-image-frame.crop-mode{cursor:crosshair;touch-action:none;user-select:none;-webkit-user-select:none}
 .crop-selection-overlay{position:absolute;z-index:2;border:2px dashed #fff;background:#ffffff12;box-shadow:0 0 0 1000px rgba(13,17,35,.48),inset 0 0 0 1px #6258d9;pointer-events:none}
 @media(max-width:560px){.preview-image-frame{max-height:240px}.crop-selection-overlay{border-width:2px}}
+
+.settings-label{font-size:11px;font-weight:700;color:#4a5368;margin:0}
+.reset-options{margin-top:2px}
+@media(max-width:560px){.settings-label{font-size:11px}}
