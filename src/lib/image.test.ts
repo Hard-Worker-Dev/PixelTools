@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { centeredCropForRatio, clampCrop, formatBytes, getOutputMime, outputName, renderImageToTargetSize, rgbToHex, rgbToHsl, rotatedBounds } from "./image";
+import { buildPaletteFromPixels, centeredCropForRatio, clampCrop, formatBytes, getOutputMime, outputName, renderImageToTargetSize, rgbToHex, rgbToHsl, rotatedBounds } from "./image";
 
 describe("image utilities", () => {
   it("formats byte sizes consistently", () => {
@@ -74,6 +74,20 @@ describe("image utilities", () => {
   it("rejects non-image files in target-size mode", async () => {
     const file = new File(["not an image"], "notes.txt", { type: "text/plain" });
     await expect(renderImageToTargetSize(file, { format: "image/webp" }, 20 * 1024)).rejects.toThrow("Choose a valid image file.");
+  });
+
+  it("extracts the most common visible palette colors and ignores transparent pixels", () => {
+    const pixels = new Uint8ClampedArray([
+      255, 0, 0, 255, 250, 5, 5, 255, 0, 0, 255, 255,
+      0, 0, 255, 255, 0, 0, 255, 255, 20, 20, 240, 255,
+      0, 255, 0, 0
+    ]);
+    const palette = buildPaletteFromPixels(pixels, 3);
+    expect(palette[0].hex).toBe("#F01010");
+    expect(palette[0].count).toBe(2);
+    expect(palette[1].hex).toBe("#1010F0");
+    expect(palette[1].count).toBe(3);
+    expect(palette).toHaveLength(2);
   });
 
   it("normalizes RGB values into uppercase hex colors", () => {
