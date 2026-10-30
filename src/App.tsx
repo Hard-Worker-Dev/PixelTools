@@ -199,10 +199,12 @@ export default function App() {
     if (inputRef.current) inputRef.current.value = "";
     const supported = ["image/jpeg", "image/png", "image/webp"];
     if (!supported.includes(picked.type)) {
+      clear();
       setError("Choose a JPG, PNG or WebP image. Other formats are not supported in this release.");
       return;
     }
     if (picked.size > 25 * 1024 * 1024) {
+      clear();
       setError("For this release, please choose an image smaller than 25 MB.");
       return;
     }
