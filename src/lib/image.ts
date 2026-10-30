@@ -26,6 +26,71 @@ export interface RenderOptions {
   backgroundColor?: string;
 }
 
+
+export interface ImageDimensions {
+  width: number;
+  height: number;
+}
+
+export async function readImageDimensions(file: File): Promise<ImageDimensions> {
+  const bytes = new Uint8Array(await file.slice(0, 1024 * 1024).arrayBuffer());
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const ascii = (offset: number, length: number) => String.fromCharCode(...bytes.subarray(offset, offset + length));
+  const dimensions = (width: number, height: number): ImageDimensions => {
+    if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1) throw new Error("The image header contains invalid dimensions.");
+    return { width, height };
+  };
+
+  if (file.type === "image/png" && bytes.length >= 24 && ascii(0, 8) === "\u0089PNG\r\n\u001a\n") {
+    return dimensions(view.getUint32(16, false), view.getUint32(20, false));
+  }
+
+  if (file.type === "image/jpeg" && bytes.length >= 4 && bytes[0] === 0xff && bytes[1] === 0xd8) {
+    const sof = new Set([0xc0,0xc1,0xc2,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd,0xce,0xcf]);
+    let offset = 2;
+    while (offset + 4 < bytes.length) {
+      if (bytes[offset] !== 0xff) { offset += 1; continue; }
+      while (offset < bytes.length && bytes[offset] === 0xff) offset += 1;
+      if (offset >= bytes.length) break;
+      const marker = bytes[offset++];
+      if (marker === 0xd8 || marker === 0xd9 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) continue;
+      if (offset + 2 > bytes.length) break;
+      const length = view.getUint16(offset, false);
+      if (length < 2 || offset + length > bytes.length) break;
+      if (sof.has(marker) && length >= 7) {
+        return dimensions(view.getUint16(offset + 5, false), view.getUint16(offset + 3, false));
+      }
+      offset += length;
+    }
+  }
+
+  if (file.type === "image/webp" && bytes.length >= 30 && ascii(0, 4) === "RIFF" && ascii(8, 4) === "WEBP") {
+    let offset = 12;
+    while (offset + 8 <= bytes.length) {
+      const kind = ascii(offset, 4);
+      const chunkLength = view.getUint32(offset + 4, true);
+      const data = offset + 8;
+      if (data + chunkLength > bytes.length) break;
+      if (kind === "VP8X" && chunkLength >= 10) {
+        const width = 1 + bytes[data + 4] + (bytes[data + 5] << 8) + (bytes[data + 6] << 16);
+        const height = 1 + bytes[data + 7] + (bytes[data + 8] << 8) + (bytes[data + 9] << 16);
+        return dimensions(width, height);
+      }
+      if (kind === "VP8L" && chunkLength >= 5 && bytes[data] === 0x2f) {
+        const b1 = bytes[data + 1], b2 = bytes[data + 2], b3 = bytes[data + 3], b4 = bytes[data + 4];
+        const width = 1 + (b1 & 0x3f) + ((b2 & 0x3f) << 6);
+        const height = 1 + ((b2 >> 6) & 0x03) + (b3 << 2) + ((b4 & 0x0f) << 10);
+        return dimensions(width, height);
+      }
+      if (kind === "VP8 " && chunkLength >= 10 && bytes[data + 3] === 0x9d && bytes[data + 4] === 0x01 && bytes[data + 5] === 0x2a) {
+        return dimensions(view.getUint16(data + 6, true) & 0x3fff, view.getUint16(data + 8, true) & 0x3fff);
+      }
+      offset += 8 + chunkLength + (chunkLength & 1);
+    }
+  }
+  throw new Error("Could not read image dimensions from this file. Re-export it as a valid JPG, PNG or WebP image and try again.");
+}
+
 export function formatBytes(bytes: number): string {
   if (!Number.isFinite(bytes) || bytes < 0) return "0 B";
   if (bytes < 1024) return `${bytes} B`;
