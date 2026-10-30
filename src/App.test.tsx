@@ -40,6 +40,14 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
+  it("opens the metadata cleaner tool workspace", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /Image Metadata Cleaner/ }));
+    expect(screen.getByRole("dialog", { name: "Image Metadata Cleaner" })).toBeTruthy();
+    expect(screen.getByText(/re-encoding the image/i)).toBeTruthy();
+  });
+
   it("opens a requested tool from a shareable URL", () => {
     window.history.replaceState({}, "", "/?tool=resize#tools");
     render(<App />);
