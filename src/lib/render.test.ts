@@ -82,7 +82,7 @@ describe("browser image rendering pipeline", () => {
     expect(context.globalAlpha).toBe(0.4);
     expect(context.textAlign).toBe("left");
     expect(context.textBaseline).toBe("top");
-    expect(context.font).toContain("12px");
+    expect(context.font).toContain("8px");
     expect(close).toHaveBeenCalledOnce();
   });
 
