@@ -165,6 +165,40 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
   }
 }
 
+export interface TargetCompressionResult {
+  blob: Blob;
+  quality: number;
+  targetReached: boolean;
+}
+
+export async function renderImageToTargetSize(file: File, options: RenderOptions, targetBytes: number, iterations = 6): Promise<TargetCompressionResult> {
+  if (!file.type.startsWith("image/")) throw new Error("Choose a valid image file.");
+  if (!Number.isFinite(targetBytes) || targetBytes < 1024 || targetBytes > 25 * 1024 * 1024) {
+    throw new Error("Choose a target between 1 KB and 25 MB.");
+  }
+  const mime = getOutputMime(options.format ?? "image/webp");
+  if (mime === "image/png") throw new Error("Target-size compression is available for JPG and WebP. PNG uses lossless encoding.");
+  const steps = Math.max(3, Math.min(8, Math.floor(iterations)));
+  let low = 0.1;
+  let high = Math.min(1, Math.max(0.1, options.quality ?? 0.92));
+  let bestAny: TargetCompressionResult | null = null;
+  let bestWithin: TargetCompressionResult | null = null;
+  for (let index = 0; index < steps; index += 1) {
+    const quality = index === 0 ? high : (low + high) / 2;
+    const blob = await renderImage(file, { ...options, format: mime, quality });
+    const result = { blob, quality, targetReached: blob.size <= targetBytes };
+    if (!bestAny || blob.size < bestAny.blob.size) bestAny = result;
+    if (result.targetReached) {
+      if (!bestWithin || quality > bestWithin.quality) bestWithin = result;
+      low = quality;
+    } else {
+      high = quality;
+    }
+    if (bestWithin && bestWithin.blob.size <= targetBytes && high - low < 0.015) break;
+  }
+  return bestWithin ?? bestAny ?? { blob: await renderImage(file, { ...options, format: mime, quality: 0.1 }), quality: 0.1, targetReached: false };
+}
+
 export async function sampleImageColor(file: File, normalizedX: number, normalizedY: number): Promise<{ r: number; g: number; b: number; hex: string }> {
   if (!file.type.startsWith("image/")) throw new Error("Choose a valid image file.");
   const bitmap = await createImageBitmap(file);
