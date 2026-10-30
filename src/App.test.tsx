@@ -100,6 +100,31 @@ describe("PixelTools ease-of-use workflows", () => {
     fireEvent(window, new PopStateEvent("popstate"));
     expect(screen.queryByRole("dialog")).toBeNull();
   });
+  it("updates precise crop coordinates when a user drags across the preview", async () => {
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 1000, false);
+    view.setUint32(20, 500, false);
+    const image = new File([buffer], "crop-source.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Cropper/ }));
+    const fileInput = container.querySelector<HTMLInputElement>('input[type="file"]');
+    fireEvent.change(fileInput as HTMLInputElement, { target: { files: [image] } });
+    await screen.findByAltText("Selected image preview");
+    const frame = container.querySelector<HTMLDivElement>(".preview-image-frame");
+    expect(frame).toBeTruthy();
+    vi.spyOn(frame as HTMLDivElement, "getBoundingClientRect").mockReturnValue({
+      x: 0, y: 0, left: 0, top: 0, right: 100, bottom: 100, width: 100, height: 100,
+      toJSON: () => ({})
+    } as DOMRect);
+    fireEvent.pointerDown(frame as HTMLDivElement, { pointerId: 1, clientX: 10, clientY: 10 });
+    fireEvent.pointerMove(frame as HTMLDivElement, { pointerId: 1, clientX: 60, clientY: 70 });
+    fireEvent.pointerUp(frame as HTMLDivElement, { pointerId: 1, clientX: 60, clientY: 70 });
+    const cropFields = Array.from(container.querySelectorAll<HTMLInputElement>(".field-grid input"));
+    expect(cropFields.map(field => field.value)).toEqual(["100", "50", "500", "300"]);
+  });
   it("opens a requested tool from a shareable URL", () => {
     window.history.replaceState({}, "", "/?tool=resize#tools");
     render(<App />);
