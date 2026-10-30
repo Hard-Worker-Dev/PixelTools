@@ -194,4 +194,31 @@ describe("PixelTools ease-of-use workflows", () => {
     for (const label of labels) expect(ids).toContain(label.htmlFor);
   });
 
+
+  it("lets users upload and configure a transparent logo watermark", async () => {
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const source = new File([buffer], "photo.png", { type: "image/png" });
+    const logo = new File([buffer], "brand-mark.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Watermark/ }));
+    const sourceInput = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(sourceInput as HTMLInputElement, { target: { files: [source] } });
+    await screen.findByAltText("Selected image preview");
+    fireEvent.change(screen.getByLabelText("Watermark type"), { target: { value: "image" } });
+    fireEvent.click(screen.getByRole("button", { name: /Choose transparent PNG/ }));
+    const logoInput = container.querySelector<HTMLInputElement>('input[accept="image/png,image/webp"]');
+    expect(logoInput).toBeTruthy();
+    fireEvent.change(logoInput as HTMLInputElement, { target: { files: [logo] } });
+    expect(await screen.findByAltText("Selected watermark logo")).toBeTruthy();
+    expect(screen.getByRole("button", { name: /Change logo: brand-mark.png/ })).toBeTruthy();
+    expect(screen.getByLabelText("Logo width")).toBeTruthy();
+    expect(screen.getByLabelText("Position")).toBeTruthy();
+    expect(screen.getByLabelText("Opacity")).toBeTruthy();
+  });
+
 });
