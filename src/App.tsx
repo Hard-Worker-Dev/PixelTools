@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import exifr from "exifr";
 import {
   ArrowDownToLine, ArrowRight, Check, Copy, FileImage, Image as ImageIcon,
   LockKeyhole, Menu, RotateCcw, ShieldCheck, Sparkles, UploadCloud, X
@@ -178,18 +179,26 @@ export default function App() {
     }
     setFile(picked);
     setResult(null);
+    setResultPreview("");
     setError("");
     setBase64Text("");
     setSample(null);
     setPreview(URL.createObjectURL(picked));
+    if (inputRef.current) inputRef.current.value = "";
     createImageBitmap(picked).then(bitmap => {
+      if (bitmap.width > 12000 || bitmap.height > 12000 || bitmap.width * bitmap.height > 60000000) {
+        bitmap.close();
+        setFile(null); setPreview("");
+        setError("This image is too large to process safely. Maximum dimensions are 12,000 px per side and 60 megapixels total.");
+        return;
+      }
       setDimensions({ width: bitmap.width, height: bitmap.height });
       setWidth(String(bitmap.width));
       setHeight(String(bitmap.height));
       setCropWidth(String(bitmap.width));
       setCropHeight(String(bitmap.height));
       bitmap.close();
-    }).catch(() => setError("This image could not be opened by your browser."));
+    }).catch(() => { setFile(null); setPreview(""); setError("This image could not be opened by your browser. Try exporting it as JPG, PNG or WebP."); });
   };
 
   const process = async () => {
@@ -197,6 +206,7 @@ export default function App() {
     setBusy(true);
     setError("");
     setResult(null);
+    setResultPreview("");
     try {
       const options: RenderOptions = { quality: quality / 100, format };
       switch (active) {
@@ -277,7 +287,7 @@ export default function App() {
     anchor.href = url;
     anchor.download = outputName(file.name, mime);
     anchor.click();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => URL.revokeObjectURL(url), 1500);
   };
 
   const sampleColor = async (event: MouseEvent<HTMLImageElement>) => {
@@ -407,7 +417,7 @@ export default function App() {
 
     {active && <div className="modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) closeTool() }}>
       <section className="tool-modal" role="dialog" aria-modal="true" aria-label={toolName}>
-        <div className="modal-head"><div><div className="eyebrow">PIXELTOOLS WORKSPACE</div><h2>{toolName}</h2></div><button className="icon-btn" aria-label="Close tool" onClick={() => { setActive(null); clear(); }}><X size={20}/></button></div>
+        <div className="modal-head"><div><div className="eyebrow">PIXELTOOLS WORKSPACE</div><h2>{toolName}</h2><p className="modal-subtitle">{tools.find(t => t.id === active)?.desc}</p></div><button className="icon-btn" aria-label="Close tool" onClick={() => { setActive(null); clear(); }}><X size={20}/></button></div>
         <div className="workflow-steps" aria-label="Tool workflow"><span className={!file ? "current" : "done"}><b>1</b> Add image</span><span className={file ? "current" : ""}><b>2</b> Adjust options</span><span className={result ? "done current" : ""}><b>3</b> Download</span></div>
         {!file ? <button className="dropzone" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); selectFile(e.dataTransfer.files[0]); }}><span className="upload-icon"><UploadCloud size={28}/></span><b>Drop your image here</b><span>or click to browse files</span><small>JPG, PNG, WebP · Up to 25 MB</small></button> : <div className="workspace">
           <div className="preview-panel">
@@ -432,12 +442,12 @@ export default function App() {
             {error && <p className="error-msg">{error}</p>}
             {!informationalTool && <button className="primary-btn process-btn" onClick={process} disabled={busy}>{busy ? "Processing…" : result ? "Process again" : "Process image"} <ArrowRight size={16}/></button>}
             {result && <div className="result-box"><div><Check size={17}/><b>Your image is ready</b></div>{resultPreview && <img className="result-preview" src={resultPreview} alt="Processed image preview"/>}<p className="result-sizes"><span>Original <strong>{formatBytes(file.size)}</strong></span><ArrowRight size={13}/><span>New file <strong>{formatBytes(result.size)}</strong></span></p><p className="result-savings">{result.size <= file.size ? `${Math.round((file.size-result.size)/file.size*100)}% smaller` : `${Math.round((result.size-file.size)/file.size*100)}% larger`} than original</p><button className="download-btn" onClick={download}><ArrowDownToLine size={16}/> Download image</button></div>}
-            <button className="change-file" onClick={clear}><RotateCcw size={13}/> Choose another image</button>
+            <button className="change-file" onClick={() => inputRef.current?.click()}><RotateCcw size={13}/> Replace image</button>
           </div>
         </div>}
         {error && !file && <p className="error-msg">{error}</p>}
         <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={e => selectFile(e.target.files?.[0])}/>
-        <div className="modal-foot"><LockKeyhole size={14}/> Files are processed locally in your browser <button onClick={() => { setActive(null); clear(); }}>Close</button></div>
+        <div className="modal-foot"><LockKeyhole size={14}/> Files are processed locally in your browser <button onClick={closeTool}>Close</button></div>
       </section>
     </div>}
   </div>;
