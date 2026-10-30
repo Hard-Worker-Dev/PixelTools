@@ -34,6 +34,24 @@ describe("published site contract", () => {
     const paths = ["/","/about/","/privacy/","/terms/","/contact/","/tools/image-compressor/","/tools/image-resizer/","/tools/image-cropper/","/tools/image-converter/","/tools/image-rotator/","/tools/image-flipper/","/tools/image-watermark/","/tools/rounded-corners/","/tools/image-blur/","/tools/grayscale-converter/","/tools/image-color-picker/","/tools/image-metadata-viewer/","/tools/image-to-base64/","/tools/image-metadata-cleaner/"];
     for (const path of paths) expect(sitemap).toContain("https://pixeltools-9xe.pages.dev" + path);
   });
+  it("keeps every static page internal navigation link resolvable", () => {
+    const sitemap = read("public/sitemap.xml");
+    const routes = Array.from(sitemap.matchAll(/<loc>https:\/\/pixeltools-9xe\.pages\.dev([^<]*)<\/loc>/g), match => match[1]);
+    const pages = ["index.html", ...routes.filter(route => route !== "/").map(route => "public/" + route.replace(/^\//, "") + "index.html"), "public/404.html"];
+    for (const page of pages) {
+      const html = read(page);
+      const links = Array.from(html.matchAll(/href="([^"]+)"/g), match => match[1]);
+      for (const href of links) {
+        if (!href.startsWith("/") || href.startsWith("//")) continue;
+        const route = href.split(/[?#]/)[0];
+        if (!route) continue;
+        const target = route === "/" ? "index.html" : route.endsWith("/")
+          ? "public/" + route.replace(/^\//, "") + "index.html"
+          : "public/" + route.replace(/^\//, "");
+        expect(existsSync(resolve(root, target)), page + " -> " + href).toBe(true);
+      }
+    }
+  });
   it("ships baseline browser security headers", () => {
     const headers = read("public/_headers");
     for (const value of ["X-Content-Type-Options: nosniff","Referrer-Policy:","X-Frame-Options: DENY","Content-Security-Policy:","frame-ancestors \'none\'"]) expect(headers).toContain(value);
