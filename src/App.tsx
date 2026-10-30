@@ -157,6 +157,8 @@ export default function App() {
     clear();
     setRotate(0);
     setFlipAxis("horizontal");
+    setAspectLocked(true);
+    setCropRatio("free");
     setCropX("0");
     setCropY("0");
     setWatermark("PixelTools");
@@ -327,7 +329,7 @@ export default function App() {
     anchor.href = url;
     anchor.download = `${file.name}.base64.txt`;
     anchor.click();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => URL.revokeObjectURL(url), 1500);
   };
 
   const toolName = tools.find(t => t.id === active)?.title ?? "";
@@ -402,7 +404,7 @@ export default function App() {
           <input id="tool-search" className="tool-search" type="search" placeholder="Search compressor, crop, watermark…" value={toolSearch} onChange={e => setToolSearch(e.target.value)} />
           <div className="tool-filters" role="group" aria-label="Filter image tools">
             {[
-              ["all","All tools"],["optimize","Optimize"],["edit","Edit"],["inspect","Inspect & convert"]
+              ["all","All tools"],["optimize","Optimize"],["edit","Edit"],["inspect","Inspect & data"]
             ].map(([value,label]) => <button type="button" key={value} className={toolCategory === value ? "filter-chip active" : "filter-chip"} aria-pressed={toolCategory === value} onClick={() => setToolCategory(value)}>{label}</button>)}
           </div>
           <p className="tool-count" role="status">{filteredTools.length} tools found</p>
@@ -421,7 +423,7 @@ export default function App() {
         <div className="workflow-steps" aria-label="Tool workflow"><span className={!file ? "current" : "done"}><b>1</b> Add image</span><span className={file ? "current" : ""}><b>2</b> Adjust options</span><span className={result ? "done current" : ""}><b>3</b> Download</span></div>
         {!file ? <button className="dropzone" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); selectFile(e.dataTransfer.files[0]); }}><span className="upload-icon"><UploadCloud size={28}/></span><b>Drop your image here</b><span>or click to browse files</span><small>JPG, PNG, WebP · Up to 25 MB</small></button> : <div className="workspace">
           <div className="preview-panel">
-            <img src={preview} alt="Selected image preview" onClick={active === "color" ? sampleColor : undefined} className={active === "color" ? "sample-cursor" : ""}/>
+            <img src={preview} alt="Selected image preview" onClick={active === "color" ? sampleColor : undefined} onKeyDown={active === "color" ? async e => { if ((e.key === "Enter" || e.key === " ") && file) { e.preventDefault(); try { setSample(await sampleImageColor(file, 0.5, 0.5)); } catch { setError("Could not sample the center pixel."); } } } : undefined} tabIndex={active === "color" ? 0 : undefined} role={active === "color" ? "button" : undefined} aria-label={active === "color" ? "Sample image color. Click or press Enter to read the center pixel." : undefined} className={active === "color" ? "sample-cursor" : ""}/>
             <div className="preview-caption"><span>{file.name}</span><b>{formatBytes(file.size)}</b></div>
             {active === "color" && <small className="hint">Click anywhere on the image to sample a pixel.</small>}
           </div>
@@ -436,16 +438,16 @@ export default function App() {
             {active === "rounded" && <><label>Corner radius <b>{cornerRadius}px</b></label><input type="range" min="4" max="240" value={cornerRadius} onChange={e => setCornerRadius(Number(e.target.value))}/><p className="hint">The output is PNG so transparent rounded corners are preserved.</p></>}
             {active === "blur" && <><label>Blur strength <b>{blur}px</b></label><input type="range" min="1" max="20" value={blur} onChange={e => setBlur(Number(e.target.value))}/><label>Output format</label><select className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select></>}
             {active === "grayscale" && <><p className="hint">Convert the image to grayscale while preserving its dimensions.</p><label>Output format</label><select className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select></>}
-            {active === "color" && <>{sample ? <div className="sample-result"><span style={{ background: sample.hex }}></span><div><b>{sample.hex}</b><small>RGB({sample.r}, {sample.g}, {sample.b})</small></div><button className="secondary-btn" onClick={() => copyText(sample.hex)}><Copy size={14}/>{copied ? "Copied" : "Copy HEX"}</button></div> : <p className="hint">Click on the image preview to read the pixel color. The sample is taken from the original image, not the scaled preview.</p>}</>}
+            {active === "color" && <>{sample ? <div className="sample-result"><span style={{ background: sample.hex }}></span><div><b>{sample.hex}</b><small>RGB({sample.r}, {sample.g}, {sample.b})</small></div><button className="secondary-btn" onClick={() => copyText(sample.hex)}><Copy size={14}/>{copied ? "Copied" : "Copy HEX"}</button><button className="secondary-btn" onClick={() => copyText(`rgb(${sample.r}, ${sample.g}, ${sample.b})`)}><Copy size={14}/>Copy RGB</button></div> : <p className="hint">Click a pixel on the image, or focus the preview and press Enter to sample its center. The color is read from the original file.</p>}</>}
             {active === "metadata" && <div className="metadata-list"><div><span>File name</span><b>{file.name}</b></div><div><span>Format / MIME</span><b>{file.type}</b></div><div><span>File size</span><b>{formatBytes(file.size)}</b></div><div><span>Dimensions</span><b>{dimensions.width} × {dimensions.height} px</b></div><div><span>Last modified</span><b>{new Date(file.lastModified).toLocaleString()}</b></div>{exifData && Object.entries(exifData).filter(([key,value]) => ["Make","Model","DateTimeOriginal","CreateDate","ModifyDate","LensModel","ISO","FNumber","ExposureTime","FocalLength","Orientation","Software","GPSLatitude","GPSLongitude"].includes(key) && value != null).map(([key,value]) => <div key={key}><span>{key}</span><b>{Array.isArray(value) ? value.join(", ") : value instanceof Date ? value.toLocaleString() : String(value)}</b></div>)}<p className="metadata-privacy">EXIF can contain camera details and sometimes GPS coordinates. This information is read locally and never uploaded by PixelTools.</p>{!exifData && <p className="hint">No readable EXIF data was found in this image. Some formats and apps strip camera metadata.</p>}</div>}
             {active === "base64" && <><label>Base64 data URL</label><textarea className="base64-output" readOnly value={base64Text} placeholder="Encoding image…" rows={8}/><div className="button-row"><button className="secondary-btn" onClick={() => copyText(base64Text)} disabled={!base64Text}><Copy size={14}/>{copied ? "Copied" : "Copy Base64"}</button><button className="secondary-btn" onClick={saveBase64} disabled={!base64Text}><ArrowDownToLine size={14}/> Save .txt</button></div><p className="hint">Base64 is larger than the original binary image. Avoid embedding very large images directly in HTML or CSS.</p></>}
-            {error && <p className="error-msg">{error}</p>}
-            {!informationalTool && <button className="primary-btn process-btn" onClick={process} disabled={busy}>{busy ? "Processing…" : result ? "Process again" : "Process image"} <ArrowRight size={16}/></button>}
-            {result && <div className="result-box"><div><Check size={17}/><b>Your image is ready</b></div>{resultPreview && <img className="result-preview" src={resultPreview} alt="Processed image preview"/>}<p className="result-sizes"><span>Original <strong>{formatBytes(file.size)}</strong></span><ArrowRight size={13}/><span>New file <strong>{formatBytes(result.size)}</strong></span></p><p className="result-savings">{result.size <= file.size ? `${Math.round((file.size-result.size)/file.size*100)}% smaller` : `${Math.round((result.size-file.size)/file.size*100)}% larger`} than original</p><button className="download-btn" onClick={download}><ArrowDownToLine size={16}/> Download image</button></div>}
+            {error && <p className="error-msg" role="alert" aria-live="polite">{error}</p>}
+            {!informationalTool && <button className="primary-btn process-btn" onClick={process} disabled={busy || !dimensions.width}>{busy ? "Processing…" : result ? "Process again" : "Process image"} <ArrowRight size={16}/></button>}
+            {result && <div className="result-box" role="status" aria-live="polite"><div><Check size={17}/><b>Your image is ready</b></div>{resultPreview && <img className="result-preview" src={resultPreview} alt="Processed image preview"/>}<p className="result-sizes"><span>Original <strong>{formatBytes(file.size)}</strong></span><ArrowRight size={13}/><span>New file <strong>{formatBytes(result.size)}</strong></span></p><p className="result-savings">{result.size <= file.size ? `${Math.round((file.size-result.size)/file.size*100)}% smaller` : `${Math.round((result.size-file.size)/file.size*100)}% larger`} than original</p><button className="download-btn" onClick={download}><ArrowDownToLine size={16}/> Download image</button></div>}
             <button className="change-file" onClick={() => inputRef.current?.click()}><RotateCcw size={13}/> Replace image</button>
           </div>
         </div>}
-        {error && !file && <p className="error-msg">{error}</p>}
+        {error && !file && <p className="error-msg" role="alert" aria-live="polite">{error}</p>}
         <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={e => selectFile(e.target.files?.[0])}/>
         <div className="modal-foot"><LockKeyhole size={14}/> Files are processed locally in your browser <button onClick={closeTool}>Close</button></div>
       </section>
