@@ -5,7 +5,7 @@ import {
   LockKeyhole, Menu, RotateCcw, ShieldCheck, Sparkles, UploadCloud, X
 } from "lucide-react";
 import {
-  centeredCropForRatio, formatBytes, outputName, renderImage, renderImageToTargetSize, rgbToHsl, sampleImageColor,
+  centeredCropForRatio, extractImagePalette, formatBytes, outputName, renderImage, renderImageToTargetSize, rgbToHsl, sampleImageColor,
   type ImageFormat, type RenderOptions
 } from "./lib/image";
 
@@ -92,6 +92,7 @@ export default function App() {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [base64Text, setBase64Text] = useState("");
   const [sample, setSample] = useState<{ r: number; g: number; b: number; hex: string } | null>(null);
+  const [palette, setPalette] = useState<Array<{ hex: string; count: number }>>([]);
   const [copied, setCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -121,6 +122,7 @@ export default function App() {
     setPreview("");
     setBase64Text("");
     setSample(null);
+    setPalette([]);
     setCopied(false);
     setDimensions({ width: 0, height: 0 });
     setExifData(null);
@@ -208,6 +210,7 @@ export default function App() {
     setError("");
     setBase64Text("");
     setSample(null);
+    setPalette([]);
     setPreview(URL.createObjectURL(picked));
     if (inputRef.current) inputRef.current.value = "";
     createImageBitmap(picked).then(bitmap => {
@@ -363,6 +366,22 @@ export default function App() {
     }
   };
 
+  const downloadTextFile = (filename: string, content: string) => {
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = filename;
+    anchor.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1500);
+  };
+
+  const saveMetadataReport = () => {
+    if (!file) return;
+    const report = { fileName: file.name, mimeType: file.type, sizeBytes: file.size, width: dimensions.width, height: dimensions.height, lastModified: new Date(file.lastModified).toISOString(), exif: exifData ?? null };
+    const baseName = file.name.replace(/\.[^.]+$/, "") || "image";
+    downloadTextFile(baseName + "-metadata.json", JSON.stringify(report, null, 2));
+  };
   const saveBase64 = () => {
     if (!base64Text || !file) return;
     const blob = new Blob([base64Text], { type: "text/plain;charset=utf-8" });
@@ -401,6 +420,13 @@ export default function App() {
     return () => { cancelled = true; };
   }, [active, file]);
 
+  useEffect(() => {
+    if (active !== "color" || !file) return;
+    let cancelled = false;
+    extractImagePalette(file, 6).then(colors => { if (!cancelled) setPalette(colors); })
+      .catch(() => { if (!cancelled) setPalette([]); });
+    return () => { cancelled = true; };
+  }, [active, file]);
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => { if (event.key === "Escape" && active) closeTool(); };
     window.addEventListener("keydown", handleKey);
