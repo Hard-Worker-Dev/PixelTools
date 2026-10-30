@@ -25,6 +25,7 @@ export interface RenderOptions {
   watermarkPosition?: "bottom-right" | "bottom-left" | "top-right" | "top-left" | "center";
   watermarkColor?: string;
   backgroundColor?: string;
+  fitMode?: "stretch" | "contain" | "cover";
 }
 
 
@@ -223,9 +224,17 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
       roundedRectPath(ctx, 0, 0, width, height, radius);
       ctx.clip();
     }
-    const scaleX = width / bounds.width;
-    const scaleY = height / bounds.height;
+    const fitMode = options.fitMode ?? "stretch";
+    const uniformScale = fitMode === "contain"
+      ? Math.min(width / bounds.width, height / bounds.height)
+      : fitMode === "cover"
+        ? Math.max(width / bounds.width, height / bounds.height)
+        : null;
+    const scaleX = uniformScale ?? width / bounds.width;
+    const scaleY = uniformScale ?? height / bounds.height;
     ctx.translate(width / 2, height / 2);
+    // "Contain" preserves the whole photo with empty canvas around it;
+    // "cover" fills the canvas and crops overflow; "stretch" changes proportions.
     ctx.scale(scaleX, scaleY);
     ctx.rotate((rotate * Math.PI) / 180);
     ctx.scale(options.flipX ? -1 : 1, options.flipY ? -1 : 1);
