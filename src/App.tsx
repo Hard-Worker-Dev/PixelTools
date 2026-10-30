@@ -40,8 +40,21 @@ function readAsDataUrl(file: File): Promise<string> {
   });
 }
 
+const toolSlugs: Record<ToolId, string> = {
+  compress: "image-compressor", resize: "image-resizer", crop: "image-cropper",
+  convert: "image-converter", rotate: "image-rotator", flip: "image-flipper",
+  watermark: "image-watermark", rounded: "rounded-corners", blur: "image-blur",
+  grayscale: "grayscale-converter", color: "image-color-picker",
+  metadata: "image-metadata-viewer", base64: "image-to-base64"
+};
+
+function getInitialTool(): ToolId | null {
+  const requested = new URLSearchParams(window.location.search).get("tool");
+  return tools.some(tool => tool.id === requested && !tool.comingSoon) ? requested as ToolId : null;
+}
+
 export default function App() {
-  const [active, setActive] = useState<ToolId | null>(null);
+  const [active, setActive] = useState<ToolId | null>(getInitialTool);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
   const [result, setResult] = useState<Blob | null>(null);
@@ -90,8 +103,15 @@ export default function App() {
     if (inputRef.current) inputRef.current.value = "";
   };
 
+  const closeTool = () => {
+    setActive(null);
+    clear();
+    window.history.replaceState({}, "", "/#tools");
+  };
+
   const chooseTool = (id: ToolId) => {
     setActive(id);
+    window.history.pushState({}, "", "/?tool=" + id + "#tools");
     clear();
     setRotate(90);
     setFlipAxis("horizontal");
@@ -252,11 +272,23 @@ export default function App() {
   };
 
   const toolName = tools.find(t => t.id === active)?.title ?? "";
+
+  useEffect(() => {
+    const tool = tools.find(item => item.id === active);
+    document.title = tool ? tool.title + " — Free Online Image Tool | PixelTools" : "PixelTools — Image work, made simple";
+    const description = tool ? tool.desc : "Free, private image tools. Compress, resize, convert and edit images right in your browser with PixelTools.";
+    let meta = document.querySelector<HTMLMetaElement>("meta[name=description]");
+    if (!meta) { meta = document.createElement("meta"); meta.name = "description"; document.head.appendChild(meta); }
+    meta.content = description;
+    let canonical = document.querySelector<HTMLLinkElement>("link[rel=canonical]");
+    if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
+    canonical.href = tool ? window.location.origin + "/tools/" + toolSlugs[active as ToolId] + "/" : window.location.origin + "/";
+  }, [active]);
   const informationalTool = active === "color" || active === "metadata" || active === "base64";
 
   return <div className="app-shell">
     <header className="topbar">
-      <a className="brand" href="#" onClick={() => { setActive(null); clear(); }}><span className="brand-mark"><ImageIcon size={19}/></span>pixel<span>tools</span></a>
+      <a className="brand" href="#" onClick={closeTool}><span className="brand-mark"><ImageIcon size={19}/></span>pixel<span>tools</span></a>
       <nav className={mobileMenuOpen ? "open" : ""}><a href="#tools" onClick={() => setMobileMenuOpen(false)}>All tools</a><a href="#how" onClick={() => setMobileMenuOpen(false)}>How it works</a><a href="#privacy" onClick={() => setMobileMenuOpen(false)}>Privacy</a></nav>
       <a className="header-cta" href="#tools">Explore tools <ArrowRight size={15}/></a>
       <button className="mobile-menu" aria-label="Toggle menu" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(v => !v)}><Menu size={21}/></button>
@@ -287,7 +319,7 @@ export default function App() {
     </main>
     <footer><a className="brand" href="#"><span className="brand-mark"><ImageIcon size={17}/></span>pixel<span>tools</span></a><p>Thoughtful image tools. Free for everyone.</p><small>© 2026 PixelTools. Made for the web.</small></footer>
 
-    {active && <div className="modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) { setActive(null); clear(); } }}>
+    {active && <div className="modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) closeTool() }}>
       <section className="tool-modal" role="dialog" aria-modal="true" aria-label={toolName}>
         <div className="modal-head"><div><div className="eyebrow">PIXELTOOLS WORKSPACE</div><h2>{toolName}</h2></div><button className="icon-btn" aria-label="Close tool" onClick={() => { setActive(null); clear(); }}><X size={20}/></button></div>
         {!file ? <button className="dropzone" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); selectFile(e.dataTransfer.files[0]); }}><span className="upload-icon"><UploadCloud size={28}/></span><b>Drop your image here</b><span>or click to browse files</span><small>JPG, PNG, WebP · Up to 25 MB</small></button> : <div className="workspace">
