@@ -28,3 +28,5 @@
   .field-grid{gap:0 8px}
   .sample-result{flex-wrap:wrap}
 }
+
+footer .footer-links{display:flex;align-items:center;gap:14px}footer .footer-links a{font-size:10px;color:#737c90;font-weight:600}footer .footer-links a:hover{color:#6657e8}@media(max-width:560px){footer .footer-links{order:4;flex-basis:100%;justify-content:flex-start;flex-wrap:wrap}}
