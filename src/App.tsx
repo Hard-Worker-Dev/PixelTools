@@ -446,7 +446,7 @@ export default function App() {
   }, [active]);
 
   useEffect(() => {
-    const handlePopState = () => { setActive(getInitialTool()); };
+    const handlePopState = () => { const nextTool = getInitialTool(); setActive(nextTool); if (nextTool === null) clear(); };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
