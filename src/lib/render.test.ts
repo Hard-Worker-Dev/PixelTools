@@ -87,7 +87,7 @@ describe("browser image rendering pipeline", () => {
   });
 
   it("finds the highest tested quality that stays within the requested file size", async () => {
-    toBlobSpy.mockImplementation((callback, type, quality) => {
+    toBlobSpy.mockImplementation((callback: BlobCallback, type?: string, quality?: number) => {
       const size = Math.max(1, Math.round((quality ?? 1) * 10000));
       callback(new Blob([new Uint8Array(size)], { type: type ?? "image/webp" }));
     });
@@ -101,7 +101,7 @@ describe("browser image rendering pipeline", () => {
   });
 
   it("returns the closest tested output and explains when the target is impossible", async () => {
-    toBlobSpy.mockImplementation((callback, type, quality) => {
+    toBlobSpy.mockImplementation((callback: BlobCallback, type?: string, quality?: number) => {
       const size = Math.max(1, Math.round((quality ?? 1) * 10000));
       callback(new Blob([new Uint8Array(size)], { type: type ?? "image/webp" }));
     });
