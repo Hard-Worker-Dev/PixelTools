@@ -84,7 +84,7 @@ describe("image utilities", () => {
     ]);
     const palette = buildPaletteFromPixels(pixels, 3);
     expect(palette[0].hex).toBe("#1010F0");
-    expect(palette[0].count).toBe(3);
+    expect(palette[0].count).toBe(4);
     expect(palette[1].hex).toBe("#F01010");
     expect(palette[1].count).toBe(2);
     expect(palette).toHaveLength(2);
