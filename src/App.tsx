@@ -108,6 +108,7 @@ export default function App() {
   const dialogRef = useRef<HTMLElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const fileSelectionId = useRef(0);
+  const watermarkSelectionId = useRef(0);
   const cropSelectionRef = useRef<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
   const cropDragging = useRef(false);
 
@@ -131,6 +132,7 @@ export default function App() {
 
   const clear = () => {
     fileSelectionId.current += 1;
+    watermarkSelectionId.current += 1;
     setFile(null);
     setResult(null);
     setResultPreview("");
@@ -221,6 +223,7 @@ export default function App() {
     setFlipY(false);
     setWatermark("PixelTools");
     setWatermarkMode("text");
+    watermarkSelectionId.current += 1;
     setWatermarkImageFile(null);
     setWatermarkImagePreview("");
     setWatermarkImageSize(20);
@@ -304,21 +307,35 @@ export default function App() {
     }
   };
 
-  const selectWatermarkImage = (picked?: File) => {
+  const selectWatermarkImage = async (picked?: File) => {
     if (!picked) return;
-    if (!["image/png", "image/webp"].includes(picked.type)) {
-      setError("Choose a transparent PNG or WebP logo image.");
+    const selectionId = ++watermarkSelectionId.current;
+    const rejectLogo = (message: string) => {
+      if (selectionId !== watermarkSelectionId.current) return;
+      setError(message);
       if (watermarkInputRef.current) watermarkInputRef.current.value = "";
+    };
+    if (!["image/png", "image/webp"].includes(picked.type)) {
+      rejectLogo("Choose a transparent PNG or WebP logo image.");
       return;
     }
     if (picked.size > 5 * 1024 * 1024) {
-      setError("Choose a logo smaller than 5 MB.");
-      if (watermarkInputRef.current) watermarkInputRef.current.value = "";
+      rejectLogo("Choose a logo smaller than 5 MB.");
       return;
     }
-    setError("");
-    setWatermarkImageFile(picked);
-    setWatermarkImagePreview(URL.createObjectURL(picked));
+    try {
+      const logoDimensions = await readImageDimensions(picked);
+      if (logoDimensions.width > 12000 || logoDimensions.height > 12000 || logoDimensions.width * logoDimensions.height > 60000000) {
+        rejectLogo("Logo dimensions exceed the safe limit of 12,000 pixels per side or 60 megapixels.");
+        return;
+      }
+      if (selectionId !== watermarkSelectionId.current) return;
+      setError("");
+      setWatermarkImageFile(picked);
+      setWatermarkImagePreview(URL.createObjectURL(picked));
+    } catch (e) {
+      rejectLogo(e instanceof Error ? e.message : "Could not read this logo image.");
+    }
   };
 
   const chooseTool = (id: ToolId) => {
@@ -743,6 +760,7 @@ export default function App() {
                 {watermarkImagePreview && <div className="watermark-logo-preview">
                   <img src={watermarkImagePreview} alt="Selected watermark logo"/>
                   <button type="button" className="change-file" onClick={() => {
+                    watermarkSelectionId.current += 1;
                     setWatermarkImageFile(null);
                     setWatermarkImagePreview("");
                     if (watermarkInputRef.current) watermarkInputRef.current.value = "";

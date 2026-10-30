@@ -267,4 +267,34 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(document.activeElement).toBe(openButton);
   });
 
+  it("rejects a watermark logo whose header dimensions exceed the safe limit", async () => {
+    const sourceBuffer = new ArrayBuffer(24);
+    const sourceBytes = new Uint8Array(sourceBuffer);
+    const sourceView = new DataView(sourceBuffer);
+    sourceBytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    sourceView.setUint32(16, 640, false);
+    sourceView.setUint32(20, 480, false);
+    const source = new File([sourceBuffer], "photo.png", { type: "image/png" });
+
+    const logoBuffer = new ArrayBuffer(24);
+    const logoBytes = new Uint8Array(logoBuffer);
+    const logoView = new DataView(logoBuffer);
+    logoBytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    logoView.setUint32(16, 12001, false);
+    logoView.setUint32(20, 100, false);
+    const oversizedLogo = new File([logoBuffer], "oversized-logo.png", { type: "image/png" });
+
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Watermark/ }));
+    const sourceInput = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(sourceInput as HTMLInputElement, { target: { files: [source] } });
+    await screen.findByAltText("Selected image preview");
+    fireEvent.change(screen.getByLabelText("Watermark type"), { target: { value: "image" } });
+    fireEvent.click(screen.getByRole("button", { name: /Choose transparent PNG/ }));
+    const logoInput = container.querySelector<HTMLInputElement>('input[accept="image/png,image/webp"]');
+    fireEvent.change(logoInput as HTMLInputElement, { target: { files: [oversizedLogo] } });
+    expect(await screen.findByText(/Logo dimensions exceed the safe limit/i)).toBeTruthy();
+    expect(screen.queryByAltText("Selected watermark logo")).toBeNull();
+  });
+
 });

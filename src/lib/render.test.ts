@@ -161,4 +161,23 @@ describe("browser image rendering pipeline", () => {
     expect(close).toHaveBeenCalledTimes(2);
   });
 
+  it("keeps very tall logo watermarks inside both canvas dimensions", async () => {
+    const file = new File(["source"], "source.webp", { type: "image/webp" });
+    const logoClose = vi.fn();
+    const tallLogo = { width: 100, height: 1000, close: logoClose } as unknown as ImageBitmap;
+    vi.mocked(createImageBitmap)
+      .mockResolvedValueOnce(bitmap)
+      .mockResolvedValueOnce(tallLogo);
+    await renderImage(file, {
+      watermarkImage: new File(["logo"], "tall-logo.png", { type: "image/png" }),
+      watermarkImageSizePercent: 20,
+      watermarkPosition: "bottom-right",
+      format: "image/webp"
+    });
+    // Canvas is 200x100. Logo is capped at 40px wide and 45px high.
+    expect(drawImage).toHaveBeenCalledWith(tallLogo, 187.5, 47, 4.5, 45);
+    expect(logoClose).toHaveBeenCalledOnce();
+    expect(close).toHaveBeenCalledOnce();
+  });
+
 });

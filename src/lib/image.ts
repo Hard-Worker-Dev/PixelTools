@@ -268,8 +268,11 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
       const logo = await createImageBitmap(options.watermarkImage);
       try {
         const position = options.watermarkPosition ?? "bottom-right";
-        const maxWidth = width * (Math.max(5, Math.min(45, options.watermarkImageSizePercent ?? 20)) / 100);
-        const logoScale = Math.min(1, maxWidth / logo.width);
+        const sizePercent = Math.max(5, Math.min(45, options.watermarkImageSizePercent ?? 20)) / 100;
+        const maxWidth = width * sizePercent;
+        const maxHeight = height * 0.45;
+        // Bound both axes so very tall or wide logos remain fully visible.
+        const logoScale = Math.min(1, maxWidth / logo.width, maxHeight / logo.height);
         const logoWidth = Math.max(1, logo.width * logoScale);
         const logoHeight = Math.max(1, logo.height * logoScale);
         const margin = Math.max(8, Math.round(Math.min(logoWidth, logoHeight) * 0.12));
