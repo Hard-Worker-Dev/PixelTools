@@ -216,9 +216,9 @@ describe("PixelTools ease-of-use workflows", () => {
     fireEvent.change(logoInput as HTMLInputElement, { target: { files: [logo] } });
     expect(await screen.findByAltText("Selected watermark logo")).toBeTruthy();
     expect(screen.getByRole("button", { name: /Change logo: brand-mark.png/ })).toBeTruthy();
-    expect(screen.getByLabelText("Logo width")).toBeTruthy();
+    expect(screen.getByLabelText(/Logo width/)).toBeTruthy();
     expect(screen.getByLabelText("Position")).toBeTruthy();
-    expect(screen.getByLabelText("Opacity")).toBeTruthy();
+    expect(screen.getByLabelText(/Opacity/)).toBeTruthy();
   });
 
 });
