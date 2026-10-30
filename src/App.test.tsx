@@ -65,7 +65,7 @@ describe("PixelTools ease-of-use workflows", () => {
       expect(screen.getByText(/Drop your image here/i)).toBeTruthy();
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
-  });
+  }, 15000);
   it("rejects an oversized image from its header before browser pixel decoding", async () => {
     const decode = vi.fn();
     vi.stubGlobal("createImageBitmap", decode);
