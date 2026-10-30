@@ -44,7 +44,7 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [x] `package-lock.json` is committed and CI uses `npm ci` for reproducible dependency installation.
 - [x] A Git backup branch is created for this candidate.
 - [ ] Owner verifies repository backup and release permissions in GitHub.
-- [ ] Owner performs and documents a controlled rollback rehearsal before a high-traffic launch.
+- [ ] Owner performs and documents a controlled rollback rehearsal before a high-traffic launch (the production site has not been deliberately rolled back).
 
 ## Release decision
 

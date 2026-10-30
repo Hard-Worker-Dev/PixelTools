@@ -101,4 +101,12 @@ describe("published site contract", () => {
     expect(read("GITHUB_SETTINGS.md")).toContain("main");
   });
 
+  it("documents the production rollback process and protects against preview rollback", () => {
+    expect(existsSync(resolve(root, "ROLLBACK.md"))).toBe(true);
+    const rollback = read("ROLLBACK.md");
+    expect(rollback).toContain("successful production deployment");
+    expect(rollback).toContain("Preview deployments are not valid rollback targets");
+    expect(rollback).toContain("/rollback");
+  });
+
 });
