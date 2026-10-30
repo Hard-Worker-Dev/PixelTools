@@ -21,6 +21,7 @@ export interface RenderOptions {
   cornerRadius?: number;
   watermark?: string;
   watermarkOpacity?: number;
+  watermarkSizePercent?: number;
   watermarkPosition?: "bottom-right" | "bottom-left" | "top-right" | "top-left" | "center";
   watermarkColor?: string;
   backgroundColor?: string;
@@ -208,7 +209,7 @@ export async function renderImage(file: File, options: RenderOptions = {}): Prom
     const watermark = options.watermark?.trim();
     if (watermark) {
       ctx.save();
-      const fontSize = Math.max(14, Math.round(Math.min(width, height) * 0.035));
+      const fontSize = Math.max(8, Math.round(Math.min(width, height) * ((options.watermarkSizePercent ?? 3.5) / 100)));
       const margin = Math.max(12, Math.round(fontSize * 0.7));
       const position = options.watermarkPosition ?? "bottom-right";
       const align = position.endsWith("left") ? "left" : position.endsWith("right") ? "right" : "center";
