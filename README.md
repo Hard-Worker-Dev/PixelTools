@@ -46,7 +46,7 @@ AI Background Remover and AI Upscaler are shown as coming soon. They are not adv
 
 ## Development and verification
 ```bash
-npm install
+npm ci
 npm run dev
 npm run typecheck
 npm test
@@ -54,7 +54,7 @@ npm run build
 npm audit --audit-level=high
 ```
 
-CI runs full and production-only dependency audits, TypeScript checks, image utility and rendering-pipeline unit tests, tool user-flow tests, static SEO/security contract tests and a production build on pushes, pull requests and manual dispatches to main. Successful builds are retained as 30-day GitHub Actions artifacts.
+CI runs full and production-only dependency audits, TypeScript checks, image utility and rendering-pipeline unit tests, tool user-flow tests, static SEO/security contract tests and a production build on pushes, pull requests and manual dispatches to main. Successful builds are retained as 30-day GitHub Actions artifacts. The committed `package-lock.json` is installed with `npm ci` for reproducible dependency resolution.
 
 ## Cloudflare Pages
 - Project: `pixeltools`

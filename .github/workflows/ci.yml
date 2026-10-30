@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: Audit all dependencies
         run: npm audit --audit-level=high
       - name: Audit production dependencies
@@ -43,36 +43,3 @@ jobs:
           path: dist/
           if-no-files-found: error
           retention-days: 30
-      - name: Preserve generated dependency lockfile
-        if: success()
-        uses: actions/upload-artifact@v7
-        with:
-          name: pixeltools-lock-${{ github.sha }}
-          path: package-lock.json
-          if-no-files-found: error
-          retention-days: 7
-
-  bootstrap-lockfile:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: verify
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-      - name: Generate npm dependency lockfile
-        if: hashFiles('package-lock.json') == ''
-        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-      - name: Commit generated lockfile once
-        if: success()
-        run: |
-          if [ -f package-lock.json ] && [ -n "$(git status --short -- package-lock.json)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package-lock.json
-            git commit -m "chore: add npm dependency lockfile"
-            git push origin HEAD:main
-          fi
