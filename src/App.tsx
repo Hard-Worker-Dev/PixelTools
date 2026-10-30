@@ -5,7 +5,7 @@ import {
   LockKeyhole, Menu, RotateCcw, ShieldCheck, Sparkles, UploadCloud, X
 } from "lucide-react";
 import {
-  centeredCropForRatio, extractImagePalette, formatBytes, outputName, renderImage, renderImageToTargetSize, rgbToHsl, sampleImageColor,
+  centeredCropForRatio, extractImagePalette, formatBytes, outputName, readImageDimensions, renderImage, renderImageToTargetSize, rgbToHsl, sampleImageColor,
   type ImageFormat, type RenderOptions
 } from "./lib/image";
 
@@ -211,23 +211,28 @@ export default function App() {
     setBase64Text("");
     setSample(null);
     setPalette([]);
-    setPreview(URL.createObjectURL(picked));
-    if (inputRef.current) inputRef.current.value = "";
-    createImageBitmap(picked).then(bitmap => {
-      if (selectionId !== fileSelectionId.current) { bitmap.close(); return; }
-      if (bitmap.width > 12000 || bitmap.height > 12000 || bitmap.width * bitmap.height > 60000000) {
-        bitmap.close();
-        setFile(null); setPreview(""); setDimensions({ width: 0, height: 0 });
+    setPreview("");
+    readImageDimensions(picked).then(({ width: imageWidth, height: imageHeight }) => {
+      if (selectionId !== fileSelectionId.current) return;
+      if (imageWidth > 12000 || imageHeight > 12000 || imageWidth * imageHeight > 60000000) {
+        setFile(null);
+        setDimensions({ width: 0, height: 0 });
         setError("This image is too large to process safely. Maximum dimensions are 12,000 px per side and 60 megapixels total.");
         return;
       }
-      setDimensions({ width: bitmap.width, height: bitmap.height });
-      setWidth(String(bitmap.width));
-      setHeight(String(bitmap.height));
-      setCropWidth(String(bitmap.width));
-      setCropHeight(String(bitmap.height));
-      bitmap.close();
-    }).catch(() => { if (selectionId !== fileSelectionId.current) return; setFile(null); setPreview(""); setDimensions({ width: 0, height: 0 }); setError("This image could not be opened by your browser. Try exporting it as JPG, PNG or WebP."); });
+      setDimensions({ width: imageWidth, height: imageHeight });
+      setWidth(String(imageWidth));
+      setHeight(String(imageHeight));
+      setCropWidth(String(imageWidth));
+      setCropHeight(String(imageHeight));
+      setPreview(URL.createObjectURL(picked));
+    }).catch((e: unknown) => {
+      if (selectionId !== fileSelectionId.current) return;
+      setFile(null);
+      setPreview("");
+      setDimensions({ width: 0, height: 0 });
+      setError(e instanceof Error ? e.message : "Could not read this image. Try exporting it as JPG, PNG or WebP.");
+    });
   };
 
   const process = async () => {
