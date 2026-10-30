@@ -85,6 +85,10 @@ export default function App() {
   const [cropHeight, setCropHeight] = useState("");
   const [cropSelection, setCropSelection] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
   const [watermark, setWatermark] = useState("PixelTools");
+  const [watermarkMode, setWatermarkMode] = useState<"text" | "image">("text");
+  const [watermarkImageFile, setWatermarkImageFile] = useState<File | null>(null);
+  const [watermarkImagePreview, setWatermarkImagePreview] = useState("");
+  const [watermarkImageSize, setWatermarkImageSize] = useState(20);
   const [watermarkColor, setWatermarkColor] = useState("#FFFFFF");
   const [watermarkPosition, setWatermarkPosition] = useState<"bottom-right" | "bottom-left" | "top-right" | "top-left" | "center">("bottom-right");
   const [jpegBackground, setJpegBackground] = useState("#FFFFFF");
@@ -100,6 +104,7 @@ export default function App() {
   const [copied, setCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const watermarkInputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const fileSelectionId = useRef(0);
@@ -113,6 +118,10 @@ export default function App() {
   useEffect(() => {
     return () => { if (resultPreview) URL.revokeObjectURL(resultPreview); };
   }, [resultPreview]);
+
+  useEffect(() => {
+    return () => { if (watermarkImagePreview) URL.revokeObjectURL(watermarkImagePreview); };
+  }, [watermarkImagePreview]);
 
   useEffect(() => {
     if (active === "base64" && file && dimensions.width > 0) {
@@ -207,6 +216,11 @@ export default function App() {
     setFlipX(false);
     setFlipY(false);
     setWatermark("PixelTools");
+    setWatermarkMode("text");
+    setWatermarkImageFile(null);
+    setWatermarkImagePreview("");
+    setWatermarkImageSize(20);
+    if (watermarkInputRef.current) watermarkInputRef.current.value = "";
     setWatermarkColor("#FFFFFF");
     setWatermarkPosition("bottom-right");
     setWatermarkOpacity(70);
@@ -286,6 +300,23 @@ export default function App() {
     }
   };
 
+  const selectWatermarkImage = (picked?: File) => {
+    if (!picked) return;
+    if (!["image/png", "image/webp"].includes(picked.type)) {
+      setError("Choose a transparent PNG or WebP logo image.");
+      if (watermarkInputRef.current) watermarkInputRef.current.value = "";
+      return;
+    }
+    if (picked.size > 5 * 1024 * 1024) {
+      setError("Choose a logo smaller than 5 MB.");
+      if (watermarkInputRef.current) watermarkInputRef.current.value = "";
+      return;
+    }
+    setError("");
+    setWatermarkImageFile(picked);
+    setWatermarkImagePreview(URL.createObjectURL(picked));
+  };
+
   const chooseTool = (id: ToolId) => {
     setActive(id);
     window.history.pushState({}, "", "/?tool=" + id + "#tools");
@@ -299,6 +330,11 @@ export default function App() {
     setCropX("0");
     setCropY("0");
     setWatermark("PixelTools");
+    setWatermarkMode("text");
+    setWatermarkImageFile(null);
+    setWatermarkImagePreview("");
+    setWatermarkImageSize(20);
+    if (watermarkInputRef.current) watermarkInputRef.current.value = "";
     setWatermarkColor("#FFFFFF");
     setWatermarkPosition("bottom-right");
     setWatermarkOpacity(70);
