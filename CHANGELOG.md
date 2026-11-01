@@ -2,6 +2,19 @@
 
 All notable PixelTools changes are documented here.
 
+## Unreleased — release-readiness documentation
+
+### Legal and privacy
+- Reworked the public Privacy Policy for the current Pakistan-focused release, including browser-local image processing, Cloudflare technical processing, Google Fonts requests, metadata sensitivity and contact-channel limitations.
+- Reworked the public Terms of Use with acceptable-use requirements, user file responsibilities, output review, service limitations and Pakistan governing-law wording.
+- Added a Pakistan legal review decision record. These documents remain drafts pending operator identity/contact details and qualified legal review.
+- Clarified that public GitHub issues are not a channel for private privacy requests or sensitive material.
+
+### Release operations
+- Added a detailed manual browser/device and export acceptance matrix.
+- Added an evidence-based release audit and updated CI/Cloudflare deployment evidence.
+- Recorded outstanding owner-only settings, physical-device QA, Search Console and rollback gates.
+
 ## 1.0.0-rc.1 — 2026-10-30
 
 This is a release candidate, not the final 1.0.0 release.
