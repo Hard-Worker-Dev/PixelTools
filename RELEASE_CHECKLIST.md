@@ -15,7 +15,8 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [x] Vitest suite passed.
 - [x] Vite production build passed.
 - [x] All 14 original image-tool workspaces have UI workflow coverage on the release-candidate baseline.
-- [ ] Follow-on PR #12 adds Batch Image Converter and Image to PDF; run the expanded automated suite and manual acceptance matrix before promoting those additions to production.
+- [x] Follow-on PR #12 adds Batch Image Converter and Image to PDF; CI run #199 passed dependency audits, TypeScript checks, all 84 automated tests and the production build.
+- [ ] Complete independent export checks and manual browser/device acceptance for the two new tools before production promotion.
 - [x] All 11 image editing/export tools have automated processing-to-result coverage.
 - [x] Color Picker, Metadata Viewer and Base64 output workflows have automated coverage.
 - [x] Static SEO, internal-link, sitemap and security-header contracts are tested.
