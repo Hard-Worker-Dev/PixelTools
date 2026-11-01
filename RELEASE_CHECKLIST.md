@@ -34,8 +34,8 @@ This checklist separates automated evidence from manual acceptance. A box must o
 
 ## Expanded tool roadmap
 
-- [x] Added five new catalogue categories with 15 planned entries each (75 total); all are disabled and labelled Coming Soon.
-- [ ] Implement and test roadmap tools in small batches; do not count planned entries as working tools. See `TOOL_ROADMAP.md`.
+- [x] Added 30 catalogue categories with 100 planned entries each (3,000 total); all are disabled and labelled Coming Soon.
+- [ ] Implement and test the 3,000 roadmap entries in small batches; do not count planned entries as working tools. See `TOOL_ROADMAP.md`.
 
 ## Manual acceptance still required
 
