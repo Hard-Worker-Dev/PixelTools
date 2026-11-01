@@ -1,13 +1,8 @@
 import { useRef, useState } from "react";
 import { ArrowDownToLine, Check, FileText, LockKeyhole, Plus, UploadCloud, X } from "lucide-react";
-import { PDFDocument } from "pdf-lib";
-import { createZipBlob } from "./lib/zip";
+import { loadPdfFile, mergePdfFiles, safePdfBaseName, splitPdfFile } from "./lib/pdf-operations";
 import { formatBytes } from "./lib/image";
 
-const MAX_FILE_BYTES = 25 * 1024 * 1024;
-const MAX_TOTAL_BYTES = 100 * 1024 * 1024;
-const MAX_PAGES = 200;
-const MAX_OUTPUT_BYTES = 150 * 1024 * 1024;
 
 function download(blob: Blob, name: string) {
   const url = URL.createObjectURL(blob);
@@ -17,23 +12,6 @@ function download(blob: Blob, name: string) {
   anchor.click();
   window.setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
-function safeBaseName(name: string) {
-  return name.replace(/\.pdf$/i, "").replace(/[^a-z0-9_-]+/gi, "-").replace(/^-+|-+$/g, "").slice(0, 70) || "document";
-}
-async function loadPdf(file: File) {
-  if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) throw new Error(file.name + ": choose a PDF file.");
-  if (!file.size || file.size > MAX_FILE_BYTES) throw new Error(file.name + ": each PDF must be between 1 byte and 25 MB.");
-  try {
-    const pdf = await PDFDocument.load(await file.arrayBuffer(), { updateMetadata: false });
-    if (pdf.getPageCount() < 1) throw new Error("The PDF has no pages.");
-    return pdf;
-  } catch (error) {
-    if (error instanceof Error && /encrypted|password/i.test(error.message)) throw new Error(file.name + ": password-protected PDFs are not supported.");
-    if (error instanceof Error && /no pages/i.test(error.message)) throw error;
-    throw new Error(file.name + ": this PDF is damaged, unsupported or password-protected.");
-  }
-}
-
 export function PdfMergeTool() {
   const [files, setFiles] = useState<File[]>([]);
   const [busy, setBusy] = useState(false);
@@ -46,7 +24,7 @@ export function PdfMergeTool() {
       if (next.some(item => item.name === file.name && item.size === file.size && item.lastModified === file.lastModified)) continue;
       if (next.length >= 10) { issues.push("A maximum of 10 PDFs can be merged at once."); break; }
       if (!file.size || file.size > MAX_FILE_BYTES) { issues.push(file.name + ": each PDF must be 25 MB or smaller."); continue; }
-      if (next.reduce((sum, item) => sum + item.size, 0) + file.size > MAX_TOTAL_BYTES) { issues.push("Combined PDF input cannot exceed 100 MB."); continue; }
+      if (next.reduce((sum, item) => sum + item.size, 0) + file.size > 100 * 1024 * 1024) { issues.push("Combined PDF input cannot exceed 100 MB."); continue; }
       next.push(file);
     }
     setFiles(next); setResult(null); setError(issues.join(" "));
@@ -60,18 +38,8 @@ export function PdfMergeTool() {
     if (files.length < 2 || busy) return;
     setBusy(true); setError(""); setResult(null);
     try {
-      const merged = await PDFDocument.create();
-      let totalPages = 0;
-      for (const file of files) {
-        const source = await loadPdf(file);
-        totalPages += source.getPageCount();
-        if (totalPages > MAX_PAGES) throw new Error("Merged documents are limited to 200 pages.");
-        const pages = await merged.copyPages(source, source.getPageIndices());
-        pages.forEach(page => merged.addPage(page));
-      }
-      const bytes = await merged.save({ useObjectStreams: true });
-      if (!bytes.length || bytes.length > MAX_OUTPUT_BYTES) throw new Error("The merged PDF is empty or exceeds the 150 MB output limit.");
-      setResult(new Blob([bytes], { type: "application/pdf" }));
+      const mergedBlob = await mergePdfFiles(files);
+      setResult(mergedBlob);
     } catch (reason) { setError(reason instanceof Error ? reason.message : "Could not merge these PDF files."); }
     finally { setBusy(false); }
   };
@@ -120,8 +88,8 @@ export function PdfSplitTool() {
     if (!picked) return;
     setFile(null);setPageCount(null);setResult(null);setError("");
     try {
-      const pdf=await loadPdf(picked);
-      if(pdf.getPageCount()>MAX_PAGES) throw new Error("PDF Split supports up to 200 pages per file.");
+      const pdf=await loadPdfFile(picked);
+      if(pdf.getPageCount()>200) throw new Error("PDF Split supports up to 200 pages per file.");
       setFile(picked);setPageCount(pdf.getPageCount());setRange("1-"+pdf.getPageCount());
     } catch(reason) {setError(reason instanceof Error?reason.message:"Could not read this PDF.");}
     if(input.current)input.current.value="";
@@ -130,22 +98,7 @@ export function PdfSplitTool() {
     if(!file||!pageCount||busy)return;
     setBusy(true);setError("");setResult(null);
     try {
-      const source=await loadPdf(file);
-      const ranges=parseRanges(range,pageCount);
-      const entries=[];
-      for(let i=0;i<ranges.length;i++){
-        const {start,end}=ranges[i];
-        const output=await PDFDocument.create();
-        const pages=await output.copyPages(source,Array.from({length:end-start+1},(_,index)=>start-1+index));
-        pages.forEach(page=>output.addPage(page));
-        const bytes=await output.save({useObjectStreams:true});
-        if(!bytes.length)throw new Error("A selected page range produced an empty PDF.");
-        entries.push({name:safeBaseName(file.name)+"-pages-"+start+(end===start?"":"-"+end)+".pdf",data:new Uint8Array(bytes)});
-      }
-      const total=entries.reduce((sum,item)=>sum+item.data.byteLength,0);
-      if(total>MAX_OUTPUT_BYTES)throw new Error("Split output exceeds the 150 MB safety limit.");
-      const archive=await createZipBlob(entries);
-      if(archive.size>MAX_OUTPUT_BYTES)throw new Error("ZIP output exceeds the 150 MB safety limit.");
+      const archive = await splitPdfFile(file, range);
       setResult(archive);
     }catch(reason){setError(reason instanceof Error?reason.message:"Could not split this PDF.");}
     finally{setBusy(false);}
@@ -157,7 +110,7 @@ export function PdfSplitTool() {
     {file&&<div className="pdf-quality"><label htmlFor="pdf-page-ranges">Page ranges <b>{pageCount} total pages</b></label><input id="pdf-page-ranges" className="text-input" value={range} disabled={busy} onChange={e=>{setRange(e.target.value);setResult(null);}} placeholder="e.g. 1-3, 5, 8-10"/><p>Example: 1-3, 5, 8-10 creates three separate PDFs. Page numbers start at 1. Repeated or overlapping pages are not allowed.</p></div>}
     {file&&<button type="button" className="primary-btn process-btn" disabled={busy} onClick={split}>{busy?"Splitting PDF…":result?"Split again":"Split into PDFs"}</button>}
     {error&&<p className="error-msg" role="alert">{error}</p>}
-    {result&&<section className="pdf-result" role="status"><div><Check size={18}/><b>Your split PDFs are ready</b><span>{formatBytes(result.size)}</span></div><p>Each requested page range is a separate PDF in the ZIP archive.</p><button type="button" className="download-btn" onClick={()=>download(result,safeBaseName(file?.name??"document")+"-split.zip")}><ArrowDownToLine size={16}/> Download ZIP</button></section>}
+    {result&&<section className="pdf-result" role="status"><div><Check size={18}/><b>Your split PDFs are ready</b><span>{formatBytes(result.size)}</span></div><p>Each requested page range is a separate PDF in the ZIP archive.</p><button type="button" className="download-btn" onClick={()=>download(result,safePdfBaseName(file?.name??"document")+"-split.zip")}><ArrowDownToLine size={16}/> Download ZIP</button></section>}
     <div className="pdf-privacy"><LockKeyhole size={14}/> Processing is local. Password-protected PDFs are not supported.</div>
   </div>;
 }
