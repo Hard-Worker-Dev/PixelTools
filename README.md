@@ -67,6 +67,8 @@ No server-side environment variables are required for the current browser-only r
 
 ## Release and support
 - Release status and manual acceptance gates: [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md)
+- Detailed browser/device and export acceptance matrix: [MANUAL_QA_MATRIX.md](MANUAL_QA_MATRIX.md)
+- Evidence-based repository audit: [RELEASE_AUDIT.md](RELEASE_AUDIT.md)
 - User-facing changes: [CHANGELOG.md](CHANGELOG.md)
 - Support and bug reports: [SUPPORT.md](SUPPORT.md)
 - Security reporting: [SECURITY.md](SECURITY.md)
