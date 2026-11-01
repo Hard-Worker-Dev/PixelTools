@@ -12,7 +12,7 @@ All notable PixelTools changes are documented here.
 - Clarified that public GitHub issues are not a channel for private privacy requests or sensitive material.
 
 ### Product roadmap
-- Added five new Coming Soon categories — PDF Tools, Design & Graphics, Social Media, Color & Branding, and Developer Tools — with 15 planned tools each (75 total). The roadmap catalogue is not a claim that these tools are implemented.
+- Expanded the Coming Soon roadmap to 30 categories with 100 planned entries each (3,000 total). The roadmap catalogue is not a claim that these tools are implemented.
 - Added `TOOL_ROADMAP.md` with implementation, privacy, security, testing and rollout gates.
 
 ### Release operations
