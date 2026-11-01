@@ -23,7 +23,7 @@ This checklist separates automated evidence from manual acceptance. A box must o
 
 ## Legal documents — draft prepared, approval pending
 
-- [x] Pakistan-focused Privacy Policy draft updated to describe browser-local processing, Cloudflare technical processing, Google Fonts requests, metadata sensitivity and current contact limitations.
+- [x] Pakistan-focused Privacy Policy draft updated to describe browser-local processing, Cloudflare technical processing, metadata sensitivity and current contact limitations.
 - [x] Pakistan-focused Terms of Use draft updated with lawful-use rules, user file responsibilities, output verification, service limitations and governing-law wording.
 - [x] Legal review decision record added in `LEGAL_REVIEW_PAKISTAN.md`.
 - [ ] Owner supplies the contracting operator's legal name/status, service address and a monitored private privacy contact route.
