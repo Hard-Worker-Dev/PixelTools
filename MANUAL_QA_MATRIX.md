@@ -8,8 +8,8 @@
 
 | Environment | Required coverage | Evidence |
 |---|---|---|
-| Chrome desktop (current stable) | All 18 tools; JPG, PNG, WebP, multi-image PDF, PDF merge/split and ZIP exports | Browser/version, OS, screenshots, output files |
-| Edge desktop (current stable) | All 18 tools; JPG, PNG, WebP, PDF merge/split | Browser/version, OS, output files |
+| Chrome desktop (current stable) | All 21 feature-branch tools; JPG, PNG, WebP, image-to-PDF, PDF merge/split/rotate/reorder/extract and ZIP exports | Browser/version, OS, screenshots, output files |
+| Edge desktop (current stable) | All 21 feature-branch tools; JPG, PNG, WebP, PDF merge/split/rotate/reorder/extract | Browser/version, OS, output files |
 | Firefox desktop (current stable) | All 18 tools; JPG, PNG, WebP, PDF merge/split | Browser/version, OS, output files |
 | Android Chrome, physical device | Upload, tool controls, download/share, orientation | Device model, Android version, screenshots |
 | iPhone Safari, physical device | Upload, tool controls, download/share, orientation | Device model, iOS version, screenshots |
@@ -52,6 +52,11 @@ Record SHA-256 hashes for source and output assets. Never use private user photo
 | Image Metadata Cleaner | Re-encode EXIF-bearing source to each supported output format | Independent EXIF inspection confirms source EXIF/GPS tags are not copied; document any encoder-added generic metadata |
 | Batch Image Converter | Process mixed JPG/PNG/WebP sets; test all output formats, add/remove files, stop control and ZIP export | Each output opens and has correct MIME/extension; ZIP passes independent archive integrity test; duplicate output names are unique; failed files are reported |
 | Image to PDF | Create one- and multi-page PDFs; reorder pages; test portrait/landscape images, PNG transparency and quality settings | PDF opens in an independent reader; page count and page order match; A4 page orientation and image fit are correct; transparent pixels render on white |
+| PDF Merger | Merge 2–10 PDFs; reorder source files; test page/file limits | Independent reader opens output; page count, dimensions and source order are correct |
+| PDF Splitter | Extract single pages and multiple ranges; test overlapping/invalid ranges | ZIP passes external integrity check; every PDF opens and contains exactly its requested pages |
+| PDF Rotator | Rotate 90°, 180°, 270° and counterclockwise; test pre-rotated pages | Independent reader confirms effective orientation; existing rotations are preserved and adjusted |
+| PDF Page Reorder | Move first/middle/last pages; export custom sequences | Independent reader confirms every original page appears once in requested order |
+| PDF Page Extractor | Select all, none, one, multiple and non-contiguous pages | ZIP passes external integrity check; every extracted PDF opens and matches the selected source page |
 
 ## Download and file integrity checks
 
@@ -77,6 +82,7 @@ For Base64, decode the saved result and compare its SHA-256 with the original in
 - Reject dimensions above 12,000 pixels on either side or 60 megapixels total for single-image processing.
 - Batch converter: test 30 files, 31 files, 25 MB per-file boundary, 100 MB combined input, malformed image, one failed file among valid files, stop control and ZIP output over 150 MB.
 - Image to PDF: test 20 pages, 21 pages, 25 MB per-file boundary, 100 MB combined input, 120 megapixels combined, 150 MB output boundary, corrupted image and page reordering.
+- PDF tools: test 200-page and 201-page PDFs, 25 MB input boundary, 150 MB output boundary, corrupted/password-protected files, empty and duplicate page selections, invalid page permutations, and page rotations including already-rotated pages.
 - Test files at 25 MB and just over 25 MB.
 - Test crop values at zero, negative, fractional, and beyond image bounds.
 - Test invalid/empty target-size values and impossible compression targets.
@@ -106,7 +112,7 @@ Copy one record per environment and attach non-sensitive sample files or screens
 
 ## Release gate
 
-The manual gate passes only when every required environment and all 16 available tool workflows have recorded evidence, all export integrity checks pass, and blocking defects are fixed and retested. AI Background Remover and AI Upscaler are intentionally excluded from working-tool acceptance while marked Coming Soon.
+The manual gate passes only when every required environment and all 21 feature-branch tool workflows have recorded evidence, all export integrity checks pass, and blocking defects are fixed and retested. AI Background Remover and AI Upscaler are intentionally excluded from working-tool acceptance while marked Coming Soon.
 
 
 ## PDF merge and split acceptance cases
