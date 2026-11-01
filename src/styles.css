@@ -235,3 +235,5 @@ footer .brand-mark{width:30px;height:30px}
 .batch-footnote{display:flex;align-items:center;gap:7px;color:#8790a0;font-size:10px}
 .batch-footnote svg{color:#38a182}
 @media(max-width:560px){.batch-toolbar{grid-template-columns:1fr;gap:12px}.batch-intro{align-items:flex-start}.batch-actions{align-items:stretch;flex-direction:column}.batch-actions .process-btn{width:100%}.batch-actions>span{text-align:center}.batch-dropzone{min-height:155px}.batch-result-title{flex-wrap:wrap}.batch-result-title span{margin-left:0;flex-basis:100%}}
+
+.batch-list-actions{display:flex;align-items:center;gap:12px}.batch-list-actions .change-file{display:flex;align-items:center;gap:5px;padding:5px 0;font-size:10px}
