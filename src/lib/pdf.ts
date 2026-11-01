@@ -21,7 +21,7 @@ function pdfNumber(value: number): string {
 }
 
 function validatePage(page: PdfImagePage): void {
-  if (!page.bytes.length || !Number.isInteger(page.width) || !Number.isInteger(page.height) || page.width < 1 || page.height < 1) {
+  if (page.bytes.length < 4 || page.bytes[0] !== 0xff || page.bytes[1] !== 0xd8 || page.bytes[page.bytes.length - 2] !== 0xff || page.bytes[page.bytes.length - 1] !== 0xd9 || !Number.isInteger(page.width) || !Number.isInteger(page.height) || page.width < 1 || page.height < 1) {
     throw new Error("Each PDF page needs valid JPEG bytes and positive integer dimensions.");
   }
   if (page.width > 12000 || page.height > 12000 || page.width * page.height > 60000000) {
@@ -32,6 +32,7 @@ function validatePage(page: PdfImagePage): void {
 export function buildPdfFromJpegs(pages: PdfImagePage[]): Blob {
   if (pages.length < 1 || pages.length > 20) throw new Error("Choose between 1 and 20 images to create a PDF.");
   pages.forEach(validatePage);
+  if (pages.reduce((sum, page) => sum + page.bytes.length, 0) > 150 * 1024 * 1024) throw new Error("The generated PDF would exceed the 150 MB output safety limit.");
   const pageIds = pages.map((_, index) => 3 + index);
   const imageIds = pages.map((_, index) => 3 + pages.length + index);
   const contentIds = pages.map((_, index) => 3 + pages.length * 2 + index);
@@ -104,6 +105,7 @@ export async function createPdfFromImages(
   if (totalBytes > 100 * 1024 * 1024) throw new Error("The combined source images cannot exceed 100 MB.");
 
   const pages: PdfImagePage[] = [];
+  let totalPixels = 0;
   for (let index = 0; index < files.length; index += 1) {
     const file = files[index];
     const bitmap = await createImageBitmap(file);
@@ -111,6 +113,8 @@ export async function createPdfFromImages(
       if (bitmap.width > 12000 || bitmap.height > 12000 || bitmap.width * bitmap.height > 60000000) {
         throw new Error(file.name + ": image exceeds the 12,000 px per-side or 60 megapixel safety limit.");
       }
+      totalPixels += bitmap.width * bitmap.height;
+      if (totalPixels > 120000000) throw new Error("The selected images exceed the 120 megapixel combined processing limit. Create smaller PDFs in separate batches.");
       const canvas = document.createElement("canvas");
       canvas.width = bitmap.width;
       canvas.height = bitmap.height;
