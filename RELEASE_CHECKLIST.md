@@ -28,7 +28,7 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [x] Legal review decision record added in `LEGAL_REVIEW_PAKISTAN.md`.
 - [ ] **Deferred for this pass — still a launch blocker:** owner supplies the contracting operator's legal name/status, service address and a monitored private privacy contact route. Do not publish guessed details or treat this as waived.
 - [ ] Pakistan-qualified legal reviewer confirms current federal/provincial law, consumer rights, enforceability and the final policy/terms wording.
-- [ ] Confirm current hosting logs, retention, subprocessors, international processing and Google Fonts configuration against the actual production setup.
+- [ ] Confirm current hosting logs, retention, subprocessors and international processing; verify the deployed site makes no unintended third-party browser requests (including remote fonts).
 - [ ] Recheck Gazette/parliamentary status of proposed data-protection legislation immediately before launch.
 - [ ] Do not describe these drafts as lawyer-approved or legally compliant until the above review is documented.
 
