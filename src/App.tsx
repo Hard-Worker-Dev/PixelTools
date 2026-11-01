@@ -1592,7 +1592,7 @@ export default function App() {
           <select id="tool-category" className="tool-category-select" value={toolCategory} onChange={e => setToolCategory(e.target.value)}>
             <option value="all">All categories (30)</option>
             <option value="optimize">Quick filter: Optimize</option><option value="edit">Quick filter: Edit</option><option value="inspect">Quick filter: Inspect & data</option>
-            {roadmapCategories.map(group => <option key={group.key} value={group.key}>{group.label} — 100 tools</option>)}
+            {roadmapCategories.map(group => <option key={group.key} value={group.key}>{group.label} — {group.key === "batch" ? "101" : "100"} tools</option>)}
           </select>
           <p className="tool-count" role="status">{toolCategory === "all" ? `Showing ${visibleTools.length} of ${filteredTools.length} tools` : `${filteredTools.length} tools found`}</p>
         </div>
