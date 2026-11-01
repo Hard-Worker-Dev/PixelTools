@@ -57,15 +57,30 @@ describe("published site contract", () => {
     for (const value of ["Strict-Transport-Security: max-age=31536000; includeSubDomains","X-Content-Type-Options: nosniff","Referrer-Policy:","X-Frame-Options: DENY","Content-Security-Policy:","frame-ancestors \'none\'"]) expect(headers).toContain(value);
   });
   it("does not claim AI tools are live", () => expect(read("public/about/index.html")).toContain("not available yet"));
-  it("allows and discloses the external font hosts used by the site", () => {
+  it("uses local system fonts without remote font requests", () => {
     const css = read("src/styles.css");
     const headers = read("public/_headers");
     const privacy = read("public/privacy/index.html");
-    expect(css).toContain("fonts.googleapis.com");
-    expect(headers).toContain("style-src 'self' 'unsafe-inline' https://fonts.googleapis.com");
-    expect(headers).toContain("font-src 'self' data: https://fonts.gstatic.com");
-    expect(privacy).toContain("fonts.googleapis.com");
-    expect(privacy).toContain("fonts.gstatic.com");
+    expect(css).toContain("ui-sans-serif");
+    expect(css).not.toContain("fonts.googleapis.com");
+    expect(headers).toContain("style-src 'self' 'unsafe-inline'");
+    expect(headers).toContain("font-src 'self' data:");
+    expect(headers).not.toContain("fonts.googleapis.com");
+    expect(headers).not.toContain("fonts.gstatic.com");
+    expect(privacy).toContain("system fonts");
+    expect(privacy).not.toContain("fonts.googleapis.com");
+    expect(privacy).not.toContain("fonts.gstatic.com");
+  });
+
+  it("publishes Pakistan-focused legal drafts and an explicit owner review gate", () => {
+    const privacy = read("public/privacy/index.html");
+    const terms = read("public/terms/index.html");
+    const legalReview = read("LEGAL_REVIEW_PAKISTAN.md");
+    expect(privacy).toContain("Pakistan");
+    expect(privacy).toContain("Cloudflare");
+    expect(terms).toContain("laws of Pakistan");
+    expect(legalReview).toContain("Drafting and issue-spotting only");
+    expect(legalReview).toContain("Pakistan-qualified lawyer");
   });
 
   it("ships public support, security, release and dependency-maintenance guidance", () => {
