@@ -113,3 +113,7 @@ footer .footer-links{display:flex;align-items:center;gap:14px}footer .footer-lin
 .watermark-logo-preview{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px;border:1px solid #eceef4;border-radius:10px;background:#fafaff}
 .watermark-logo-preview img{display:block;max-width:120px;max-height:64px;object-fit:contain}
 .watermark-logo-preview .change-file{flex:none}
+
+
+/* Compact category selector for the expanded 30-category catalogue. */
+.tool-category-label{display:block;margin:12px 0 6px;color:#697387;font-size:11px;font-weight:700}.tool-category-select{width:100%;max-width:520px;min-height:42px;padding:9px 12px;border:1px solid #e3e5ef;border-radius:10px;background:#fff;color:#343b4b;font:inherit;font-size:12px}.tool-category-select:focus-visible{outline:3px solid #d9d4ff;outline-offset:2px}
