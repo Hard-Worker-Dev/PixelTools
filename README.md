@@ -27,7 +27,7 @@ A premium, free online image toolkit. The product focuses on practical image wor
 13. Image to Base64 — copy or save raw Base64 or a full data URL
 14. Image Metadata Cleaner — re-encode a clean copy without copying original EXIF/GPS metadata
 
-AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. Five additional roadmap categories (PDF Tools, Design & Graphics, Social Media, Color & Branding, and Developer Tools) now list 75 planned tools; every new entry is visibly disabled as Coming Soon. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
+AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. The tool catalogue now contains 30 roadmap categories with 100 Coming Soon entries each (3,000 planned entries total). These are not implemented features. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
 
 ## Privacy and safety
 - Working image tools process files locally in the browser; selected image files are not uploaded to a PixelTools image-processing server.
