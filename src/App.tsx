@@ -1485,7 +1485,7 @@ export default function App() {
 
   useEffect(() => {
     const tool = tools.find(item => item.id === active);
-    document.title = tool ? tool.title + " — Free Online Image Tool | PixelTools" : "PixelTools — One workspace. Every pixel.";
+    document.title = tool ? tool.title + " — Free Online Tool | PixelTools" : "PixelTools — One workspace. Every pixel.";
     const description = tool ? tool.desc : "PixelTools offers 15 working browser-based tools and a roadmap of 3,000 tools across 30 categories.";
     let meta = document.querySelector<HTMLMetaElement>("meta[name=description]");
     if (!meta) { meta = document.createElement("meta"); meta.name = "description"; document.head.appendChild(meta); }
@@ -1574,7 +1574,7 @@ export default function App() {
           <div className="eyebrow"><Sparkles size={14}/> YOUR CREATIVE WORKFLOW, SIMPLIFIED</div>
           <h1>One workspace.<br/><span>Every pixel.</span></h1>
           <p className="hero-lead">A growing creative workspace for image, PDF and everyday file tasks. Explore 3,000 planned tools across 30 categories — with 16 browser-based tools available today.</p>
-          <div className="hero-actions"><a className="primary-btn" href="#tools">Explore image tools <ArrowRight size={17}/></a><div className="trust-note"><ShieldCheck size={17}/> Private by design</div></div>
+          <div className="hero-actions"><a className="primary-btn" href="#tools">Explore tools <ArrowRight size={17}/></a><div className="trust-note"><ShieldCheck size={17}/> Private by design</div></div>
           <div className="hero-stats"><div><strong>3,000</strong><span>Tools in the roadmap</span></div><div><strong>30</strong><span>Focused categories</span></div><div><strong>16</strong><span>Working today</span></div></div>
         </div>
         <div className="hero-art">
@@ -1602,9 +1602,9 @@ export default function App() {
         {filteredTools.length === 0 && <p className="empty-tools">No matching tools. Try another search or choose “All tools”.</p>}
       </section>
       <section className="privacy-section" id="privacy"><div className="privacy-icon"><ShieldCheck size={25}/></div><div><div className="eyebrow">YOUR PRIVACY MATTERS</div><h2>Your files stay <span>in control.</span></h2><p>The 16 currently available tools process files directly in your browser. The wider 3,000-tool roadmap is being implemented in tested phases; planned tools are not presented as working features.</p></div><div className="privacy-stamp"><LockKeyhole size={18}/><b>PRIVATE</b><small>By design</small></div></section>
-      <section className="how-section" id="how"><div className="eyebrow">THREE SIMPLE STEPS</div><h2>From upload to <span>done.</span></h2><div className="steps"><div><b>01</b><h3>Choose a tool</h3><p>Pick the image task you want to get done.</p></div><div><b>02</b><h3>Add your image</h3><p>Drop a file or browse your device. That's it.</p></div><div><b>03</b><h3>Download & go</h3><p>Process locally and save your finished image.</p></div></div></section>
+      <section className="how-section" id="how"><div className="eyebrow">THREE SIMPLE STEPS</div><h2>From upload to <span>done.</span></h2><div className="steps"><div><b>01</b><h3>Choose a tool</h3><p>Choose the image or document task you want to finish.</p></div><div><b>02</b><h3>Add your image</h3><p>Add your images or documents from your device.</p></div><div><b>03</b><h3>Download & go</h3><p>Process locally and download your finished file.</p></div></div></section>
     </main>
-    <footer><a className="brand" href="/"><span className="brand-mark"><ImageIcon size={17}/></span>pixel<span>tools</span></a><p>Thoughtful image tools. Free for everyone.</p><nav className="footer-links"><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><small>© 2026 PixelTools. Made for the web.</small></footer>
+    <footer><a className="brand" href="/"><span className="brand-mark"><ImageIcon size={17}/></span>pixel<span>tools</span></a><p>Thoughtful browser tools. Free for everyone.</p><nav className="footer-links"><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><small>© 2026 PixelTools. Made for the web.</small></footer>
 
     {active && <div className="modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) closeTool() }}>
       <section ref={dialogRef} className="tool-modal" role="dialog" aria-modal="true" aria-labelledby="tool-dialog-title" tabIndex={-1}>
