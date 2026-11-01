@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { PDFDocument, rgb } from "pdf-lib";
+import { PDFDocument } from "pdf-lib";
 import { watermarkPdfFile } from "./pdf-watermark";
 
 async function makePdf(count=2): Promise<File> {
