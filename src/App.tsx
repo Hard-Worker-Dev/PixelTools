@@ -1579,7 +1579,7 @@ export default function App() {
         <div className="hero-copy">
           <div className="eyebrow"><Sparkles size={14}/> YOUR CREATIVE WORKFLOW, SIMPLIFIED</div>
           <h1>One workspace.<br/><span>Every pixel.</span></h1>
-          <p className="hero-lead">A growing creative workspace for image, PDF and everyday file tasks. Explore 3,000 planned tools across 30 categories — with 16 browser-based tools available today.</p>
+          <p className="hero-lead">A growing creative workspace for image, PDF and everyday file tasks. Explore 3,000 planned tools across 30 categories — with 16 established tools and five additional PDF tools in the current preview.</p>
           <div className="hero-actions"><a className="primary-btn" href="#tools">Explore tools <ArrowRight size={17}/></a><div className="trust-note"><ShieldCheck size={17}/> Private by design</div></div>
           <div className="hero-stats"><div><strong>3,000</strong><span>Tools in the roadmap</span></div><div><strong>30</strong><span>Focused categories</span></div><div><strong>16</strong><span>Working today</span></div></div>
         </div>
