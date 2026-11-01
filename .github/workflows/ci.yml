@@ -2,7 +2,7 @@ name: PixelTools CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, work/release-readiness-audit]
   pull_request:
     branches: [main]
   workflow_dispatch:
