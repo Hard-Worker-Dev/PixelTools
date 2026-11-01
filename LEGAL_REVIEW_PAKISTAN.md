@@ -17,7 +17,7 @@ The public documents are written against the current release behavior described 
 - The current release offers 14 working image tools and marks AI Background Remover and AI Upscaler as Coming Soon.
 - Selected image files are processed in the user's browser; the project does not operate an image-processing upload API in this release.
 - The app does not require accounts or payments and does not currently provide first-party advertising or analytics profiles.
-- The site loads Google Fonts and is hosted on Cloudflare Pages. Those providers may independently process connection/technical data under their own terms.
+- The site now uses system fonts and is hosted on Cloudflare Pages. Cloudflare may independently process connection/technical data under its own terms.
 - The Metadata Viewer can expose EXIF fields, including GPS coordinates. Base64 output can encode the full image content.
 - No dedicated project privacy email, registered legal entity name or postal address is currently published. The public issue tracker is not an appropriate channel for sensitive privacy requests.
 
@@ -38,7 +38,7 @@ These sources are a starting point, not an exhaustive analysis of federal and pr
 
 - Confirm the contracting operator's full legal name, business/individual status, service address and a monitored privacy contact channel. Add these to the policy and terms where appropriate.
 - Confirm the actual hosting account, Cloudflare plan/settings, log access, retention, subprocessors and any international processing/transfer arrangements.
-- Confirm whether Google Fonts should remain externally hosted or be self-hosted to reduce third-party browser requests.
+- Verify the deployed stylesheet no longer makes remote font requests and confirm no other third-party browser requests have been added.
 - Confirm whether any cookies, local storage, telemetry, error reporting, CDN security challenges or other browser storage are active in production.
 - Review the age/guardian wording, prohibited-use terms, disclaimers, liability wording and dispute/forum language for enforceability and mandatory consumer rights.
 - Determine the process for privacy complaints and legal notices, including a private channel; do not direct confidential requests to public GitHub issues.
