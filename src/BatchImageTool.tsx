@@ -80,6 +80,7 @@ export default function BatchImageTool() {
           throw new Error("Image exceeds the 12,000 px per-side or 60 megapixel safety limit.");
         }
         const output = await renderImage(file, { format, quality: quality / 100, backgroundColor: "#FFFFFF" });
+        if (!output.size || output.type !== format) throw new Error("The browser returned an empty or unexpected output file. Try another format or browser.");
         success.push({ source: file, output, outputName: outputName(file.name, format) });
       } catch (reason) {
         failures.push({ name: file.name, reason: reason instanceof Error ? reason.message : "Could not process this image." });
