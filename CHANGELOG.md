@@ -2,6 +2,14 @@
 
 All notable PixelTools changes are documented here.
 
+## Unreleased — platform implementation
+
+### Working tools
+- Added a browser-local **Batch Image Converter** for up to 30 JPG, PNG or WebP images (25 MB per file, 100 MB combined), with configurable WebP/JPG/PNG output, sequential processing, per-file downloads and a ZIP archive export.
+- Added a ZIP32 writer with CRC-32 checksums, UTF-8 filenames, duplicate-name protection and path-safe archive entries. Source images never leave the browser.
+- Added automated coverage for ZIP headers/checksums, duplicate filenames, safe paths and the batch conversion UI workflow.
+- The working tool count is now 15; the 3,000 catalogue entries remain planned until individually implemented and verified.
+
 ## Unreleased — release-readiness documentation
 
 ### Legal and privacy
