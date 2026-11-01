@@ -9,7 +9,7 @@ All notable PixelTools changes are documented here.
 - Added **PDF Splitter** for exporting selected page ranges as separate PDFs in a ZIP archive, with range validation, a 200-page cap and local processing.
 - Added **PDF Rotator** for rotating all pages in 90-degree steps, **PDF Page Reorder** for custom page sequences, and **PDF Page Extractor** for saving selected pages as individual PDFs in a ZIP.
 - Added automated tests for rotation preservation, page permutation validation, page-order fidelity and independently readable extracted PDF files.
-- PDF Merger and PDF Splitter are feature-branch implementations; independent PDF-reader/ZIP validation and physical-device QA remain release gates.
+- All five PDF tools are feature-branch implementations; independent PDF-reader/ZIP validation and physical-device QA remain release gates.
 - Added `pdf-lib` as a pinned runtime dependency and automated tests for PDF merge order, split ZIP entries, invalid ranges, corrupt files and input validation. Password-protected PDFs are not supported.
 - Added a browser-local **Batch Image Converter** for up to 30 JPG, PNG or WebP images (25 MB per file, 100 MB combined), with configurable WebP/JPG/PNG output, sequential processing, per-file downloads and a ZIP archive export.
 - Added a ZIP32 writer with CRC-32 checksums, UTF-8 filenames, duplicate-name protection and path-safe archive entries. Source images never leave the browser.
