@@ -14,7 +14,9 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [x] TypeScript typecheck passed.
 - [x] Vitest suite passed.
 - [x] Vite production build passed.
-- [x] All 14 implemented tool workspaces have UI workflow coverage.
+- [x] All 14 original image-tool workspaces have UI workflow coverage on the release-candidate baseline.
+- [x] Follow-on PR #12 adds Batch Image Converter and Image to PDF; CI run #199 passed dependency audits, TypeScript checks, all 84 automated tests and the production build.
+- [ ] Complete independent export checks and manual browser/device acceptance for the two new tools before production promotion.
 - [x] All 11 image editing/export tools have automated processing-to-result coverage.
 - [x] Color Picker, Metadata Viewer and Base64 output workflows have automated coverage.
 - [x] Static SEO, internal-link, sitemap and security-header contracts are tested.
@@ -44,7 +46,9 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [ ] Test Android Chrome on a physical device.
 - [ ] Test iPhone Safari on a physical device.
 - [ ] Test tablet viewport and touch interactions.
-- [ ] Verify downloaded file contents by opening each output in a second image viewer.
+- [ ] Verify downloaded image contents by opening each output in a second image viewer.
+- [ ] Verify batch ZIP integrity independently, including mixed formats, duplicate filenames, partial failures and the archive-size boundary.
+- [ ] Verify Image to PDF output in an independent PDF reader, including page count, page order, A4 orientation, image quality and size limits.
 - [ ] Verify JPEG background flattening and PNG/WebP transparency.
 - [ ] Inspect Metadata Cleaner output with an independent EXIF reader; confirm source EXIF/GPS tags are not copied. Do not claim forensic sanitization.
 - [ ] Validate memory use and behavior near the 25 MB / 60 MP limits on representative devices.

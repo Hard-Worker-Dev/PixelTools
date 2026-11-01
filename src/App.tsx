@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import BatchImageTool from "./BatchImageTool";
+import ImageToPdfTool from "./ImageToPdfTool";
 import exifr from "exifr";
 import {
   ArrowDownToLine, ArrowRight, Check, Copy, FileImage, Image as ImageIcon,
@@ -12,7 +14,7 @@ import {
 type ToolId =
   | "compress" | "resize" | "crop" | "convert" | "rotate" | "flip"
   | "watermark" | "rounded" | "blur" | "grayscale" | "color"
-  | "metadata" | "base64" | "metadata-cleaner";
+  | "metadata" | "base64" | "metadata-cleaner" | "batch" | "image-to-pdf";
 
 const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: string }> = [
   { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular" },
@@ -28,6 +30,8 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
   { id: "color", title: "Image Color Picker", desc: "Click any pixel to inspect its color value.", icon: "◉", tag: "Pixel sampling" },
   { id: "metadata", title: "Image Metadata Viewer", desc: "Inspect file details, type and image dimensions.", icon: "ⓘ", tag: "File details" },
   { id: "metadata-cleaner", title: "Image Metadata Cleaner", desc: "Export a fresh image copy without the source photo metadata.", icon: "⌁", tag: "Privacy" },
+  { id: "batch", title: "Batch Image Converter", desc: "Convert and optimize up to 30 images at once, then download them individually or as one ZIP.", icon: "▤", tag: "New", category: "batch" },
+  { id: "image-to-pdf", title: "Image to PDF", desc: "Combine JPG, PNG or WebP images into an ordered, multi-page A4 PDF.", icon: "▧", tag: "New", category: "pdf" },
   { id: "base64", title: "Image to Base64", desc: "Create a Base64 data URL and copy it.", icon: "⌘", tag: "Developer" },
   { id: "background", title: "Background Remover", desc: "AI-powered background removal.", icon: "✧", tag: "Coming soon", comingSoon: true },
   { id: "upscaler", title: "AI Image Upscaler", desc: "Increase image resolution with an AI model.", icon: "⤢", tag: "Coming soon", comingSoon: true }
@@ -924,7 +928,7 @@ const toolSlugs: Record<ToolId, string> = {
   convert: "image-converter", rotate: "image-rotator", flip: "image-flipper",
   watermark: "image-watermark", rounded: "rounded-corners", blur: "image-blur",
   grayscale: "grayscale-converter", color: "image-color-picker",
-  metadata: "image-metadata-viewer", base64: "image-to-base64", "metadata-cleaner": "image-metadata-cleaner"
+  metadata: "image-metadata-viewer", base64: "image-to-base64", "metadata-cleaner": "image-metadata-cleaner", batch: "batch-image-converter", "image-to-pdf": "image-to-pdf"
 };
 
 function getInitialTool(): ToolId | null {
@@ -1481,8 +1485,8 @@ export default function App() {
 
   useEffect(() => {
     const tool = tools.find(item => item.id === active);
-    document.title = tool ? tool.title + " — Free Online Image Tool | PixelTools" : "PixelTools — Image work, made simple";
-    const description = tool ? tool.desc : "Free, private image tools. Compress, resize, convert and edit images right in your browser with PixelTools.";
+    document.title = tool ? tool.title + " — Free Online Tool | PixelTools" : "PixelTools — One workspace. Every pixel.";
+    const description = tool ? tool.desc : "PixelTools offers 15 working browser-based tools and a roadmap of 3,000 tools across 30 categories.";
     let meta = document.querySelector<HTMLMetaElement>("meta[name=description]");
     if (!meta) { meta = document.createElement("meta"); meta.name = "description"; document.head.appendChild(meta); }
     meta.content = description;
@@ -1568,10 +1572,10 @@ export default function App() {
       <section className="hero">
         <div className="hero-copy">
           <div className="eyebrow"><Sparkles size={14}/> YOUR CREATIVE WORKFLOW, SIMPLIFIED</div>
-          <h1>Image work,<br/><span>made simple.</span></h1>
-          <p className="hero-lead">The little image toolkit that does a lot. Compress, resize and convert your images in a few clicks — completely free.</p>
-          <div className="hero-actions"><a className="primary-btn" href="#tools">Explore image tools <ArrowRight size={17}/></a><div className="trust-note"><ShieldCheck size={17}/> Private by design</div></div>
-          <div className="hero-stats"><div><strong>100%</strong><span>Free to use</span></div><div><strong>0</strong><span>Uploads to servers</span></div><div><strong>Fast</strong><span>Browser processing</span></div></div>
+          <h1>One workspace.<br/><span>Every pixel.</span></h1>
+          <p className="hero-lead">A growing creative workspace for image, PDF and everyday file tasks. Explore 3,000 planned tools across 30 categories — with 16 browser-based tools available today.</p>
+          <div className="hero-actions"><a className="primary-btn" href="#tools">Explore tools <ArrowRight size={17}/></a><div className="trust-note"><ShieldCheck size={17}/> Private by design</div></div>
+          <div className="hero-stats"><div><strong>3,000</strong><span>Tools in the roadmap</span></div><div><strong>30</strong><span>Focused categories</span></div><div><strong>16</strong><span>Working today</span></div></div>
         </div>
         <div className="hero-art">
           <div className="art-glow"></div>
@@ -1580,31 +1584,35 @@ export default function App() {
           <div className="sparkle s1">✳</div><div className="sparkle s2">✦</div>
         </div>
       </section>
-      <section className="trust-strip"><span><LockKeyhole size={16}/> Your images stay on your device</span><span><Check size={16}/> No sign-up required</span><span><Sparkles size={16}/> Always free</span></section>
+      <section className="trust-strip"><span><LockKeyhole size={16}/> Local processing for live image tools</span><span><Check size={16}/> No account required</span><span><Sparkles size={16}/> 30 categories · 3,000 planned tools</span></section>
       <section className="tools-section" id="tools">
-        <div className="section-heading"><div><div className="eyebrow">THE TOOLKIT</div><h2>Everything you need.<br/><span>Nothing you don't.</span></h2></div><p>Focused image utilities for everyday creative work. Choose a tool and get straight to work.</p></div>
+        <div className="section-heading"><div><div className="eyebrow">EXPLORE THE PLATFORM</div><h2>Find your next tool.<br/><span>Get straight to work.</span></h2></div><p>Browse the complete roadmap by category. Live tools open instantly; planned tools are clearly marked while they are being built and tested.</p></div>
         <div className="tool-discovery">
           <label className="tool-search-label" htmlFor="tool-search">Find the right tool</label>
-          <input id="tool-search" className="tool-search" type="search" placeholder="Search compressor, crop, watermark…" value={toolSearch} onChange={e => setToolSearch(e.target.value)} />
+          <input id="tool-search" className="tool-search" type="search" placeholder="Try PDF editor, image compressor, QR code…" value={toolSearch} onChange={e => setToolSearch(e.target.value)} />
           <label className="tool-category-label" htmlFor="tool-category">Browse category</label>
           <select id="tool-category" className="tool-category-select" value={toolCategory} onChange={e => setToolCategory(e.target.value)}>
             <option value="all">All categories (30)</option>
             <option value="optimize">Quick filter: Optimize</option><option value="edit">Quick filter: Edit</option><option value="inspect">Quick filter: Inspect & data</option>
-            {roadmapCategories.map(group => <option key={group.key} value={group.key}>{group.label} — 100 tools</option>)}
+            {roadmapCategories.map(group => <option key={group.key} value={group.key}>{group.label} — {group.key === "batch" || group.key === "pdf" ? "101" : "100"} tools</option>)}
           </select>
-          <p className="tool-count" role="status">{toolCategory === "all" ? `Showing ${visibleTools.length} of ${filteredTools.length} tools` : `${filteredTools.length} tools found`}</p>
+          <div className="tool-filters" aria-label="Quick tool filters">
+            {[['all','All tools'],['optimize','Optimize'],['edit','Edit'],['inspect','Inspect & data']].map(([value,label]) => <button type="button" key={value} className={toolCategory===value ? "filter-chip active" : "filter-chip"} aria-pressed={toolCategory===value} onClick={() => setToolCategory(value)}>{label}</button>)}
+          </div>
+          <p className="tool-count" role="status">{toolCategory === "all" && !toolSearch.trim() ? `Showing ${visibleTools.length} of ${filteredTools.length} tools` : `${filteredTools.length} tools found`}</p>
         </div>
-        <div className="tool-grid">{visibleTools.map(tool => <button className={tool.comingSoon ? "tool-card disabled" : "tool-card"} key={tool.id} disabled={!!tool.comingSoon} onClick={() => !tool.comingSoon && chooseTool(tool.id as ToolId)}><div className="tool-card-top"><span className="tool-icon">{tool.icon}</span><span className={tool.comingSoon ? "tool-tag coming" : "tool-tag"}>{tool.tag}</span></div><h3>{tool.title}</h3><p>{tool.desc}</p><span className="tool-link">{tool.comingSoon ? "In development" : "Open tool"} {!tool.comingSoon && <ArrowRight size={15}/>}</span></button>)}</div>
+        <div className="tool-grid">{visibleTools.map(tool => <button className={tool.comingSoon ? "tool-card disabled" : "tool-card"} key={tool.id} disabled={!!tool.comingSoon} onClick={() => !tool.comingSoon && chooseTool(tool.id as ToolId)}><div className="tool-card-top"><span className="tool-icon">{tool.icon}</span><span className={tool.comingSoon ? "tool-tag coming" : "tool-tag"}>{tool.tag}</span></div><h3>{tool.title}</h3><p>{tool.desc}</p><span className="tool-link">{tool.comingSoon ? "Planned · Coming soon" : "Open tool"} {!tool.comingSoon && <ArrowRight size={15}/>}</span></button>)}</div>
         {filteredTools.length === 0 && <p className="empty-tools">No matching tools. Try another search or choose “All tools”.</p>}
       </section>
-      <section className="privacy-section" id="privacy"><div className="privacy-icon"><ShieldCheck size={25}/></div><div><div className="eyebrow">YOUR PRIVACY MATTERS</div><h2>Your images are <span>yours.</span></h2><p>Working tools process your images directly in your browser. Your files are not uploaded to PixelTools servers, and there is no account to create. AI background removal and upscaling are not enabled yet.</p></div><div className="privacy-stamp"><LockKeyhole size={18}/><b>PRIVATE</b><small>By design</small></div></section>
-      <section className="how-section" id="how"><div className="eyebrow">THREE SIMPLE STEPS</div><h2>From upload to <span>done.</span></h2><div className="steps"><div><b>01</b><h3>Choose a tool</h3><p>Pick the image task you want to get done.</p></div><div><b>02</b><h3>Add your image</h3><p>Drop a file or browse your device. That's it.</p></div><div><b>03</b><h3>Download & go</h3><p>Process locally and save your finished image.</p></div></div></section>
+      <section className="privacy-section" id="privacy"><div className="privacy-icon"><ShieldCheck size={25}/></div><div><div className="eyebrow">YOUR PRIVACY MATTERS</div><h2>Your files stay <span>in control.</span></h2><p>The 16 currently available tools process files directly in your browser. The wider 3,000-tool roadmap is being implemented in tested phases; planned tools are not presented as working features.</p></div><div className="privacy-stamp"><LockKeyhole size={18}/><b>PRIVATE</b><small>By design</small></div></section>
+      <section className="how-section" id="how"><div className="eyebrow">THREE SIMPLE STEPS</div><h2>From upload to <span>done.</span></h2><div className="steps"><div><b>01</b><h3>Choose a tool</h3><p>Choose the image or document task you want to finish.</p></div><div><b>02</b><h3>Add your image</h3><p>Add your images or documents from your device.</p></div><div><b>03</b><h3>Download & go</h3><p>Process locally and download your finished file.</p></div></div></section>
     </main>
-    <footer><a className="brand" href="/"><span className="brand-mark"><ImageIcon size={17}/></span>pixel<span>tools</span></a><p>Thoughtful image tools. Free for everyone.</p><nav className="footer-links"><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><small>© 2026 PixelTools. Made for the web.</small></footer>
+    <footer><a className="brand" href="/"><span className="brand-mark"><ImageIcon size={17}/></span>pixel<span>tools</span></a><p>Thoughtful browser tools. Free for everyone.</p><nav className="footer-links"><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><small>© 2026 PixelTools. Made for the web.</small></footer>
 
     {active && <div className="modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) closeTool() }}>
       <section ref={dialogRef} className="tool-modal" role="dialog" aria-modal="true" aria-labelledby="tool-dialog-title" tabIndex={-1}>
         <div className="modal-head"><div><div className="eyebrow">PIXELTOOLS WORKSPACE</div><h2 id="tool-dialog-title">{toolName}</h2><p className="modal-subtitle">{tools.find(t => t.id === active)?.desc}</p></div><button className="icon-btn" aria-label="Close tool" onClick={closeTool}><X size={20}/></button></div>
+        {active === "image-to-pdf" ? <ImageToPdfTool/> : active === "batch" ? <BatchImageTool/> : <>
         <div className="workflow-steps" aria-label="Tool workflow"><span className={!file ? "current" : "done"}><b>1</b> Add image</span><span className={file ? "current" : ""}><b>2</b> Adjust options</span><span className={result ? "done current" : ""}><b>3</b> Download</span></div>
         {!file ? <button className="dropzone" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); selectFile(e.dataTransfer.files[0]); }}><span className="upload-icon"><UploadCloud size={28}/></span><b>Drop your image here</b><span>or click to browse files</span><small>JPG, PNG, WebP · Up to 25 MB</small></button> : <div className="workspace">
           <div className="preview-panel">
@@ -1678,6 +1686,7 @@ export default function App() {
         <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={e => selectFile(e.target.files?.[0])}/>
         {active === "watermark" && <input ref={watermarkInputRef} type="file" accept="image/png,image/webp" hidden onChange={e => selectWatermarkImage(e.target.files?.[0])}/>}
         <div className="modal-foot"><LockKeyhole size={14}/> Files are processed locally in your browser <button onClick={closeTool}>Close</button></div>
+        </>}
       </section>
     </div>}
   </div>;
