@@ -5,9 +5,10 @@ All notable PixelTools changes are documented here.
 ## Unreleased — release-readiness documentation
 
 ### Legal and privacy
-- Reworked the public Privacy Policy for the current Pakistan-focused release, including browser-local image processing, Cloudflare technical processing, Google Fonts requests, metadata sensitivity and contact-channel limitations.
+- Reworked the public Privacy Policy for the current Pakistan-focused release, including browser-local image processing, Cloudflare technical processing, metadata sensitivity and contact-channel limitations.
 - Reworked the public Terms of Use with acceptable-use requirements, user file responsibilities, output review, service limitations and Pakistan governing-law wording.
 - Added a Pakistan legal review decision record. These documents remain drafts pending operator identity/contact details and qualified legal review.
+- Replaced remote Google Fonts with system font stacks and removed the external font hosts from the Content Security Policy.
 - Clarified that public GitHub issues are not a channel for private privacy requests or sensitive material.
 
 ### Release operations
@@ -31,7 +32,7 @@ This is a release candidate, not the final 1.0.0 release.
 - Automated processing workflow coverage for all 11 editing/export tools.
 - Automated workflow coverage for Color Picker, Metadata Viewer and Base64 tools.
 - Watermark logo dimension validation and bounded aspect-ratio rendering.
-- Content Security Policy allows the external Google Fonts hosts required by the stylesheet; the Privacy Policy discloses those requests.
+- Content Security Policy is restricted to local assets after removing the remote Google Fonts dependency.
 - CI performs full and production-only dependency audits, typechecking, automated tests and a production build.
 
 ### Known release gates
