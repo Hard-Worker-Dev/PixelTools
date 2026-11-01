@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
-import { ArrowDownToLine, Check, FileText, LockKeyhole, Plus, UploadCloud, X, RotateCw, ListOrdered, Files } from "lucide-react";
+import { ArrowDownToLine, Check, FileText, LockKeyhole, Plus, UploadCloud, X, RotateCw, ListOrdered, Files, Stamp } from "lucide-react";
 import { loadPdfFile, mergePdfFiles, safePdfBaseName, splitPdfFile } from "./lib/pdf-operations";
 import { extractPdfPages, reorderPdfPages, rotatePdfFile } from "./lib/pdf-page-operations";
+import { watermarkPdfFile, type PdfWatermarkOptions } from "./lib/pdf-watermark";
 import { formatBytes } from "./lib/image";
 
 
@@ -173,6 +174,56 @@ export function PdfExtractTool() {
     {file&&<button type="button" className="primary-btn process-btn" disabled={busy||!selected.length} onClick={extract}>{busy?"Extracting pages…":"Extract "+selected.length+" pages"}</button>}
     {error&&<p className="error-msg" role="alert">{error}</p>}
     {result&&<section className="pdf-result" role="status"><div><Check size={18}/><b>Your extracted pages are ready</b><span>{formatBytes(result.size)}</span></div><p>Each selected page is an individual PDF in the ZIP archive.</p><button type="button" className="download-btn" onClick={()=>download(result,safePdfBaseName(file?.name??"document")+"-extracted-pages.zip")}><ArrowDownToLine size={16}/> Download ZIP</button></section>}
+    <div className="pdf-privacy"><LockKeyhole size={14}/> Local processing · Password-protected PDFs are not supported.</div>
+  </div>;
+}
+
+export function PdfWatermarkTool() {
+  const [file,setFile]=useState<File|null>(null);
+  const [pages,setPages]=useState(0);
+  const [text,setText]=useState("CONFIDENTIAL");
+  const [color,setColor]=useState("#555555");
+  const [opacity,setOpacity]=useState(35);
+  const [fontSize,setFontSize]=useState(28);
+  const [rotation,setRotation]=useState(-30);
+  const [position,setPosition]=useState<PdfWatermarkOptions["position"]>("center");
+  const [busy,setBusy]=useState(false);
+  const [error,setError]=useState("");
+  const [result,setResult]=useState<Blob|null>(null);
+  const choose=async(picked:File|null)=>{
+    if(!picked)return;
+    setError("");setResult(null);
+    try{const pdf=await loadPdfFile(picked);if(pdf.getPageCount()>200)throw new Error("PDF Watermark supports up to 200 pages.");setFile(picked);setPages(pdf.getPageCount());}
+    catch(reason){setFile(null);setPages(0);setError(reason instanceof Error?reason.message:"Could not read this PDF.");}
+  };
+  const remove=()=>{setFile(null);setPages(0);setResult(null);setError("");};
+  const process=async()=>{
+    if(!file||busy)return;
+    setBusy(true);setError("");setResult(null);
+    try{setResult(await watermarkPdfFile(file,{text,color,opacity:opacity/100,fontSize,rotation,position}));}
+    catch(reason){setError(reason instanceof Error?reason.message:"Could not add a watermark to this PDF.");}
+    finally{setBusy(false);}
+  };
+  return <div className="pdf-workspace">
+    <div className="pdf-intro"><span><Stamp size={21}/></span><div><b>Stamp every page with custom text</b><p>Add a subtle draft label, ownership notice or confidentiality mark. The original document stays unchanged.</p></div></div>
+    <PdfSingleFilePicker file={file} onChoose={choose} onRemove={remove} busy={busy}/>
+    {file&&<>
+      <div className="pdf-quality">
+        <label htmlFor="pdf-watermark-text">Watermark text <b>{text.length}/120</b></label>
+        <input id="pdf-watermark-text" className="text-input" value={text} maxLength={120} disabled={busy} onChange={e=>{setText(e.target.value);setResult(null);}} placeholder="e.g. CONFIDENTIAL"/>
+        <p>Basic English letters, numbers and punctuation are supported. The watermark is added to all {pages} pages.</p>
+      </div>
+      <div className="pdf-watermark-options">
+        <div className="pdf-quality"><label htmlFor="pdf-watermark-color">Text color</label><input id="pdf-watermark-color" type="color" value={color} disabled={busy} onChange={e=>{setColor(e.target.value);setResult(null);}}/></div>
+        <div className="pdf-quality"><label htmlFor="pdf-watermark-opacity">Opacity <b>{opacity}%</b></label><input id="pdf-watermark-opacity" type="range" min="5" max="100" step="5" value={opacity} disabled={busy} onChange={e=>{setOpacity(Number(e.target.value));setResult(null);}}/></div>
+        <div className="pdf-quality"><label htmlFor="pdf-watermark-size">Font size <b>{fontSize} pt</b></label><input id="pdf-watermark-size" type="range" min="8" max="96" step="1" value={fontSize} disabled={busy} onChange={e=>{setFontSize(Number(e.target.value));setResult(null);}}/></div>
+        <div className="pdf-quality"><label htmlFor="pdf-watermark-rotation">Rotation <b>{rotation}°</b></label><input id="pdf-watermark-rotation" type="range" min="-90" max="90" step="5" value={rotation} disabled={busy} onChange={e=>{setRotation(Number(e.target.value));setResult(null);}}/></div>
+      </div>
+      <div className="pdf-quality"><label htmlFor="pdf-watermark-position">Position</label><select id="pdf-watermark-position" className="text-input" value={position} disabled={busy} onChange={e=>{setPosition(e.target.value as PdfWatermarkOptions["position"]);setResult(null);}}><option value="center">Center</option><option value="top-left">Top left</option><option value="top-right">Top right</option><option value="bottom-left">Bottom left</option><option value="bottom-right">Bottom right</option></select><p>Watermark placement is calculated separately for each page size.</p></div>
+      <button type="button" className="primary-btn process-btn" disabled={busy||!text.trim()} onClick={process}>{busy?"Adding watermark…":"Add watermark to PDF"}</button>
+    </>}
+    {error&&<p className="error-msg" role="alert">{error}</p>}
+    {result&&<section className="pdf-result" role="status"><div><Check size={18}/><b>Your watermarked PDF is ready</b><span>{formatBytes(result.size)}</span></div><p>Text watermark added to all {pages} pages.</p><button type="button" className="download-btn" onClick={()=>download(result,safePdfBaseName(file?.name??"document")+"-watermarked.pdf")}><ArrowDownToLine size={16}/> Download watermarked PDF</button></section>}
     <div className="pdf-privacy"><LockKeyhole size={14}/> Local processing · Password-protected PDFs are not supported.</div>
   </div>;
 }
