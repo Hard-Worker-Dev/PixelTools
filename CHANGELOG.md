@@ -4,9 +4,10 @@ All notable PixelTools changes are documented here.
 
 ## Unreleased — platform implementation
 
-### Working tools
+### Implemented browser tools
 - Added **PDF Merger** for combining 2–10 PDF files in a custom order, with per-file/combined size limits, a 200-page cap and local processing.
 - Added **PDF Splitter** for exporting selected page ranges as separate PDFs in a ZIP archive, with range validation, a 200-page cap and local processing.
+- PDF Merger and PDF Splitter are feature-branch implementations; independent PDF-reader/ZIP validation and physical-device QA remain release gates.
 - Added `pdf-lib` as a pinned runtime dependency and automated tests for PDF merge order, split ZIP entries, invalid ranges, corrupt files and input validation. Password-protected PDFs are not supported.
 - Added a browser-local **Batch Image Converter** for up to 30 JPG, PNG or WebP images (25 MB per file, 100 MB combined), with configurable WebP/JPG/PNG output, sequential processing, per-file downloads and a ZIP archive export.
 - Added a ZIP32 writer with CRC-32 checksums, UTF-8 filenames, duplicate-name protection and path-safe archive entries. Source images never leave the browser.
