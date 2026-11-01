@@ -8,8 +8,8 @@
 
 | Environment | Required coverage | Evidence |
 |---|---|---|
-| Chrome desktop (current stable) | All 21 feature-branch tools; JPG, PNG, WebP, image-to-PDF, PDF merge/split/rotate/reorder/extract and ZIP exports | Browser/version, OS, screenshots, output files |
-| Edge desktop (current stable) | All 21 feature-branch tools; JPG, PNG, WebP, PDF merge/split/rotate/reorder/extract | Browser/version, OS, output files |
+| Chrome desktop (current stable) | All 22 feature-branch tools; JPG, PNG, WebP, image-to-PDF, PDF merge/split/rotate/reorder/extract/watermark and ZIP exports | Browser/version, OS, screenshots, output files |
+| Edge desktop (current stable) | All 21 feature-branch tools; JPG, PNG, WebP, PDF merge/split/rotate/reorder/extract/watermark | Browser/version, OS, output files |
 | Firefox desktop (current stable) | All 21 feature-branch tools; JPG, PNG, WebP, PDF merge/split/rotate/reorder/extract | Browser/version, OS, output files |
 | Android Chrome, physical device | Upload, tool controls, download/share, orientation | Device model, Android version, screenshots |
 | iPhone Safari, physical device | Upload, tool controls, download/share, orientation | Device model, iOS version, screenshots |
@@ -57,6 +57,7 @@ Record SHA-256 hashes for source and output assets. Never use private user photo
 | PDF Rotator | Rotate 90°, 180°, 270° and counterclockwise; test pre-rotated pages | Independent reader confirms effective orientation; existing rotations are preserved and adjusted |
 | PDF Page Reorder | Move first/middle/last pages; export custom sequences | Independent reader confirms every original page appears once in requested order |
 | PDF Page Extractor | Select all, none, one, multiple and non-contiguous pages | ZIP passes external integrity check; every extracted PDF opens and matches the selected source page |
+| PDF Watermark | Test all five positions, 5–100% opacity, 8–96 pt size, -90° to 90° rotation, different page sizes and long text | Independent reader confirms text on every page, correct placement/opacity/rotation, original page dimensions and unchanged source file |
 
 ## Download and file integrity checks
 
@@ -82,7 +83,7 @@ For Base64, decode the saved result and compare its SHA-256 with the original in
 - Reject dimensions above 12,000 pixels on either side or 60 megapixels total for single-image processing.
 - Batch converter: test 30 files, 31 files, 25 MB per-file boundary, 100 MB combined input, malformed image, one failed file among valid files, stop control and ZIP output over 150 MB.
 - Image to PDF: test 20 pages, 21 pages, 25 MB per-file boundary, 100 MB combined input, 120 megapixels combined, 150 MB output boundary, corrupted image and page reordering.
-- PDF tools: test 200-page and 201-page PDFs, 25 MB input boundary, 150 MB output boundary, corrupted/password-protected files, empty and duplicate page selections, invalid page permutations, and page rotations including already-rotated pages.
+- PDF tools: test 200-page and 201-page PDFs, 25 MB input boundary, 150 MB output boundary, corrupted/password-protected files, empty and duplicate page selections, invalid page permutations, and page rotations including already-rotated pages. PDF Watermark: test empty/non-ASCII/overlong text, invalid HEX colors and boundary opacity/font-size/rotation values.
 - Test files at 25 MB and just over 25 MB.
 - Test crop values at zero, negative, fractional, and beyond image bounds.
 - Test invalid/empty target-size values and impossible compression targets.
