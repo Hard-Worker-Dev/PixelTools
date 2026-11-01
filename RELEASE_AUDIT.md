@@ -53,7 +53,7 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 - [x] Record relevant Pakistan legal sources and owner/counsel decisions in `LEGAL_REVIEW_PAKISTAN.md`.
 - [ ] Owner supplies contracting operator's legal identity, service address and monitored private privacy contact route.
 - [ ] Pakistan-qualified lawyer reviews current federal/provincial law, mandatory consumer rights, enforceability and final documents.
-- [ ] Confirm actual Cloudflare logs/retention, subprocessors, international processing and Google Fonts behavior.
+- [ ] Confirm actual Cloudflare logs/retention, subprocessors and international processing; verify deployed pages make no unintended third-party requests.
 - [ ] Recheck Gazette/parliamentary status of proposed data-protection legislation immediately before launch.
 - [ ] Verify production hostname, HTTPS and effective response headers from an external browser/network.
 - [ ] Owner verifies Google Search Console property and submits the sitemap.
