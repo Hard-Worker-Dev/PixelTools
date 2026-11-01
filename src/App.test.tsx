@@ -460,4 +460,14 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.getByText(/Process a whole image set in one go/)).toBeTruthy();
     expect(screen.getByText(/Up to 30 files/)).toBeTruthy();
   });
+
+  it("opens the working Image to PDF tool from the PDF category", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.selectOptions(screen.getByLabelText("Browse category"), "pdf");
+    await user.click(screen.getByRole("button", { name: /Image to PDF/ }));
+    expect(screen.getByRole("dialog", { name: "Image to PDF" })).toBeTruthy();
+    expect(screen.getByText(/multi-page PDF/)).toBeTruthy();
+    expect(screen.getByText(/Up to 20 pages/)).toBeTruthy();
+  });
 });
