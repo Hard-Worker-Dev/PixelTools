@@ -48,7 +48,7 @@ const roadmapCategories = [
       "Reorder",
       "Extract",
       "Watermark",
-      "Annotate",
+      "Edit",
       "Protect"
     ],
     "subjects": [
@@ -60,7 +60,7 @@ const roadmapCategories = [
       "PDF forms",
       "PDF scans",
       "PDF reports",
-      "PDF portfolios",
+      "PDF files",
       "PDF archives"
     ]
   },
