@@ -13,26 +13,28 @@ A professional, free creative utility workspace for image and file workflows. Th
 
 ## Working tools
 1. Batch Image Converter — convert up to 30 JPG, PNG or WebP files in one run, with individual downloads or a locally generated ZIP archive
-2. Image Compressor — JPG/WebP quality presets and target-size search, plus PNG lossless export
-3. Image Resizer — custom pixels, aspect-ratio lock, percentage scales and social presets
-4. Image Cropper — exact pixel coordinates and centered aspect-ratio presets
-5. Image Converter — JPG, PNG and WebP, quality controls and configurable JPG background
-6. Image Rotator — arbitrary-angle rotation, quick quarter turns and reset
-7. Image Flipper — horizontal and vertical mirroring
-8. Image Watermark — text or transparent PNG/WebP logo, color, position, opacity and size controls
-9. Rounded Corners — adjustable radius with transparent PNG export
-10. Image Blur — adjustable blur strength
-11. Grayscale Converter — monochrome output
-12. Image Color Picker — pixel sampling, dominant color palette, HEX/RGB/HSL and copy actions
-13. Image Metadata Viewer — file properties, readable EXIF details (including possible GPS tags) and JSON report export
-14. Image to Base64 — copy or save raw Base64 or a full data URL
-15. Image Metadata Cleaner — re-encode a clean copy without copying original EXIF/GPS metadata
+2. Image to PDF — combine up to 20 JPG, PNG or WebP images into an ordered A4 PDF, with automatic page orientation and local processing
+3. Image Compressor — JPG/WebP quality presets and target-size search, plus PNG lossless export
+4. Image Resizer — custom pixels, aspect-ratio lock, percentage scales and social presets
+5. Image Cropper — exact pixel coordinates and centered aspect-ratio presets
+6. Image Converter — JPG, PNG and WebP, quality controls and configurable JPG background
+7. Image Rotator — arbitrary-angle rotation, quick quarter turns and reset
+8. Image Flipper — horizontal and vertical mirroring
+9. Image Watermark — text or transparent PNG/WebP logo, color, position, opacity and size controls
+10. Rounded Corners — adjustable radius with transparent PNG export
+11. Image Blur — adjustable blur strength
+12. Grayscale Converter — monochrome output
+13. Image Color Picker — pixel sampling, dominant color palette, HEX/RGB/HSL and copy actions
+14. Image Metadata Viewer — file properties, readable EXIF details (including possible GPS tags) and JSON report export
+15. Image to Base64 — copy or save raw Base64 or a full data URL
+16. Image Metadata Cleaner — re-encode a clean copy without copying original EXIF/GPS metadata
 
-AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. The tool catalogue now contains 30 roadmap categories with 100 Coming Soon entries each (3,000 planned entries total), separate from the 15 working tools. These are not implemented features. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
+AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. The tool catalogue now contains 30 roadmap categories with 100 Coming Soon entries each (3,000 planned entries total), separate from the 16 working tools. These are not implemented features. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
 
 ## Privacy and safety
 - Working image tools process files locally in the browser; selected image files are not uploaded to a PixelTools image-processing server.
 - Supported inputs: JPG, PNG and WebP.
+- Image-to-PDF accepts up to 20 pages, 25 MB per source image, 100 MB combined input and 120 megapixels combined per PDF. Output is capped at 150 MB.
 - Single-image tools accept up to 25 MB per file. Batch conversion accepts up to 30 images, 25 MB each and 100 MB combined.
 - Input and output dimension guard: header dimensions are checked before pixel decoding; at most 12,000 pixels per side and 60 megapixels total.
 - EXIF data can contain sensitive camera details and GPS coordinates; it is read locally in the metadata viewer.
