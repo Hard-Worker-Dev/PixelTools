@@ -24,7 +24,7 @@ describe("ImageToPdfTool", () => {
       new File(["png"], "second.png", { type: "image/png" })
     ];
     fireEvent.change(input as HTMLInputElement, { target: { files } });
-    expect(screen.getByText(/2 pages/)).toBeTruthy();
+    expect(screen.getByText("2 pages · Use the arrows to set page order")).toBeTruthy();
     await user.click(screen.getByRole("button", { name: /Create PDF · 2 pages/ }));
     expect(await screen.findByText("Your PDF is ready")).toBeTruthy();
     expect(screen.getByRole("button", { name: /Download PDF/ })).toBeTruthy();
