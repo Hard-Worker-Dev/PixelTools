@@ -36,8 +36,9 @@ A professional, free creative utility workspace for image and file workflows. Th
 19. PDF Rotator — rotate every page by 90°, 180° or 270°
 20. PDF Page Reorder — arrange all pages in a custom sequence
 21. PDF Page Extractor — export selected pages as individual PDFs in a ZIP archive
+22. PDF Watermark — add adjustable text watermarks to every page, with color, opacity, font size, rotation and five placement options
 
-AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. The tool catalogue now contains 30 roadmap categories with 100 Coming Soon entries each (3,000 planned entries total), separate from the 16 established working tools. Five PDF tools (Merger, Splitter, Rotator, Page Reorder and Page Extractor) are implemented in the current feature branch and remain pending independent export-reader and physical-device QA; they are not part of the production release yet. These roadmap entries are not implemented features. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
+AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. The tool catalogue now contains 30 roadmap categories with 100 Coming Soon entries each (3,000 planned entries total), separate from the 16 established working tools. Six PDF tools (Merger, Splitter, Rotator, Page Reorder, Page Extractor and Watermark) are implemented in the current feature branch and remain pending independent export-reader and physical-device QA; they are not part of the production release yet. These roadmap entries are not implemented features. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
 
 ## Privacy and safety
 - Working image tools process files locally in the browser; selected image files are not uploaded to a PixelTools image-processing server.
@@ -45,7 +46,7 @@ AI Background Remover and AI Upscaler are shown as coming soon. They are not adv
 - Image-to-PDF accepts up to 20 pages, 25 MB per source image, 100 MB combined input and 120 megapixels combined per PDF. Output is capped at 150 MB.
 - The new PDF Merger accepts 2–10 PDFs, 25 MB per file, 100 MB combined input and 200 pages; output is capped at 150 MB.
 - The new PDF Splitter accepts one PDF up to 25 MB and 200 pages; its ZIP output is capped at 150 MB.
-- PDF Rotator applies 90°, 180° or 270° page rotation; PDF Page Reorder rearranges up to 200 pages; PDF Page Extractor exports selected pages as separate PDFs in a ZIP. PDF outputs are capped at 150 MB. Password-protected PDFs are not supported. All PDF operations run locally in the browser and remain pending manual release QA.
+- PDF Rotator applies 90°, 180° or 270° page rotation; PDF Page Reorder rearranges up to 200 pages; PDF Page Extractor exports selected pages as separate PDFs in a ZIP. PDF Watermark adds ASCII text to every page with adjustable color, opacity (5–100%), font size (8–96 pt), rotation (-90° to 90°) and placement. PDF outputs are capped at 150 MB. Password-protected PDFs are not supported. All PDF operations run locally in the browser and remain pending manual release QA.
 - Single-image tools accept up to 25 MB per file. Batch conversion accepts up to 30 images, 25 MB each and 100 MB combined.
 - Input and output dimension guard: header dimensions are checked before pixel decoding; at most 12,000 pixels per side and 60 megapixels total.
 - EXIF data can contain sensitive camera details and GPS coordinates; it is read locally in the metadata viewer.
@@ -55,7 +56,7 @@ AI Background Remover and AI Upscaler are shown as coming soon. They are not adv
 
 ## SEO and informational pages
 - Home, About, Privacy Policy, Terms, Contact and 404.
-- Dedicated tool landing pages with unique titles, descriptions, canonical URLs and FAQ structured data, including Batch Image Converter, Image to PDF, PDF Merger, PDF Splitter, PDF Rotator, PDF Page Reorder and PDF Page Extractor pages.
+- Dedicated tool landing pages with unique titles, descriptions, canonical URLs and FAQ structured data, including Batch Image Converter, Image to PDF, PDF Merger, PDF Splitter, PDF Rotator, PDF Page Reorder and PDF Page Extractor and PDF Watermark pages.
 - XML sitemap, robots.txt, Open Graph metadata, favicon and security headers.
 - Canonical URLs and sitemap entries use the Pages hostname configured for this release.
 
