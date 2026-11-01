@@ -33,6 +33,793 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
   { id: "upscaler", title: "AI Image Upscaler", desc: "Increase image resolution with an AI model.", icon: "⤢", tag: "Coming soon", comingSoon: true }
 ];
 
+// Roadmap catalogue: these entries are intentionally disabled until each workflow is implemented and tested.
+const plannedToolGroups = [
+  {
+    "key": "pdf",
+    "label": "PDF Tools",
+    "tools": [
+      "PDF to JPG",
+      "JPG to PDF",
+      "PNG to PDF",
+      "WebP to PDF",
+      "PDF Compressor",
+      "PDF Merger",
+      "PDF Splitter",
+      "PDF Page Rotator",
+      "PDF Page Reorder",
+      "PDF Page Extractor",
+      "PDF Watermark",
+      "PDF Unlock Checker",
+      "PDF Metadata Viewer",
+      "PDF Metadata Cleaner",
+      "PDF Page Numbers"
+    ]
+  },
+  {
+    "key": "design",
+    "label": "Design & Graphics",
+    "tools": [
+      "Image Collage Maker",
+      "Photo Border Maker",
+      "Image Frame Maker",
+      "Meme Generator",
+      "Image Overlay",
+      "Image Background Color",
+      "Image Shadow",
+      "Image Outline",
+      "Image Reflection",
+      "Image Tiler",
+      "Seamless Pattern Maker",
+      "Photo Contact Sheet",
+      "Image Splitter",
+      "Image Stitcher",
+      "Perspective Corrector"
+    ]
+  },
+  {
+    "key": "social",
+    "label": "Social Media",
+    "tools": [
+      "Instagram Post Resizer",
+      "Instagram Story Resizer",
+      "Facebook Cover Maker",
+      "YouTube Thumbnail Maker",
+      "YouTube Banner Maker",
+      "TikTok Cover Maker",
+      "Pinterest Pin Resizer",
+      "LinkedIn Banner Maker",
+      "X Header Maker",
+      "Open Graph Image Maker",
+      "Social Media Image Presets",
+      "Profile Picture Cropper",
+      "QR Code Poster Maker",
+      "Social Carousel Splitter",
+      "Social Media Safe Area Checker"
+    ]
+  },
+  {
+    "key": "color",
+    "label": "Color & Branding",
+    "tools": [
+      "HEX to RGB Converter",
+      "RGB to HEX Converter",
+      "HEX to HSL Converter",
+      "Color Palette Generator",
+      "Image Palette Extractor",
+      "Gradient Generator",
+      "Gradient Palette Explorer",
+      "Contrast Checker",
+      "Accessible Palette Checker",
+      "Color Blindness Simulator",
+      "Duotone Generator",
+      "Color Tint & Shade Generator",
+      "Brand Kit Builder",
+      "CSS Color Formatter",
+      "Palette Exporter"
+    ]
+  },
+  {
+    "key": "developer",
+    "label": "Developer Tools",
+    "tools": [
+      "SVG Optimizer",
+      "SVG to PNG",
+      "PNG to SVG Trace",
+      "Image to Data URI",
+      "Base64 to Image",
+      "Image URL Inspector",
+      "Favicon Generator",
+      "App Icon Generator",
+      "PWA Icon Pack Generator",
+      "Responsive Image Srcset Generator",
+      "Blurhash Generator",
+      "LQIP Generator",
+      "Image Checksum Tool",
+      "Image Dimension Analyzer",
+      "CSS Image Crop Preview"
+    ]
+  }
+];
+const plannedTools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: string }> = [
+  {
+    "id": "pdf-1",
+    "title": "PDF to JPG",
+    "desc": "Convert PDF pages into individual JPG images.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-2",
+    "title": "JPG to PDF",
+    "desc": "Combine images into a downloadable PDF.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-3",
+    "title": "PNG to PDF",
+    "desc": "Place PNG images into a PDF document.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-4",
+    "title": "WebP to PDF",
+    "desc": "Convert WebP images into PDF pages.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-5",
+    "title": "PDF Compressor",
+    "desc": "Reduce PDF file size with quality controls.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-6",
+    "title": "PDF Merger",
+    "desc": "Combine multiple PDF files in a chosen order.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-7",
+    "title": "PDF Splitter",
+    "desc": "Extract selected pages into separate PDFs.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-8",
+    "title": "PDF Page Rotator",
+    "desc": "Rotate selected PDF pages.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-9",
+    "title": "PDF Page Reorder",
+    "desc": "Rearrange pages with drag-and-drop controls.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-10",
+    "title": "PDF Page Extractor",
+    "desc": "Save a chosen page range as a new PDF.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-11",
+    "title": "PDF Watermark",
+    "desc": "Add text or image watermarks to PDF pages.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-12",
+    "title": "PDF Unlock Checker",
+    "desc": "Inspect PDF encryption and permission status.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-13",
+    "title": "PDF Metadata Viewer",
+    "desc": "Inspect document properties and metadata.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-14",
+    "title": "PDF Metadata Cleaner",
+    "desc": "Create a copy with supported metadata fields removed.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "pdf-15",
+    "title": "PDF Page Numbers",
+    "desc": "Add page numbers with placement and style options.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "pdf"
+  },
+  {
+    "id": "design-1",
+    "title": "Image Collage Maker",
+    "desc": "Arrange multiple photos into a custom grid.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-2",
+    "title": "Photo Border Maker",
+    "desc": "Add solid, gradient or decorative image borders.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-3",
+    "title": "Image Frame Maker",
+    "desc": "Place photos inside preset frame styles.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-4",
+    "title": "Meme Generator",
+    "desc": "Create captioned memes with editable text.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-5",
+    "title": "Image Overlay",
+    "desc": "Layer one image over another with opacity controls.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-6",
+    "title": "Image Background Color",
+    "desc": "Replace transparent pixels with a selected solid color.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-7",
+    "title": "Image Shadow",
+    "desc": "Add adjustable drop shadows to image exports.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-8",
+    "title": "Image Outline",
+    "desc": "Create an outline around transparent image subjects.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-9",
+    "title": "Image Reflection",
+    "desc": "Generate a configurable reflection beneath an image.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-10",
+    "title": "Image Tiler",
+    "desc": "Repeat an image into a seamless tile sheet.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-11",
+    "title": "Seamless Pattern Maker",
+    "desc": "Build repeating patterns from image elements.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-12",
+    "title": "Photo Contact Sheet",
+    "desc": "Create a labeled thumbnail sheet from multiple images.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-13",
+    "title": "Image Splitter",
+    "desc": "Divide an image into equal rows, columns or tiles.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-14",
+    "title": "Image Stitcher",
+    "desc": "Join images vertically or horizontally.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "design-15",
+    "title": "Perspective Corrector",
+    "desc": "Adjust image corners to correct perspective distortion.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "design"
+  },
+  {
+    "id": "social-1",
+    "title": "Instagram Post Resizer",
+    "desc": "Prepare images for square, portrait and landscape posts.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-2",
+    "title": "Instagram Story Resizer",
+    "desc": "Fit images to vertical story dimensions.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-3",
+    "title": "Facebook Cover Maker",
+    "desc": "Create cover images at platform-specific dimensions.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-4",
+    "title": "YouTube Thumbnail Maker",
+    "desc": "Build thumbnails with text and image layers.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-5",
+    "title": "YouTube Banner Maker",
+    "desc": "Prepare channel art with safe-area guides.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-6",
+    "title": "TikTok Cover Maker",
+    "desc": "Create vertical video cover artwork.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-7",
+    "title": "Pinterest Pin Resizer",
+    "desc": "Resize artwork for standard and tall pins.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-8",
+    "title": "LinkedIn Banner Maker",
+    "desc": "Prepare personal and company banner images.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-9",
+    "title": "X Header Maker",
+    "desc": "Create profile header images with safe-area guides.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-10",
+    "title": "Open Graph Image Maker",
+    "desc": "Create social link preview images.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-11",
+    "title": "Social Media Image Presets",
+    "desc": "Export one design to multiple platform sizes.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-12",
+    "title": "Profile Picture Cropper",
+    "desc": "Center and crop avatars into common shapes.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-13",
+    "title": "QR Code Poster Maker",
+    "desc": "Combine a QR code with branded artwork.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-14",
+    "title": "Social Carousel Splitter",
+    "desc": "Split a wide design into a multi-slide carousel.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "social-15",
+    "title": "Social Media Safe Area Checker",
+    "desc": "Preview crops and overlays for common social formats.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "social"
+  },
+  {
+    "id": "color-1",
+    "title": "HEX to RGB Converter",
+    "desc": "Convert HEX colors into RGB values.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-2",
+    "title": "RGB to HEX Converter",
+    "desc": "Convert RGB values into HEX notation.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-3",
+    "title": "HEX to HSL Converter",
+    "desc": "Convert HEX colors into HSL values.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-4",
+    "title": "Color Palette Generator",
+    "desc": "Generate coordinated palettes from a base color.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-5",
+    "title": "Image Palette Extractor",
+    "desc": "Build a palette from an uploaded image.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-6",
+    "title": "Gradient Generator",
+    "desc": "Create CSS-ready linear and radial gradients.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-7",
+    "title": "Gradient Palette Explorer",
+    "desc": "Explore multi-stop gradient color combinations.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-8",
+    "title": "Contrast Checker",
+    "desc": "Measure text and background color contrast.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-9",
+    "title": "Accessible Palette Checker",
+    "desc": "Review palettes against WCAG contrast targets.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-10",
+    "title": "Color Blindness Simulator",
+    "desc": "Preview colors under common color-vision deficiencies.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-11",
+    "title": "Duotone Generator",
+    "desc": "Apply two-color tonal treatments to images.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-12",
+    "title": "Color Tint & Shade Generator",
+    "desc": "Generate lighter and darker color variations.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-13",
+    "title": "Brand Kit Builder",
+    "desc": "Collect brand colors, fonts and logo assets.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-14",
+    "title": "CSS Color Formatter",
+    "desc": "Format colors as CSS variables and declarations.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "color-15",
+    "title": "Palette Exporter",
+    "desc": "Export palettes as PNG, SVG, CSS or JSON.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "color"
+  },
+  {
+    "id": "developer-1",
+    "title": "SVG Optimizer",
+    "desc": "Clean and minify SVG markup for web use.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-2",
+    "title": "SVG to PNG",
+    "desc": "Rasterize SVG artwork at a chosen size.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-3",
+    "title": "PNG to SVG Trace",
+    "desc": "Create a vector-style trace from raster artwork.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-4",
+    "title": "Image to Data URI",
+    "desc": "Encode image files as CSS or HTML data URIs.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-5",
+    "title": "Base64 to Image",
+    "desc": "Decode Base64 image data into a preview and file.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-6",
+    "title": "Image URL Inspector",
+    "desc": "Inspect image response type and dimensions from a URL.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-7",
+    "title": "Favicon Generator",
+    "desc": "Create favicon assets in common sizes.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-8",
+    "title": "App Icon Generator",
+    "desc": "Export app icons for common platforms.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-9",
+    "title": "PWA Icon Pack Generator",
+    "desc": "Create a progressive web app icon set.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-10",
+    "title": "Responsive Image Srcset Generator",
+    "desc": "Generate responsive image markup and size guidance.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-11",
+    "title": "Blurhash Generator",
+    "desc": "Create compact BlurHash placeholders from images.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-12",
+    "title": "LQIP Generator",
+    "desc": "Create low-quality image placeholders for loading states.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-13",
+    "title": "Image Checksum Tool",
+    "desc": "Calculate file hashes locally for integrity checks.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-14",
+    "title": "Image Dimension Analyzer",
+    "desc": "Inspect dimensions, aspect ratio and pixel count.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  },
+  {
+    "id": "developer-15",
+    "title": "CSS Image Crop Preview",
+    "desc": "Preview object-fit and object-position CSS settings.",
+    "icon": "✧",
+    "tag": "Coming soon",
+    "comingSoon": true,
+    "category": "developer"
+  }
+];
+tools.push(...plannedTools);
+
 function readAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -597,7 +1384,7 @@ export default function App() {
   const filteredTools = tools.filter(tool => {
     const matchesSearch = (tool.title + " " + tool.desc).toLowerCase().includes(toolSearch.trim().toLowerCase());
     const id = String(tool.id);
-    const category = toolCategory === "all" || (toolCategory === "optimize" && ["compress","resize","convert"].includes(id)) || (toolCategory === "edit" && ["crop","rotate","flip","watermark","rounded","blur","grayscale"].includes(id)) || (toolCategory === "inspect" && ["color","metadata","base64","metadata-cleaner"].includes(id));
+    const category = toolCategory === "all" || (toolCategory === "optimize" && ["compress","resize","convert"].includes(id)) || (toolCategory === "edit" && ["crop","rotate","flip","watermark","rounded","blur","grayscale"].includes(id)) || (toolCategory === "inspect" && ["color","metadata","base64","metadata-cleaner"].includes(id)) || tool.category === toolCategory;
     return matchesSearch && category;
   });
 
