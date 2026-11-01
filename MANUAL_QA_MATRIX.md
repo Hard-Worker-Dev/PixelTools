@@ -8,9 +8,9 @@
 
 | Environment | Required coverage | Evidence |
 |---|---|---|
-| Chrome desktop (current stable) | All 16 tools; JPG, PNG, WebP, multi-image PDF and ZIP exports | Browser/version, OS, screenshots, output files |
-| Edge desktop (current stable) | All 14 tools; JPG, PNG, WebP | Browser/version, OS, output files |
-| Firefox desktop (current stable) | All 14 tools; JPG, PNG, WebP | Browser/version, OS, output files |
+| Chrome desktop (current stable) | All 18 tools; JPG, PNG, WebP, multi-image PDF, PDF merge/split and ZIP exports | Browser/version, OS, screenshots, output files |
+| Edge desktop (current stable) | All 18 tools; JPG, PNG, WebP, PDF merge/split | Browser/version, OS, output files |
+| Firefox desktop (current stable) | All 18 tools; JPG, PNG, WebP, PDF merge/split | Browser/version, OS, output files |
 | Android Chrome, physical device | Upload, tool controls, download/share, orientation | Device model, Android version, screenshots |
 | iPhone Safari, physical device | Upload, tool controls, download/share, orientation | Device model, iOS version, screenshots |
 | Tablet viewport and touch | Navigation, dialogs, crop gestures, controls | Viewport dimensions, device/browser |
@@ -107,3 +107,14 @@ Copy one record per environment and attach non-sensitive sample files or screens
 ## Release gate
 
 The manual gate passes only when every required environment and all 16 available tool workflows have recorded evidence, all export integrity checks pass, and blocking defects are fixed and retested. AI Background Remover and AI Upscaler are intentionally excluded from working-tool acceptance while marked Coming Soon.
+
+
+## PDF merge and split acceptance cases
+
+- Merge two or more valid PDFs and independently open the output in a desktop PDF reader; confirm page count and ordering.
+- Reorder source PDFs before merging; verify the merged page order matches the displayed sequence.
+- Split a PDF using single pages and multiple ranges (for example `1-3, 5, 8-10`); validate each ZIP entry with an archive integrity checker and open every extracted PDF.
+- Reject overlapping, malformed, reversed and out-of-bounds page ranges without generating an output.
+- Reject damaged, unsupported and password-protected PDFs with a clear message.
+- Exercise per-file, combined-input, page-count and output-size limits, plus small and large valid PDFs.
+- Verify mobile upload/download behavior in physical Android Chrome and iPhone Safari; desktop viewport emulation alone is insufficient.
