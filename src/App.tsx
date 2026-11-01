@@ -14,7 +14,7 @@ type ToolId =
   | "watermark" | "rounded" | "blur" | "grayscale" | "color"
   | "metadata" | "base64" | "metadata-cleaner";
 
-const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean }> = [
+const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: string }> = [
   { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular" },
   { id: "resize", title: "Image Resizer", desc: "Set precise width and height in pixels.", icon: "▧", tag: "Quick" },
   { id: "crop", title: "Image Cropper", desc: "Crop to the exact rectangle you need.", icon: "▣", tag: "Precision" },
@@ -34,113 +34,6 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
 ];
 
 // Roadmap catalogue: these entries are intentionally disabled until each workflow is implemented and tested.
-const plannedToolGroups = [
-  {
-    "key": "pdf",
-    "label": "PDF Tools",
-    "tools": [
-      "PDF to JPG",
-      "JPG to PDF",
-      "PNG to PDF",
-      "WebP to PDF",
-      "PDF Compressor",
-      "PDF Merger",
-      "PDF Splitter",
-      "PDF Page Rotator",
-      "PDF Page Reorder",
-      "PDF Page Extractor",
-      "PDF Watermark",
-      "PDF Unlock Checker",
-      "PDF Metadata Viewer",
-      "PDF Metadata Cleaner",
-      "PDF Page Numbers"
-    ]
-  },
-  {
-    "key": "design",
-    "label": "Design & Graphics",
-    "tools": [
-      "Image Collage Maker",
-      "Photo Border Maker",
-      "Image Frame Maker",
-      "Meme Generator",
-      "Image Overlay",
-      "Image Background Color",
-      "Image Shadow",
-      "Image Outline",
-      "Image Reflection",
-      "Image Tiler",
-      "Seamless Pattern Maker",
-      "Photo Contact Sheet",
-      "Image Splitter",
-      "Image Stitcher",
-      "Perspective Corrector"
-    ]
-  },
-  {
-    "key": "social",
-    "label": "Social Media",
-    "tools": [
-      "Instagram Post Resizer",
-      "Instagram Story Resizer",
-      "Facebook Cover Maker",
-      "YouTube Thumbnail Maker",
-      "YouTube Banner Maker",
-      "TikTok Cover Maker",
-      "Pinterest Pin Resizer",
-      "LinkedIn Banner Maker",
-      "X Header Maker",
-      "Open Graph Image Maker",
-      "Social Media Image Presets",
-      "Profile Picture Cropper",
-      "QR Code Poster Maker",
-      "Social Carousel Splitter",
-      "Social Media Safe Area Checker"
-    ]
-  },
-  {
-    "key": "color",
-    "label": "Color & Branding",
-    "tools": [
-      "HEX to RGB Converter",
-      "RGB to HEX Converter",
-      "HEX to HSL Converter",
-      "Color Palette Generator",
-      "Image Palette Extractor",
-      "Gradient Generator",
-      "Gradient Palette Explorer",
-      "Contrast Checker",
-      "Accessible Palette Checker",
-      "Color Blindness Simulator",
-      "Duotone Generator",
-      "Color Tint & Shade Generator",
-      "Brand Kit Builder",
-      "CSS Color Formatter",
-      "Palette Exporter"
-    ]
-  },
-  {
-    "key": "developer",
-    "label": "Developer Tools",
-    "tools": [
-      "SVG Optimizer",
-      "SVG to PNG",
-      "PNG to SVG Trace",
-      "Image to Data URI",
-      "Base64 to Image",
-      "Image URL Inspector",
-      "Favicon Generator",
-      "App Icon Generator",
-      "PWA Icon Pack Generator",
-      "Responsive Image Srcset Generator",
-      "Blurhash Generator",
-      "LQIP Generator",
-      "Image Checksum Tool",
-      "Image Dimension Analyzer",
-      "CSS Image Crop Preview"
-    ]
-  }
-];
 const plannedTools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: string }> = [
   {
     "id": "pdf-1",
