@@ -55,7 +55,7 @@ AI Background Remover and AI Upscaler are shown as coming soon. They are not adv
 
 ## SEO and informational pages
 - Home, About, Privacy Policy, Terms, Contact and 404.
-- Dedicated tool landing pages with unique titles, descriptions, canonical URLs and FAQ structured data, including Batch Image Converter, Image to PDF, PDF Merger and PDF Splitter pages.
+- Dedicated tool landing pages with unique titles, descriptions, canonical URLs and FAQ structured data, including Batch Image Converter, Image to PDF, PDF Merger, PDF Splitter, PDF Rotator, PDF Page Reorder and PDF Page Extractor pages.
 - XML sitemap, robots.txt, Open Graph metadata, favicon and security headers.
 - Canonical URLs and sitemap entries use the Pages hostname configured for this release.
 
@@ -69,7 +69,7 @@ npm run build
 npm audit --audit-level=high
 ```
 
-CI runs full and production-only dependency audits, TypeScript checks, image utility and rendering-pipeline unit tests, tool user-flow tests, static SEO/security contract tests and a production build on pushes, pull requests and manual dispatches to main. Successful builds are retained as 30-day GitHub Actions artifacts. The committed `package-lock.json` is installed with `npm ci` for reproducible dependency resolution.
+CI runs full and production-only dependency audits, TypeScript checks, image utility and rendering-pipeline unit tests, tool user-flow tests, static SEO/security contract tests and a production build on pushes to main and the active PDF feature branch, pull requests targeting main or the release-readiness branch, and manual dispatches. Successful builds are retained as 30-day GitHub Actions artifacts. The committed `package-lock.json` is installed with `npm ci` for reproducible dependency resolution.
 
 ## Cloudflare Pages
 - Project: `pixeltools`
