@@ -106,7 +106,7 @@ function PdfSingleFilePicker({ file, onChoose, onRemove, busy, multiple = false 
 }) {
   const input = useRef<HTMLInputElement>(null);
   return <>
-    <input ref={input} hidden type="file" accept="application/pdf,.pdf" multiple={multiple} onChange={e => onChoose(e.target.files?.[0] ?? null)}/>
+    <input ref={input} hidden type="file" accept="application/pdf,.pdf" multiple={multiple} onChange={e => { const picked=e.target.files?.[0] ?? null; e.target.value=""; onChoose(picked); }}/>
     {!file ? <button type="button" className="pdf-dropzone" onClick={() => input.current?.click()} onDragOver={e=>e.preventDefault()} onDrop={e=>{e.preventDefault();onChoose(e.dataTransfer.files[0]??null);}}>
       <UploadCloud size={29}/><b>Drop a PDF here or browse</b><span>PDF only · Up to 25 MB · Maximum 200 pages</span>
     </button> : <div className="pdf-file-list">
