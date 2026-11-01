@@ -33,684 +33,881 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
   { id: "upscaler", title: "AI Image Upscaler", desc: "Increase image resolution with an AI model.", icon: "⤢", tag: "Coming soon", comingSoon: true }
 ];
 
-// Roadmap catalogue: these entries are intentionally disabled until each workflow is implemented and tested.
-const plannedTools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: string }> = [
-  {
-    "id": "pdf-1",
-    "title": "PDF to JPG",
-    "desc": "Convert PDF pages into individual JPG images.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-2",
-    "title": "JPG to PDF",
-    "desc": "Combine images into a downloadable PDF.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-3",
-    "title": "PNG to PDF",
-    "desc": "Place PNG images into a PDF document.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-4",
-    "title": "WebP to PDF",
-    "desc": "Convert WebP images into PDF pages.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-5",
-    "title": "PDF Compressor",
-    "desc": "Reduce PDF file size with quality controls.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-6",
-    "title": "PDF Merger",
-    "desc": "Combine multiple PDF files in a chosen order.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-7",
-    "title": "PDF Splitter",
-    "desc": "Extract selected pages into separate PDFs.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-8",
-    "title": "PDF Page Rotator",
-    "desc": "Rotate selected PDF pages.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-9",
-    "title": "PDF Page Reorder",
-    "desc": "Rearrange pages with drag-and-drop controls.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-10",
-    "title": "PDF Page Extractor",
-    "desc": "Save a chosen page range as a new PDF.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-11",
-    "title": "PDF Watermark",
-    "desc": "Add text or image watermarks to PDF pages.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-12",
-    "title": "PDF Unlock Checker",
-    "desc": "Inspect PDF encryption and permission status.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-13",
-    "title": "PDF Metadata Viewer",
-    "desc": "Inspect document properties and metadata.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-14",
-    "title": "PDF Metadata Cleaner",
-    "desc": "Create a copy with supported metadata fields removed.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "pdf-15",
-    "title": "PDF Page Numbers",
-    "desc": "Add page numbers with placement and style options.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "pdf"
-  },
-  {
-    "id": "design-1",
-    "title": "Image Collage Maker",
-    "desc": "Arrange multiple photos into a custom grid.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-2",
-    "title": "Photo Border Maker",
-    "desc": "Add solid, gradient or decorative image borders.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-3",
-    "title": "Image Frame Maker",
-    "desc": "Place photos inside preset frame styles.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-4",
-    "title": "Meme Generator",
-    "desc": "Create captioned memes with editable text.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-5",
-    "title": "Image Overlay",
-    "desc": "Layer one image over another with opacity controls.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-6",
-    "title": "Image Background Color",
-    "desc": "Replace transparent pixels with a selected solid color.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-7",
-    "title": "Image Shadow",
-    "desc": "Add adjustable drop shadows to image exports.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-8",
-    "title": "Image Outline",
-    "desc": "Create an outline around transparent image subjects.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-9",
-    "title": "Image Reflection",
-    "desc": "Generate a configurable reflection beneath an image.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-10",
-    "title": "Image Tiler",
-    "desc": "Repeat an image into a seamless tile sheet.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-11",
-    "title": "Seamless Pattern Maker",
-    "desc": "Build repeating patterns from image elements.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-12",
-    "title": "Photo Contact Sheet",
-    "desc": "Create a labeled thumbnail sheet from multiple images.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-13",
-    "title": "Image Splitter",
-    "desc": "Divide an image into equal rows, columns or tiles.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-14",
-    "title": "Image Stitcher",
-    "desc": "Join images vertically or horizontally.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "design-15",
-    "title": "Perspective Corrector",
-    "desc": "Adjust image corners to correct perspective distortion.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "design"
-  },
-  {
-    "id": "social-1",
-    "title": "Instagram Post Resizer",
-    "desc": "Prepare images for square, portrait and landscape posts.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-2",
-    "title": "Instagram Story Resizer",
-    "desc": "Fit images to vertical story dimensions.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-3",
-    "title": "Facebook Cover Maker",
-    "desc": "Create cover images at platform-specific dimensions.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-4",
-    "title": "YouTube Thumbnail Maker",
-    "desc": "Build thumbnails with text and image layers.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-5",
-    "title": "YouTube Banner Maker",
-    "desc": "Prepare channel art with safe-area guides.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-6",
-    "title": "TikTok Cover Maker",
-    "desc": "Create vertical video cover artwork.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-7",
-    "title": "Pinterest Pin Resizer",
-    "desc": "Resize artwork for standard and tall pins.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-8",
-    "title": "LinkedIn Banner Maker",
-    "desc": "Prepare personal and company banner images.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-9",
-    "title": "X Header Maker",
-    "desc": "Create profile header images with safe-area guides.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-10",
-    "title": "Open Graph Image Maker",
-    "desc": "Create social link preview images.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-11",
-    "title": "Social Media Image Presets",
-    "desc": "Export one design to multiple platform sizes.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-12",
-    "title": "Profile Picture Cropper",
-    "desc": "Center and crop avatars into common shapes.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-13",
-    "title": "QR Code Poster Maker",
-    "desc": "Combine a QR code with branded artwork.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-14",
-    "title": "Social Carousel Splitter",
-    "desc": "Split a wide design into a multi-slide carousel.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "social-15",
-    "title": "Social Media Safe Area Checker",
-    "desc": "Preview crops and overlays for common social formats.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "social"
-  },
-  {
-    "id": "color-1",
-    "title": "HEX to RGB Converter",
-    "desc": "Convert HEX colors into RGB values.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-2",
-    "title": "RGB to HEX Converter",
-    "desc": "Convert RGB values into HEX notation.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-3",
-    "title": "HEX to HSL Converter",
-    "desc": "Convert HEX colors into HSL values.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-4",
-    "title": "Color Palette Generator",
-    "desc": "Generate coordinated palettes from a base color.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-5",
-    "title": "Image Palette Extractor",
-    "desc": "Build a palette from an uploaded image.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-6",
-    "title": "Gradient Generator",
-    "desc": "Create CSS-ready linear and radial gradients.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-7",
-    "title": "Gradient Palette Explorer",
-    "desc": "Explore multi-stop gradient color combinations.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-8",
-    "title": "Contrast Checker",
-    "desc": "Measure text and background color contrast.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-9",
-    "title": "Accessible Palette Checker",
-    "desc": "Review palettes against WCAG contrast targets.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-10",
-    "title": "Color Blindness Simulator",
-    "desc": "Preview colors under common color-vision deficiencies.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-11",
-    "title": "Duotone Generator",
-    "desc": "Apply two-color tonal treatments to images.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-12",
-    "title": "Color Tint & Shade Generator",
-    "desc": "Generate lighter and darker color variations.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-13",
-    "title": "Brand Kit Builder",
-    "desc": "Collect brand colors, fonts and logo assets.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-14",
-    "title": "CSS Color Formatter",
-    "desc": "Format colors as CSS variables and declarations.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "color-15",
-    "title": "Palette Exporter",
-    "desc": "Export palettes as PNG, SVG, CSS or JSON.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "color"
-  },
-  {
-    "id": "developer-1",
-    "title": "SVG Optimizer",
-    "desc": "Clean and minify SVG markup for web use.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-2",
-    "title": "SVG to PNG",
-    "desc": "Rasterize SVG artwork at a chosen size.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-3",
-    "title": "PNG to SVG Trace",
-    "desc": "Create a vector-style trace from raster artwork.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-4",
-    "title": "Image to Data URI",
-    "desc": "Encode image files as CSS or HTML data URIs.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-5",
-    "title": "Base64 to Image",
-    "desc": "Decode Base64 image data into a preview and file.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-6",
-    "title": "Image URL Inspector",
-    "desc": "Inspect image response type and dimensions from a URL.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-7",
-    "title": "Favicon Generator",
-    "desc": "Create favicon assets in common sizes.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-8",
-    "title": "App Icon Generator",
-    "desc": "Export app icons for common platforms.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-9",
-    "title": "PWA Icon Pack Generator",
-    "desc": "Create a progressive web app icon set.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-10",
-    "title": "Responsive Image Srcset Generator",
-    "desc": "Generate responsive image markup and size guidance.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-11",
-    "title": "Blurhash Generator",
-    "desc": "Create compact BlurHash placeholders from images.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-12",
-    "title": "LQIP Generator",
-    "desc": "Create low-quality image placeholders for loading states.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-13",
-    "title": "Image Checksum Tool",
-    "desc": "Calculate file hashes locally for integrity checks.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-14",
-    "title": "Image Dimension Analyzer",
-    "desc": "Inspect dimensions, aspect ratio and pixel count.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
-  },
-  {
-    "id": "developer-15",
-    "title": "CSS Image Crop Preview",
-    "desc": "Preview object-fit and object-position CSS settings.",
-    "icon": "✧",
-    "tag": "Coming soon",
-    "comingSoon": true,
-    "category": "developer"
+// 30-category catalogue. Each category has exactly 100 distinct roadmap entries.
+const roadmapCategories = [
+  {
+    "key": "pdf",
+    "label": "PDF Tools",
+    "description": "PDF files, pages, forms and document workflows",
+    "actions": [
+      "Convert",
+      "Compress",
+      "Merge",
+      "Split",
+      "Rotate",
+      "Reorder",
+      "Extract",
+      "Watermark",
+      "Annotate",
+      "Protect"
+    ],
+    "subjects": [
+      "PDF to JPG",
+      "JPG to PDF",
+      "PNG to PDF",
+      "WebP to PDF",
+      "PDF pages",
+      "PDF forms",
+      "PDF scans",
+      "PDF reports",
+      "PDF portfolios",
+      "PDF archives"
+    ]
+  },
+  {
+    "key": "design",
+    "label": "Design & Graphics",
+    "description": "Creative composition, layout and graphic design",
+    "actions": [
+      "Create",
+      "Arrange",
+      "Overlay",
+      "Frame",
+      "Border",
+      "Shadow",
+      "Outline",
+      "Reflect",
+      "Tile",
+      "Stitch"
+    ],
+    "subjects": [
+      "photo collages",
+      "social graphics",
+      "poster layouts",
+      "flyer layouts",
+      "presentation graphics",
+      "brand graphics",
+      "product compositions",
+      "mood boards",
+      "banners",
+      "digital cards"
+    ]
+  },
+  {
+    "key": "social",
+    "label": "Social Media",
+    "description": "Platform-ready image sizing, layouts and publishing assets",
+    "actions": [
+      "Resize",
+      "Design",
+      "Crop",
+      "Split",
+      "Preview",
+      "Compose",
+      "Export",
+      "Caption",
+      "Arrange",
+      "Optimize"
+    ],
+    "subjects": [
+      "Instagram posts",
+      "Instagram stories",
+      "Facebook covers",
+      "YouTube thumbnails",
+      "YouTube banners",
+      "TikTok covers",
+      "Pinterest pins",
+      "LinkedIn banners",
+      "X headers",
+      "social carousels"
+    ]
+  },
+  {
+    "key": "color",
+    "label": "Color & Branding",
+    "description": "Color conversion, palettes, contrast and brand systems",
+    "actions": [
+      "Convert",
+      "Generate",
+      "Extract",
+      "Compare",
+      "Audit",
+      "Visualize",
+      "Tune",
+      "Pair",
+      "Export",
+      "Document"
+    ],
+    "subjects": [
+      "HEX colors",
+      "RGB colors",
+      "HSL colors",
+      "brand palettes",
+      "image palettes",
+      "gradients",
+      "duotones",
+      "accessible palettes",
+      "color tokens",
+      "brand kits"
+    ]
+  },
+  {
+    "key": "developer",
+    "label": "Developer Tools",
+    "description": "Image assets and utilities for software development",
+    "actions": [
+      "Optimize",
+      "Convert",
+      "Encode",
+      "Decode",
+      "Inspect",
+      "Generate",
+      "Validate",
+      "Trace",
+      "Package",
+      "Preview"
+    ],
+    "subjects": [
+      "SVG assets",
+      "PNG assets",
+      "WebP assets",
+      "Base64 data",
+      "data URIs",
+      "favicons",
+      "app icons",
+      "PWA icons",
+      "responsive images",
+      "placeholder hashes"
+    ]
+  },
+  {
+    "key": "conversion",
+    "label": "Image Conversion",
+    "description": "Image format conversion and export pipelines",
+    "actions": [
+      "Convert",
+      "Transcode",
+      "Export",
+      "Import",
+      "Normalize",
+      "Batch convert",
+      "Preview",
+      "Validate",
+      "Package",
+      "Compare"
+    ],
+    "subjects": [
+      "JPG files",
+      "PNG files",
+      "WebP files",
+      "AVIF files",
+      "GIF files",
+      "TIFF files",
+      "BMP files",
+      "HEIC files",
+      "ICO files",
+      "SVG files"
+    ]
+  },
+  {
+    "key": "compression",
+    "label": "Image Compression",
+    "description": "File-size reduction and quality optimization",
+    "actions": [
+      "Compress",
+      "Optimize",
+      "Minify",
+      "Re-encode",
+      "Downsample",
+      "Quantize",
+      "Compare",
+      "Batch compress",
+      "Tune",
+      "Report"
+    ],
+    "subjects": [
+      "JPG photos",
+      "PNG graphics",
+      "WebP images",
+      "AVIF images",
+      "GIF animations",
+      "TIFF scans",
+      "large images",
+      "transparent images",
+      "web assets",
+      "image folders"
+    ]
+  },
+  {
+    "key": "resizing",
+    "label": "Image Resizing",
+    "description": "Dimensions, scaling, cropping and responsive variants",
+    "actions": [
+      "Resize",
+      "Scale",
+      "Crop",
+      "Fit",
+      "Fill",
+      "Pad",
+      "Extend",
+      "Generate variants",
+      "Batch resize",
+      "Inspect"
+    ],
+    "subjects": [
+      "portrait photos",
+      "landscape photos",
+      "square images",
+      "product photos",
+      "profile pictures",
+      "thumbnails",
+      "wallpapers",
+      "mobile screens",
+      "desktop banners",
+      "print images"
+    ]
+  },
+  {
+    "key": "editing",
+    "label": "Photo Editing",
+    "description": "Everyday photo adjustments and retouching workflows",
+    "actions": [
+      "Adjust",
+      "Retouch",
+      "Straighten",
+      "Sharpen",
+      "Soften",
+      "Denoise",
+      "Enhance",
+      "Tone",
+      "Balance",
+      "Prepare"
+    ],
+    "subjects": [
+      "exposure",
+      "brightness",
+      "contrast",
+      "saturation",
+      "white balance",
+      "sharpness",
+      "skin tones",
+      "low-light photos",
+      "old photographs",
+      "portrait photos"
+    ]
+  },
+  {
+    "key": "restoration",
+    "label": "Photo Restoration",
+    "description": "Repair, recovery and enhancement of damaged images",
+    "actions": [
+      "Restore",
+      "Repair",
+      "Recover",
+      "Clean",
+      "Correct",
+      "Rebuild",
+      "Enhance",
+      "Denoise",
+      "Deblur",
+      "Colorize"
+    ],
+    "subjects": [
+      "faded photos",
+      "scratched photos",
+      "dusty scans",
+      "creased photos",
+      "blurred portraits",
+      "old family photos",
+      "damaged scans",
+      "discolored prints",
+      "low-resolution photos",
+      "archival images"
+    ]
+  },
+  {
+    "key": "ai",
+    "label": "AI Image Tools",
+    "description": "AI-assisted image understanding and creative workflows",
+    "actions": [
+      "Generate",
+      "Enhance",
+      "Remove",
+      "Replace",
+      "Expand",
+      "Relight",
+      "Retouch",
+      "Segment",
+      "Describe",
+      "Upscale"
+    ],
+    "subjects": [
+      "backgrounds",
+      "objects",
+      "portraits",
+      "product photos",
+      "landscapes",
+      "illustrations",
+      "textures",
+      "scenes",
+      "image captions",
+      "visual variations"
+    ]
+  },
+  {
+    "key": "capture",
+    "label": "Screenshots & Capture",
+    "description": "Capture, annotate and prepare screen images",
+    "actions": [
+      "Capture",
+      "Annotate",
+      "Blur",
+      "Highlight",
+      "Frame",
+      "Crop",
+      "Scroll",
+      "Compare",
+      "Export",
+      "Organize"
+    ],
+    "subjects": [
+      "browser pages",
+      "desktop screens",
+      "mobile screens",
+      "web components",
+      "long pages",
+      "app windows",
+      "error messages",
+      "tutorial steps",
+      "design reviews",
+      "bug reports"
+    ]
+  },
+  {
+    "key": "icons",
+    "label": "Icons & Favicons",
+    "description": "Icon creation, conversion and packaging",
+    "actions": [
+      "Generate",
+      "Resize",
+      "Convert",
+      "Mask",
+      "Preview",
+      "Package",
+      "Validate",
+      "Optimize",
+      "Colorize",
+      "Export"
+    ],
+    "subjects": [
+      "browser favicons",
+      "iOS icons",
+      "Android icons",
+      "Windows icons",
+      "macOS icons",
+      "PWA icons",
+      "app icons",
+      "monochrome icons",
+      "adaptive icons",
+      "notification icons"
+    ]
+  },
+  {
+    "key": "vector",
+    "label": "SVG & Vector",
+    "description": "Vector graphics creation, cleanup and conversion",
+    "actions": [
+      "Optimize",
+      "Trace",
+      "Convert",
+      "Simplify",
+      "Clean",
+      "Inspect",
+      "Combine",
+      "Split",
+      "Colorize",
+      "Export"
+    ],
+    "subjects": [
+      "SVG logos",
+      "SVG icons",
+      "line drawings",
+      "raster artwork",
+      "vector paths",
+      "illustrations",
+      "charts",
+      "diagrams",
+      "web graphics",
+      "print graphics"
+    ]
+  },
+  {
+    "key": "animation",
+    "label": "Animation & GIF",
+    "description": "Animated image creation, editing and optimization",
+    "actions": [
+      "Create",
+      "Convert",
+      "Trim",
+      "Loop",
+      "Reverse",
+      "Resize",
+      "Compress",
+      "Extract frames",
+      "Combine frames",
+      "Preview"
+    ],
+    "subjects": [
+      "GIF animations",
+      "APNG animations",
+      "animated WebP",
+      "sprite sheets",
+      "reaction clips",
+      "product demos",
+      "tutorial loops",
+      "sticker animations",
+      "banner animations",
+      "frame sequences"
+    ]
+  },
+  {
+    "key": "typography",
+    "label": "Typography & Text",
+    "description": "Text overlays, typography layouts and text extraction",
+    "actions": [
+      "Add text to",
+      "Style text on",
+      "Align text on",
+      "Wrap text on",
+      "Outline text on",
+      "Shadow text on",
+      "Extract text from",
+      "Translate text in",
+      "Detect text in",
+      "Export text from"
+    ],
+    "subjects": [
+      "photos",
+      "posters",
+      "banners",
+      "product labels",
+      "screenshots",
+      "scanned pages",
+      "memes",
+      "social cards",
+      "documents",
+      "thumbnails"
+    ]
+  },
+  {
+    "key": "protection",
+    "label": "Watermark & Protection",
+    "description": "Ownership marks, redaction and image protection",
+    "actions": [
+      "Watermark",
+      "Redact",
+      "Mask",
+      "Stamp",
+      "Fingerprint",
+      "Track",
+      "Protect",
+      "Obscure",
+      "Label",
+      "Audit"
+    ],
+    "subjects": [
+      "photos",
+      "product images",
+      "documents",
+      "proof sheets",
+      "preview images",
+      "brand assets",
+      "portfolio images",
+      "screenshots",
+      "marketing graphics",
+      "download previews"
+    ]
+  },
+  {
+    "key": "metadata",
+    "label": "Metadata & Privacy",
+    "description": "Image metadata inspection, cleanup and privacy checks",
+    "actions": [
+      "Inspect",
+      "Remove",
+      "Edit",
+      "Export",
+      "Compare",
+      "Validate",
+      "Audit",
+      "Summarize",
+      "Batch clean",
+      "Report"
+    ],
+    "subjects": [
+      "EXIF metadata",
+      "GPS coordinates",
+      "camera details",
+      "IPTC fields",
+      "XMP fields",
+      "ICC profiles",
+      "timestamps",
+      "copyright fields",
+      "embedded thumbnails",
+      "file properties"
+    ]
+  },
+  {
+    "key": "analysis",
+    "label": "Image Analysis",
+    "description": "Image properties, quality metrics and visual inspection",
+    "actions": [
+      "Analyze",
+      "Measure",
+      "Detect",
+      "Compare",
+      "Score",
+      "Inspect",
+      "Profile",
+      "Summarize",
+      "Validate",
+      "Report"
+    ],
+    "subjects": [
+      "dimensions",
+      "aspect ratios",
+      "dominant colors",
+      "histograms",
+      "sharpness",
+      "noise levels",
+      "file signatures",
+      "transparency",
+      "color profiles",
+      "visual similarity"
+    ]
+  },
+  {
+    "key": "batch",
+    "label": "Batch Processing",
+    "description": "Multi-file workflows and repeatable image operations",
+    "actions": [
+      "Batch resize",
+      "Batch convert",
+      "Batch rename",
+      "Batch compress",
+      "Batch watermark",
+      "Batch crop",
+      "Batch optimize",
+      "Batch export",
+      "Batch inspect",
+      "Batch package"
+    ],
+    "subjects": [
+      "JPG collections",
+      "PNG collections",
+      "WebP collections",
+      "product catalogs",
+      "photo folders",
+      "design exports",
+      "screenshots",
+      "icon libraries",
+      "social assets",
+      "archive folders"
+    ]
+  },
+  {
+    "key": "ecommerce",
+    "label": "E-commerce Product Images",
+    "description": "Product photography, catalog images and marketplace assets",
+    "actions": [
+      "Prepare",
+      "Resize",
+      "Crop",
+      "Normalize",
+      "Enhance",
+      "Shadow",
+      "Background",
+      "Watermark",
+      "Package",
+      "Validate"
+    ],
+    "subjects": [
+      "marketplace listings",
+      "catalog photos",
+      "white-background products",
+      "fashion products",
+      "electronics",
+      "furniture",
+      "jewelry",
+      "food products",
+      "variant photos",
+      "product galleries"
+    ]
+  },
+  {
+    "key": "print",
+    "label": "Print & Documents",
+    "description": "Print-ready artwork, page layouts and document images",
+    "actions": [
+      "Prepare",
+      "Bleed-check",
+      "DPI-check",
+      "Crop",
+      "Tile",
+      "Impose",
+      "Convert",
+      "Proof",
+      "Annotate",
+      "Export"
+    ],
+    "subjects": [
+      "A4 pages",
+      "A3 posters",
+      "business cards",
+      "brochures",
+      "labels",
+      "stickers",
+      "photo prints",
+      "book covers",
+      "flyers",
+      "large-format posters"
+    ]
+  },
+  {
+    "key": "web",
+    "label": "Web Optimization",
+    "description": "Fast-loading web image assets and delivery preparation",
+    "actions": [
+      "Optimize",
+      "Generate",
+      "Resize",
+      "Compress",
+      "Convert",
+      "Prepare lazy-load assets for",
+      "Create placeholders for",
+      "Audit",
+      "Package",
+      "Preview"
+    ],
+    "subjects": [
+      "hero images",
+      "article images",
+      "thumbnails",
+      "responsive breakpoints",
+      "retina displays",
+      "background images",
+      "Open Graph cards",
+      "web galleries",
+      "landing pages",
+      "content libraries"
+    ]
+  },
+  {
+    "key": "accessibility",
+    "label": "Accessibility",
+    "description": "Accessible graphics, contrast and alternative descriptions",
+    "actions": [
+      "Check contrast for",
+      "Generate alt text for",
+      "Review readability of",
+      "Simulate color vision for",
+      "Add labels to",
+      "Inspect text in",
+      "Create accessible palettes for",
+      "Audit focus visuals in",
+      "Describe",
+      "Validate"
+    ],
+    "subjects": [
+      "web images",
+      "infographics",
+      "charts",
+      "diagrams",
+      "icons",
+      "text overlays",
+      "product graphics",
+      "social posts",
+      "presentations",
+      "UI screenshots"
+    ]
+  },
+  {
+    "key": "qr",
+    "label": "QR & Barcode",
+    "description": "QR codes, barcodes and scannable visual assets",
+    "actions": [
+      "Generate",
+      "Decode",
+      "Style",
+      "Validate",
+      "Batch create",
+      "Add logo to",
+      "Export",
+      "Print",
+      "Inspect",
+      "Compose"
+    ],
+    "subjects": [
+      "URL QR codes",
+      "Wi-Fi QR codes",
+      "contact QR codes",
+      "email QR codes",
+      "SMS QR codes",
+      "product barcodes",
+      "EAN codes",
+      "UPC codes",
+      "Code 128 labels",
+      "event QR passes"
+    ]
+  },
+  {
+    "key": "mockups",
+    "label": "Mockups & Templates",
+    "description": "Reusable mockups, layouts and creative templates",
+    "actions": [
+      "Create",
+      "Customize",
+      "Preview",
+      "Render",
+      "Export",
+      "Resize",
+      "Brand",
+      "Arrange",
+      "Annotate",
+      "Package"
+    ],
+    "subjects": [
+      "device mockups",
+      "laptop mockups",
+      "phone mockups",
+      "tablet mockups",
+      "poster templates",
+      "book covers",
+      "packaging mockups",
+      "app screens",
+      "website previews",
+      "social templates"
+    ]
+  },
+  {
+    "key": "background",
+    "label": "Background & Removal",
+    "description": "Background editing, masking and subject isolation",
+    "actions": [
+      "Remove",
+      "Replace",
+      "Blur",
+      "Extend",
+      "Colorize",
+      "Mask",
+      "Feather",
+      "Refine",
+      "Preview",
+      "Export"
+    ],
+    "subjects": [
+      "photo backgrounds",
+      "product backgrounds",
+      "portrait backgrounds",
+      "transparent backgrounds",
+      "studio scenes",
+      "gradient backgrounds",
+      "solid backgrounds",
+      "outdoor scenes",
+      "profile photos",
+      "catalog images"
+    ]
+  },
+  {
+    "key": "effects",
+    "label": "Image Effects & Filters",
+    "description": "Creative effects, filters and visual treatments",
+    "actions": [
+      "Apply",
+      "Blend",
+      "Layer",
+      "Distort",
+      "Stylize",
+      "Tone",
+      "Texture",
+      "Glow",
+      "Vintage",
+      "Preview"
+    ],
+    "subjects": [
+      "vintage effects",
+      "film effects",
+      "duotone effects",
+      "grain effects",
+      "glow effects",
+      "vignette effects",
+      "halftone effects",
+      "pixel effects",
+      "sketch effects",
+      "cinematic looks"
+    ]
+  },
+  {
+    "key": "files",
+    "label": "File Utilities",
+    "description": "Image file inspection, naming and archive utilities",
+    "actions": [
+      "Inspect",
+      "Rename",
+      "Compare",
+      "Deduplicate",
+      "Hash",
+      "Sort",
+      "Group",
+      "Package",
+      "Extract",
+      "Validate"
+    ],
+    "subjects": [
+      "image files",
+      "photo folders",
+      "asset libraries",
+      "download batches",
+      "camera imports",
+      "design exports",
+      "archive contents",
+      "duplicate sets",
+      "large files",
+      "mixed formats"
+    ]
+  },
+  {
+    "key": "creative",
+    "label": "Creative Assets",
+    "description": "Creative image assets for makers, teams and campaigns",
+    "actions": [
+      "Generate",
+      "Compose",
+      "Arrange",
+      "Customize",
+      "Remix",
+      "Export",
+      "Preview",
+      "Brand",
+      "Package",
+      "Adapt"
+    ],
+    "subjects": [
+      "stickers",
+      "avatars",
+      "patterns",
+      "textures",
+      "wallpapers",
+      "mood boards",
+      "infographics",
+      "event graphics",
+      "campaign visuals",
+      "presentation covers"
+    ]
   }
-];
+] as const;
+const plannedTools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: string }> = roadmapCategories.flatMap(group => group.actions.flatMap((action, actionIndex) => group.subjects.map((subject, subjectIndex) => ({ id: group.key + "-" + (actionIndex + 1) + "-" + (subjectIndex + 1), title: action + " " + subject, desc: action + " for " + subject + " with browser-based preview and export options.", icon: "✧", tag: "Coming soon", comingSoon: true, category: group.key }))));
+if (plannedTools.length !== 3000 || roadmapCategories.some(group => group.actions.length * group.subjects.length !== 100)) throw new Error("Roadmap must contain exactly 100 tools in each of 30 categories.");
 tools.push(...plannedTools);
 
 function readAsDataUrl(file: File): Promise<string> {
@@ -1280,6 +1477,7 @@ export default function App() {
     const category = toolCategory === "all" || (toolCategory === "optimize" && ["compress","resize","convert"].includes(id)) || (toolCategory === "edit" && ["crop","rotate","flip","watermark","rounded","blur","grayscale"].includes(id)) || (toolCategory === "inspect" && ["color","metadata","base64","metadata-cleaner"].includes(id)) || tool.category === toolCategory;
     return matchesSearch && category;
   });
+  const visibleTools = filteredTools.slice(0, 100);
 
   useEffect(() => {
     const tool = tools.find(item => item.id === active);
@@ -1388,14 +1586,15 @@ export default function App() {
         <div className="tool-discovery">
           <label className="tool-search-label" htmlFor="tool-search">Find the right tool</label>
           <input id="tool-search" className="tool-search" type="search" placeholder="Search compressor, crop, watermark…" value={toolSearch} onChange={e => setToolSearch(e.target.value)} />
-          <div className="tool-filters" role="group" aria-label="Filter image tools">
-            {[
-              ["all","All tools"],["optimize","Optimize"],["edit","Edit"],["inspect","Inspect & data"]
-            ].map(([value,label]) => <button type="button" key={value} className={toolCategory === value ? "filter-chip active" : "filter-chip"} aria-pressed={toolCategory === value} onClick={() => setToolCategory(value)}>{label}</button>)}
-          </div>
-          <p className="tool-count" role="status">{filteredTools.length} tools found</p>
+          <label className="tool-category-label" htmlFor="tool-category">Browse category</label>
+          <select id="tool-category" className="tool-category-select" value={toolCategory} onChange={e => setToolCategory(e.target.value)}>
+            <option value="all">All categories (30)</option>
+            <option value="optimize">Quick filter: Optimize</option><option value="edit">Quick filter: Edit</option><option value="inspect">Quick filter: Inspect & data</option>
+            {roadmapCategories.map(group => <option key={group.key} value={group.key}>{group.label} — 100 tools</option>)}
+          </select>
+          <p className="tool-count" role="status">{toolCategory === "all" ? `Showing ${visibleTools.length} of ${filteredTools.length} tools` : `${filteredTools.length} tools found`}</p>
         </div>
-        <div className="tool-grid">{filteredTools.map(tool => <button className={tool.comingSoon ? "tool-card disabled" : "tool-card"} key={tool.id} disabled={!!tool.comingSoon} onClick={() => !tool.comingSoon && chooseTool(tool.id as ToolId)}><div className="tool-card-top"><span className="tool-icon">{tool.icon}</span><span className={tool.comingSoon ? "tool-tag coming" : "tool-tag"}>{tool.tag}</span></div><h3>{tool.title}</h3><p>{tool.desc}</p><span className="tool-link">{tool.comingSoon ? "In development" : "Open tool"} {!tool.comingSoon && <ArrowRight size={15}/>}</span></button>)}</div>
+        <div className="tool-grid">{visibleTools.map(tool => <button className={tool.comingSoon ? "tool-card disabled" : "tool-card"} key={tool.id} disabled={!!tool.comingSoon} onClick={() => !tool.comingSoon && chooseTool(tool.id as ToolId)}><div className="tool-card-top"><span className="tool-icon">{tool.icon}</span><span className={tool.comingSoon ? "tool-tag coming" : "tool-tag"}>{tool.tag}</span></div><h3>{tool.title}</h3><p>{tool.desc}</p><span className="tool-link">{tool.comingSoon ? "In development" : "Open tool"} {!tool.comingSoon && <ArrowRight size={15}/>}</span></button>)}</div>
         {filteredTools.length === 0 && <p className="empty-tools">No matching tools. Try another search or choose “All tools”.</p>}
       </section>
       <section className="privacy-section" id="privacy"><div className="privacy-icon"><ShieldCheck size={25}/></div><div><div className="eyebrow">YOUR PRIVACY MATTERS</div><h2>Your images are <span>yours.</span></h2><p>Working tools process your images directly in your browser. Your files are not uploaded to PixelTools servers, and there is no account to create. AI background removal and upscaling are not enabled yet.</p></div><div className="privacy-stamp"><LockKeyhole size={18}/><b>PRIVATE</b><small>By design</small></div></section>
