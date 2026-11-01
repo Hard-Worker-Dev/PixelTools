@@ -281,3 +281,5 @@ footer .brand-mark{width:30px;height:30px}
 .pdf-privacy{display:flex;align-items:center;gap:7px;color:#8790a0;font-size:10px}
 .pdf-privacy svg{color:#38a182}
 @media(max-width:560px){.pdf-list-head{align-items:flex-start;flex-direction:column}.pdf-list-head>div{width:100%;justify-content:flex-end}.pdf-file-row{gap:6px;padding:9px 7px}.pdf-file-row>div:nth-of-type(1) b{max-width:110px}.pdf-reorder{gap:2px}.pdf-reorder button,.pdf-remove{width:25px;height:25px}.pdf-result>div{flex-wrap:wrap}.pdf-result>div span{margin-left:0;flex-basis:100%}}
+
+.tool-discovery .tool-filters{grid-column:1/-1}
