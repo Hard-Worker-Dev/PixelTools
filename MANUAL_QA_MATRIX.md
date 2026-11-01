@@ -10,7 +10,7 @@
 |---|---|---|
 | Chrome desktop (current stable) | All 21 feature-branch tools; JPG, PNG, WebP, image-to-PDF, PDF merge/split/rotate/reorder/extract and ZIP exports | Browser/version, OS, screenshots, output files |
 | Edge desktop (current stable) | All 21 feature-branch tools; JPG, PNG, WebP, PDF merge/split/rotate/reorder/extract | Browser/version, OS, output files |
-| Firefox desktop (current stable) | All 18 tools; JPG, PNG, WebP, PDF merge/split | Browser/version, OS, output files |
+| Firefox desktop (current stable) | All 21 feature-branch tools; JPG, PNG, WebP, PDF merge/split/rotate/reorder/extract | Browser/version, OS, output files |
 | Android Chrome, physical device | Upload, tool controls, download/share, orientation | Device model, Android version, screenshots |
 | iPhone Safari, physical device | Upload, tool controls, download/share, orientation | Device model, iOS version, screenshots |
 | Tablet viewport and touch | Navigation, dialogs, crop gestures, controls | Viewport dimensions, device/browser |
