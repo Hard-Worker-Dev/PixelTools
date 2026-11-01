@@ -56,7 +56,7 @@ AI Background Remover and AI Upscaler are shown as coming soon. They are not adv
 
 ## SEO and informational pages
 - Home, About, Privacy Policy, Terms, Contact and 404.
-- Dedicated tool landing pages with unique titles, descriptions, canonical URLs and FAQ structured data, including Batch Image Converter, Image to PDF, PDF Merger, PDF Splitter, PDF Rotator, PDF Page Reorder and PDF Page Extractor and PDF Watermark pages.
+- Dedicated tool landing pages with unique titles, descriptions, canonical URLs and FAQ structured data, including Batch Image Converter, Image to PDF, PDF Merger, PDF Splitter, PDF Rotator, PDF Page Reorder, PDF Page Extractor and PDF Watermark.
 - XML sitemap, robots.txt, Open Graph metadata, favicon and security headers.
 - Canonical URLs and sitemap entries use the Pages hostname configured for this release.
 
