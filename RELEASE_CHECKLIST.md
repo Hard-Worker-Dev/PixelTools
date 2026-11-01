@@ -26,11 +26,16 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [x] Pakistan-focused Privacy Policy draft updated to describe browser-local processing, Cloudflare technical processing, metadata sensitivity and current contact limitations.
 - [x] Pakistan-focused Terms of Use draft updated with lawful-use rules, user file responsibilities, output verification, service limitations and governing-law wording.
 - [x] Legal review decision record added in `LEGAL_REVIEW_PAKISTAN.md`.
-- [ ] Owner supplies the contracting operator's legal name/status, service address and a monitored private privacy contact route.
+- [ ] **Deferred for this pass — still a launch blocker:** owner supplies the contracting operator's legal name/status, service address and a monitored private privacy contact route. Do not publish guessed details or treat this as waived.
 - [ ] Pakistan-qualified legal reviewer confirms current federal/provincial law, consumer rights, enforceability and the final policy/terms wording.
 - [ ] Confirm current hosting logs, retention, subprocessors, international processing and Google Fonts configuration against the actual production setup.
 - [ ] Recheck Gazette/parliamentary status of proposed data-protection legislation immediately before launch.
 - [ ] Do not describe these drafts as lawyer-approved or legally compliant until the above review is documented.
+
+## Expanded tool roadmap
+
+- [x] Added five new catalogue categories with 15 planned entries each (75 total); all are disabled and labelled Coming Soon.
+- [ ] Implement and test roadmap tools in small batches; do not count planned entries as working tools. See `TOOL_ROADMAP.md`.
 
 ## Manual acceptance still required
 
