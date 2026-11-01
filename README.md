@@ -7,6 +7,7 @@ A professional, free creative utility workspace for image and file workflows. Th
 ## Stack
 - React 18, TypeScript and Vite 8
 - Canvas API, ImageBitmap and browser File APIs
+- PDF processing with pdf-lib and local ZIP export
 - EXIF inspection with exifr
 - Vitest and React Testing Library
 - Cloudflare Pages with GitHub integration
@@ -28,13 +29,17 @@ A professional, free creative utility workspace for image and file workflows. Th
 14. Image Metadata Viewer — file properties, readable EXIF details (including possible GPS tags) and JSON report export
 15. Image to Base64 — copy or save raw Base64 or a full data URL
 16. Image Metadata Cleaner — re-encode a clean copy without copying original EXIF/GPS metadata
+17. PDF Merger — combine 2–10 PDFs in a custom order, up to 200 pages
+18. PDF Splitter — export selected page ranges as separate PDFs in a ZIP archive
 
-AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. The tool catalogue now contains 30 roadmap categories with 100 Coming Soon entries each (3,000 planned entries total), separate from the 16 working tools. These are not implemented features. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
+AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. The tool catalogue now contains 30 roadmap categories with 100 Coming Soon entries each (3,000 planned entries total), separate from the 18 working tools. These are not implemented features. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
 
 ## Privacy and safety
 - Working image tools process files locally in the browser; selected image files are not uploaded to a PixelTools image-processing server.
 - Supported inputs: JPG, PNG and WebP.
 - Image-to-PDF accepts up to 20 pages, 25 MB per source image, 100 MB combined input and 120 megapixels combined per PDF. Output is capped at 150 MB.
+- PDF Merger accepts 2–10 PDFs, 25 MB per file, 100 MB combined input and 200 pages; output is capped at 150 MB.
+- PDF Splitter accepts one PDF up to 25 MB and 200 pages; its ZIP output is capped at 150 MB. Password-protected PDFs are not supported. PDF operations run locally in the browser.
 - Single-image tools accept up to 25 MB per file. Batch conversion accepts up to 30 images, 25 MB each and 100 MB combined.
 - Input and output dimension guard: header dimensions are checked before pixel decoding; at most 12,000 pixels per side and 60 megapixels total.
 - EXIF data can contain sensitive camera details and GPS coordinates; it is read locally in the metadata viewer.
@@ -44,7 +49,7 @@ AI Background Remover and AI Upscaler are shown as coming soon. They are not adv
 
 ## SEO and informational pages
 - Home, About, Privacy Policy, Terms, Contact and 404.
-- Dedicated tool landing pages with unique titles, descriptions, canonical URLs and FAQ structured data, including the new Batch Image Converter and Image to PDF pages.
+- Dedicated tool landing pages with unique titles, descriptions, canonical URLs and FAQ structured data, including Batch Image Converter, Image to PDF, PDF Merger and PDF Splitter pages.
 - XML sitemap, robots.txt, Open Graph metadata, favicon and security headers.
 - Canonical URLs and sitemap entries use the Pages hostname configured for this release.
 
