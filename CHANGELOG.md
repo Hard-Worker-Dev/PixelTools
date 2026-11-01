@@ -11,6 +11,10 @@ All notable PixelTools changes are documented here.
 - Replaced remote Google Fonts with system font stacks and removed the external font hosts from the Content Security Policy.
 - Clarified that public GitHub issues are not a channel for private privacy requests or sensitive material.
 
+### Product roadmap
+- Added five new Coming Soon categories — PDF Tools, Design & Graphics, Social Media, Color & Branding, and Developer Tools — with 15 planned tools each (75 total). The roadmap catalogue is not a claim that these tools are implemented.
+- Added `TOOL_ROADMAP.md` with implementation, privacy, security, testing and rollout gates.
+
 ### Release operations
 - Added a detailed manual browser/device and export acceptance matrix.
 - Added an evidence-based release audit and updated CI/Cloudflare deployment evidence.
