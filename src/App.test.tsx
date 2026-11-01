@@ -451,4 +451,13 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(createdBlobs.at(-1)?.size).toBeGreaterThan(0);
   }, 20000);
 
+
+  it("opens the local batch image converter workspace", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /Batch Image Converter/ }));
+    expect(screen.getByRole("dialog", { name: "Batch Image Converter" })).toBeTruthy();
+    expect(screen.getByText(/Process a whole image set in one go/)).toBeTruthy();
+    expect(screen.getByText(/Up to 30 files/)).toBeTruthy();
+  });
 });
