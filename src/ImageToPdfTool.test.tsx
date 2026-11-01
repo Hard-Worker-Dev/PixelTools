@@ -8,7 +8,7 @@ vi.mock("./lib/image", () => ({ formatBytes: (bytes: number) => bytes + " B" }))
 vi.mock("./lib/pdf", () => ({
   createPdfFromImages: vi.fn(async (_files: File[], _quality: number, progress?: (done: number, total: number) => void) => {
     progress?.(1, 1);
-    return new Blob(["%PDF-1.4 test"], { type: "application/pdf" });
+    return new Blob(["%PDF-1.4 test".padEnd(120, " ")], { type: "application/pdf" });
   })
 }));
 
