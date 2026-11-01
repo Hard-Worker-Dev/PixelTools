@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ArrowDownToLine, Check, FileImage, LockKeyhole, Plus, RefreshCw, ShieldCheck, Trash2, UploadCloud, X } from "lucide-react";
+import { ArrowDownToLine, Check, FileImage, LockKeyhole, Plus, ShieldCheck, UploadCloud, X } from "lucide-react";
 import { formatBytes, outputName, readImageDimensions, renderImage, type ImageFormat } from "./lib/image";
 import { createZipBlob } from "./lib/zip";
 
