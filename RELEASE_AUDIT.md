@@ -17,6 +17,7 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 - [x] Release, support, security, rollback and Search Console instructions are present.
 - [x] Pakistan-focused Privacy Policy and Terms drafts have been added to the existing public pages.
 - [x] Pakistan legal review and owner/counsel decision checklist added in `LEGAL_REVIEW_PAKISTAN.md`.
+- [x] Five Coming Soon catalogue categories added with 15 planned tools each (75 total); these are roadmap entries, not implemented features.
 
 ## Cloudflare Pages evidence (2026-11-01)
 
@@ -51,7 +52,7 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 
 - [x] Draft Pakistan-focused Privacy Policy and Terms of Use against current documented product behavior.
 - [x] Record relevant Pakistan legal sources and owner/counsel decisions in `LEGAL_REVIEW_PAKISTAN.md`.
-- [ ] Owner supplies contracting operator's legal identity, service address and monitored private privacy contact route.
+- [ ] **Deferred for this pass; remains a launch blocker:** owner supplies contracting operator's legal identity, service address and monitored private privacy contact route.
 - [ ] Pakistan-qualified lawyer reviews current federal/provincial law, mandatory consumer rights, enforceability and final documents.
 - [ ] Confirm actual Cloudflare logs/retention, subprocessors and international processing; verify deployed pages make no unintended third-party requests.
 - [ ] Recheck Gazette/parliamentary status of proposed data-protection legislation immediately before launch.
@@ -59,7 +60,9 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 - [ ] Owner verifies Google Search Console property and submits the sitemap.
 - [ ] Perform and document a controlled Cloudflare Pages rollback rehearsal in a planned window.
 
-### P2 — Release hygiene
+### P2 — Product roadmap and release hygiene
+
+- [ ] Implement and independently test the 75 planned tools in small batches; keep every unfinished entry disabled and Coming Soon. See `TOOL_ROADMAP.md`.
 
 - [ ] After all acceptance gates pass, publish release notes and create a final 1.0.0 version tag.
 - [ ] Keep AI features marked Coming Soon until a real model pipeline is integrated, privacy-reviewed and tested.
@@ -68,7 +71,8 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 
 - Production hostname documented by the project: `https://pixeltools-9xe.pages.dev`.
 - The 2026-11-01 audit branch deployment is a preview, not production. The canonical production deployment still points to the 2026-10-30 `main` commit.
-- The legal pages are drafts, not lawyer-approved advice or a guarantee of statutory compliance. The repo currently lacks a published legal entity name, postal address and private privacy-request channel.
+- The legal pages are drafts, not lawyer-approved advice or a guarantee of statutory compliance. The repo currently lacks a published legal entity name, postal address and private privacy-request channel; the owner-detail task was deferred once at the user's direction, not waived.
 - Public legal sources consulted during drafting identify PECA 2016 (as amended in 2025) as relevant and the Personal Data Protection Bill 2023 as a proposal; status must be rechecked against current Gazette/parliamentary records before launch.
+- The five additional categories contain 75 planned Coming Soon entries only; they must not be counted as working tools until implemented and tested.
 - CI and Pages deployment evidence verify only configured automation. They do not prove physical-device behavior, independent export correctness, legal approval, Search Console ownership, effective production headers or a successful rollback rehearsal.
 - PR #11 remains a draft and must not be merged or promoted to final 1.0.0 solely on repository checks.
