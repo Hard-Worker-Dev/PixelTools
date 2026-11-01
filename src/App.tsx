@@ -1584,7 +1584,7 @@ export default function App() {
       <section className="tools-section" id="tools">
         <div className="section-heading"><div><div className="eyebrow">EXPLORE THE PLATFORM</div><h2>Find your next tool.<br/><span>Get straight to work.</span></h2></div><p>Browse the complete roadmap by category. Live tools open instantly; planned tools are clearly marked while they are being built and tested.</p></div>
         <div className="tool-discovery">
-          <label className="tool-search-label" htmlFor="tool-search">Search all 3,014 tools</label>
+          <label className="tool-search-label" htmlFor="tool-search">Search the full catalogue</label>
           <input id="tool-search" className="tool-search" type="search" placeholder="Try PDF editor, image compressor, QR code…" value={toolSearch} onChange={e => setToolSearch(e.target.value)} />
           <label className="tool-category-label" htmlFor="tool-category">Browse category</label>
           <select id="tool-category" className="tool-category-select" value={toolCategory} onChange={e => setToolCategory(e.target.value)}>
