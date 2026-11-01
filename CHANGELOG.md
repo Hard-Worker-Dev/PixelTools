@@ -12,6 +12,7 @@ All notable PixelTools changes are documented here.
 - Clarified that public GitHub issues are not a channel for private privacy requests or sensitive material.
 
 ### Product roadmap
+- Added an explicit **Edit PDF files** entry to the PDF Tools category while keeping the category at exactly 100 planned tools.
 - Expanded the Coming Soon roadmap to 30 categories with 100 planned entries each (3,000 total). The roadmap catalogue is not a claim that these tools are implemented.
 - Added `TOOL_ROADMAP.md` with implementation, privacy, security, testing and rollout gates.
 
