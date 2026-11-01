@@ -23,8 +23,8 @@ describe("PDF generation utilities", () => {
 
   it("creates one page for each supplied image and auto-selects page orientation", async () => {
     const pdf = buildPdfFromJpegs([
-      { bytes: new Uint8Array([1, 2, 3]), width: 1200, height: 800 },
-      { bytes: new Uint8Array([4, 5, 6]), width: 600, height: 1000 }
+      { bytes: new Uint8Array([0xff, 0xd8, 0xff, 0xd9]), width: 1200, height: 800 },
+      { bytes: new Uint8Array([0xff, 0xd8, 0xff, 0xd9]), width: 600, height: 1000 }
     ]);
     const source = text.decode(new Uint8Array(await pdf.arrayBuffer()));
     expect(source).toContain("/Count 2");
@@ -35,8 +35,8 @@ describe("PDF generation utilities", () => {
 
   it("rejects empty, excessive and invalid page data", () => {
     expect(() => buildPdfFromJpegs([])).toThrow("between 1 and 20 images");
-    expect(() => buildPdfFromJpegs(Array.from({ length: 21 }, () => ({ bytes: new Uint8Array([1]), width: 1, height: 1 })))).toThrow("between 1 and 20 images");
-    expect(() => buildPdfFromJpegs([{ bytes: new Uint8Array(), width: 1, height: 1 }])).toThrow("valid JPEG bytes");
-    expect(() => buildPdfFromJpegs([{ bytes: new Uint8Array([1]), width: 12001, height: 1 }])).toThrow("safety limit");
+    expect(() => buildPdfFromJpegs(Array.from({ length: 21 }, () => ({ bytes: new Uint8Array([0xff, 0xd8, 0xff, 0xd9]), width: 1, height: 1 })))).toThrow("between 1 and 20 images");
+    expect(() => buildPdfFromJpegs([{ bytes: new Uint8Array([1, 2, 3, 4]), width: 1, height: 1 }])).toThrow("valid JPEG bytes");
+    expect(() => buildPdfFromJpegs([{ bytes: new Uint8Array([0xff, 0xd8, 0xff, 0xd9]), width: 12001, height: 1 }])).toThrow("safety limit");
   });
 });
