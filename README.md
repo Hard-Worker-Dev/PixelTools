@@ -37,7 +37,7 @@ AI Background Remover and AI Upscaler are shown as coming soon. They are not adv
 - EXIF data can contain sensitive camera details and GPS coordinates; it is read locally in the metadata viewer.
 - JPEG exports use a selectable background color because JPEG cannot preserve transparency.
 - The Metadata Cleaner re-encodes pixels rather than copying the source file container. Browser encoders may write basic output metadata; do not treat this as a forensic sanitizer.
-- The site is hosted on Cloudflare Pages and currently requests fonts from Google Fonts; those providers may independently process technical connection data. See the [Privacy Policy](https://pixeltools-9xe.pages.dev/privacy/).
+- The site uses system fonts and is hosted on Cloudflare Pages. Cloudflare may independently process technical request and security data. See the [Privacy Policy](https://pixeltools-9xe.pages.dev/privacy/).
 
 ## SEO and informational pages
 - Home, About, Privacy Policy, Terms, Contact and 404.
