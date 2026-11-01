@@ -10,6 +10,7 @@ All notable PixelTools changes are documented here.
 - Added automated coverage for ZIP headers/checksums, duplicate filenames, safe paths and the batch conversion UI workflow.
 - Added **Image to PDF**: combine up to 20 JPG, PNG or WebP files into a multi-page A4 PDF, reorder pages before export, auto-select portrait/landscape page orientation and process locally in the browser.
 - Added a dependency-free PDF 1.4 writer with embedded JPEG streams, page-tree construction and cross-reference offsets, plus automated PDF structure and page-order tests.
+- Added dedicated SEO landing pages and sitemap entries for Batch Image Converter and Image to PDF.
 - Added PDF safety limits: 25 MB per input, 100 MB combined input, 120 megapixels combined and 150 MB output.
 - The working tool count is now 16; the 3,000 catalogue entries remain planned until individually implemented and verified.
 
