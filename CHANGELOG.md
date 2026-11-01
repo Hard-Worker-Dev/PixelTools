@@ -2,6 +2,25 @@
 
 All notable PixelTools changes are documented here.
 
+## Unreleased — release-readiness documentation
+
+### Legal and privacy
+- Reworked the public Privacy Policy for the current Pakistan-focused release, including browser-local image processing, Cloudflare technical processing, metadata sensitivity and contact-channel limitations.
+- Reworked the public Terms of Use with acceptable-use requirements, user file responsibilities, output review, service limitations and Pakistan governing-law wording.
+- Added a Pakistan legal review decision record. These documents remain drafts pending operator identity/contact details and qualified legal review.
+- Replaced remote Google Fonts with system font stacks and removed the external font hosts from the Content Security Policy.
+- Clarified that public GitHub issues are not a channel for private privacy requests or sensitive material.
+
+### Product roadmap
+- Added an explicit **Edit PDF files** entry to the PDF Tools category while keeping the category at exactly 100 planned tools.
+- Expanded the Coming Soon roadmap to 30 categories with 100 planned entries each (3,000 total). The roadmap catalogue is not a claim that these tools are implemented.
+- Added `TOOL_ROADMAP.md` with implementation, privacy, security, testing and rollout gates.
+
+### Release operations
+- Added a detailed manual browser/device and export acceptance matrix.
+- Added an evidence-based release audit and updated CI/Cloudflare deployment evidence.
+- Recorded outstanding owner-only settings, physical-device QA, Search Console and rollback gates.
+
 ## 1.0.0-rc.1 — 2026-10-30
 
 This is a release candidate, not the final 1.0.0 release.
@@ -18,7 +37,7 @@ This is a release candidate, not the final 1.0.0 release.
 - Automated processing workflow coverage for all 11 editing/export tools.
 - Automated workflow coverage for Color Picker, Metadata Viewer and Base64 tools.
 - Watermark logo dimension validation and bounded aspect-ratio rendering.
-- Content Security Policy allows the external Google Fonts hosts required by the stylesheet; the Privacy Policy discloses those requests.
+- Content Security Policy is restricted to local assets after removing the remote Google Fonts dependency.
 - CI performs full and production-only dependency audits, typechecking, automated tests and a production build.
 
 ### Known release gates
