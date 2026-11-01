@@ -23,7 +23,7 @@ export function PdfMergeTool() {
     for (const file of Array.from(picked)) {
       if (next.some(item => item.name === file.name && item.size === file.size && item.lastModified === file.lastModified)) continue;
       if (next.length >= 10) { issues.push("A maximum of 10 PDFs can be merged at once."); break; }
-      if (!file.size || file.size > MAX_FILE_BYTES) { issues.push(file.name + ": each PDF must be 25 MB or smaller."); continue; }
+      if (!file.size || file.size > 25 * 1024 * 1024) { issues.push(file.name + ": each PDF must be 25 MB or smaller."); continue; }
       if (next.reduce((sum, item) => sum + item.size, 0) + file.size > 100 * 1024 * 1024) { issues.push("Combined PDF input cannot exceed 100 MB."); continue; }
       next.push(file);
     }
@@ -55,25 +55,6 @@ export function PdfMergeTool() {
     {result&&<section className="pdf-result" role="status"><div><Check size={18}/><b>Your merged PDF is ready</b><span>{formatBytes(result.size)}</span></div><p>All pages are combined in the order shown above.</p><button className="download-btn" type="button" onClick={()=>download(result,"pixeltools-merged.pdf")}><ArrowDownToLine size={16}/> Download merged PDF</button></section>}
     <div className="pdf-privacy"><LockKeyhole size={14}/> PDF processing stays on this device. Password-protected files are not supported.</div>
   </div>;
-}
-
-function parseRanges(value: string, pageCount: number): Array<{start:number;end:number}> {
-  const parts = value.split(",").map(part=>part.trim()).filter(Boolean);
-  if (!parts.length) throw new Error("Enter at least one page number or range, such as 1-3, 5.");
-  const ranges: Array<{start:number;end:number}> = [];
-  const used = new Set<number>();
-  for (const part of parts) {
-    const match = /^(\d+)(?:\s*-\s*(\d+))?$/.exec(part);
-    if (!match) throw new Error("Use page numbers and ranges separated by commas, for example 1-3, 5, 8-10.");
-    const start = Number(match[1]), end = Number(match[2] ?? match[1]);
-    if (start < 1 || end < start || end > pageCount) throw new Error("Page ranges must be between 1 and " + pageCount + ".");
-    for (let page=start;page<=end;page++) {
-      if (used.has(page)) throw new Error("Page " + page + " appears more than once. Remove overlapping ranges.");
-      used.add(page);
-    }
-    ranges.push({start,end});
-  }
-  return ranges;
 }
 
 export function PdfSplitTool() {
