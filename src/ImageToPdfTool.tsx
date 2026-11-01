@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ArrowDownToLine, ArrowDown, ArrowUp, Check, FileImage, LockKeyhole, Plus, ShieldCheck, Trash2, UploadCloud, X } from "lucide-react";
+import { ArrowDownToLine, ArrowDown, ArrowUp, Check, FileImage, LockKeyhole, Plus, UploadCloud, X } from "lucide-react";
 import { formatBytes } from "./lib/image";
 import { createPdfFromImages } from "./lib/pdf";
 
