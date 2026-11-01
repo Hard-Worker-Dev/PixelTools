@@ -1596,7 +1596,10 @@ export default function App() {
             <option value="optimize">Quick filter: Optimize</option><option value="edit">Quick filter: Edit</option><option value="inspect">Quick filter: Inspect & data</option>
             {roadmapCategories.map(group => <option key={group.key} value={group.key}>{group.label} — {group.key === "batch" || group.key === "pdf" ? "101" : "100"} tools</option>)}
           </select>
-          <p className="tool-count" role="status">{toolCategory === "all" ? `Showing ${visibleTools.length} of ${filteredTools.length} tools` : `${filteredTools.length} tools found`}</p>
+          <div className="tool-filters" aria-label="Quick tool filters">
+            {[['all','All tools'],['optimize','Optimize'],['edit','Edit'],['inspect','Inspect & data']].map(([value,label]) => <button type="button" key={value} className={toolCategory===value ? "filter-chip active" : "filter-chip"} aria-pressed={toolCategory===value} onClick={() => setToolCategory(value)}>{label}</button>)}
+          </div>
+          <p className="tool-count" role="status">{toolCategory === "all" && !toolSearch.trim() ? `Showing ${visibleTools.length} of ${filteredTools.length} tools` : `${filteredTools.length} tools found`}</p>
         </div>
         <div className="tool-grid">{visibleTools.map(tool => <button className={tool.comingSoon ? "tool-card disabled" : "tool-card"} key={tool.id} disabled={!!tool.comingSoon} onClick={() => !tool.comingSoon && chooseTool(tool.id as ToolId)}><div className="tool-card-top"><span className="tool-icon">{tool.icon}</span><span className={tool.comingSoon ? "tool-tag coming" : "tool-tag"}>{tool.tag}</span></div><h3>{tool.title}</h3><p>{tool.desc}</p><span className="tool-link">{tool.comingSoon ? "Planned · Coming soon" : "Open tool"} {!tool.comingSoon && <ArrowRight size={15}/>}</span></button>)}</div>
         {filteredTools.length === 0 && <p className="empty-tools">No matching tools. Try another search or choose “All tools”.</p>}
