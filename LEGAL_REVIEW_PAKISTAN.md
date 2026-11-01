@@ -10,7 +10,7 @@
 - Public Terms of Use: `public/terms/index.html`
 - Public contact route: `public/contact/index.html`
 
-The public documents are written against the current release behavior described in the repository. They must be reviewed again if analytics, cookies, accounts, payments, cloud image processing, AI inference, user submissions, advertising or other data flows are introduced.
+The public documents are written against the currently implemented release behavior described in the repository. They must be reviewed again before enabling any roadmap tool, or if analytics, cookies, accounts, payments, cloud image processing, AI inference, user submissions, advertising or other data flows are introduced. The 75 new roadmap entries are Coming Soon only and are not part of the current working product.
 
 ## Verified product facts used
 
@@ -36,7 +36,7 @@ These sources are a starting point, not an exhaustive analysis of federal and pr
 
 ## Required owner and counsel decisions before calling the documents approved
 
-- Confirm the contracting operator's full legal name, business/individual status, service address and a monitored privacy contact channel. Add these to the policy and terms where appropriate.
+- **Deferred for this pass; not waived:** confirm the contracting operator's full legal name, business/individual status, service address and a monitored privacy contact channel. Add these to the policy and terms where appropriate.
 - Confirm the actual hosting account, Cloudflare plan/settings, log access, retention, subprocessors and any international processing/transfer arrangements.
 - Verify the deployed stylesheet no longer makes remote font requests and confirm no other third-party browser requests have been added.
 - Confirm whether any cookies, local storage, telemetry, error reporting, CDN security challenges or other browser storage are active in production.
