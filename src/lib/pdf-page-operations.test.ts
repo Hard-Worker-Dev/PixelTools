@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, degrees } from "pdf-lib";
 import { extractPdfPages, reorderPdfPages, rotatePdfFile } from "./pdf-page-operations";
 
 function readZip(bytes: Uint8Array): Array<{name:string;bytes:Uint8Array}> {
@@ -29,7 +29,7 @@ describe("PDF page operations",()=>{
     expect(doc.getPages().map(page=>page.getRotation().angle)).toEqual([90,90,90,90]);
   });
   it("preserves existing page rotation when applying an additional turn",async()=>{
-    const source=await PDFDocument.create();const page=source.addPage([300,400]);page.setRotation({type:"degrees",angle:180});
+    const source=await PDFDocument.create();const page=source.addPage([300,400]);page.setRotation(degrees(180));
     const file=new File([await source.save()],"turned.pdf",{type:"application/pdf"});
     const output=await rotatePdfFile(file,1);const doc=await PDFDocument.load(await output.arrayBuffer());
     expect(doc.getPage(0).getRotation().angle).toBe(270);
