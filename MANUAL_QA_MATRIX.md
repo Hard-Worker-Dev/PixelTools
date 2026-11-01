@@ -8,7 +8,7 @@
 
 | Environment | Required coverage | Evidence |
 |---|---|---|
-| Chrome desktop (current stable) | All 14 tools; JPG, PNG, WebP | Browser/version, OS, screenshots, output files |
+| Chrome desktop (current stable) | All 16 tools; JPG, PNG, WebP, multi-image PDF and ZIP exports | Browser/version, OS, screenshots, output files |
 | Edge desktop (current stable) | All 14 tools; JPG, PNG, WebP | Browser/version, OS, output files |
 | Firefox desktop (current stable) | All 14 tools; JPG, PNG, WebP | Browser/version, OS, output files |
 | Android Chrome, physical device | Upload, tool controls, download/share, orientation | Device model, Android version, screenshots |
@@ -50,6 +50,8 @@ Record SHA-256 hashes for source and output assets. Never use private user photo
 | Image Metadata Viewer | Inspect EXIF-bearing and metadata-free images | File details and available EXIF fields are accurate; GPS is clearly treated as sensitive |
 | Image to Base64 | Generate data URL and raw Base64; copy and save | Decoding output reproduces source bytes; data URL prefix only appears in data-URL mode |
 | Image Metadata Cleaner | Re-encode EXIF-bearing source to each supported output format | Independent EXIF inspection confirms source EXIF/GPS tags are not copied; document any encoder-added generic metadata |
+| Batch Image Converter | Process mixed JPG/PNG/WebP sets; test all output formats, add/remove files, stop control and ZIP export | Each output opens and has correct MIME/extension; ZIP passes independent archive integrity test; duplicate output names are unique; failed files are reported |
+| Image to PDF | Create one- and multi-page PDFs; reorder pages; test portrait/landscape images, PNG transparency and quality settings | PDF opens in an independent reader; page count and page order match; A4 page orientation and image fit are correct; transparent pixels render on white |
 
 ## Download and file integrity checks
 
@@ -72,7 +74,9 @@ For Base64, decode the saved result and compare its SHA-256 with the original in
 
 - Reject unsupported MIME types even when the filename has a supported extension.
 - Reject malformed/truncated image headers before pixel decoding.
-- Reject dimensions above 12,000 pixels on either side or 60 megapixels total.
+- Reject dimensions above 12,000 pixels on either side or 60 megapixels total for single-image processing.
+- Batch converter: test 30 files, 31 files, 25 MB per-file boundary, 100 MB combined input, malformed image, one failed file among valid files, stop control and ZIP output over 150 MB.
+- Image to PDF: test 20 pages, 21 pages, 25 MB per-file boundary, 100 MB combined input, 120 megapixels combined, 150 MB output boundary, corrupted image and page reordering.
 - Test files at 25 MB and just over 25 MB.
 - Test crop values at zero, negative, fractional, and beyond image bounds.
 - Test invalid/empty target-size values and impossible compression targets.
@@ -102,4 +106,4 @@ Copy one record per environment and attach non-sensitive sample files or screens
 
 ## Release gate
 
-The manual gate passes only when every required environment and all 14 available tool workflows have recorded evidence, all export integrity checks pass, and blocking defects are fixed and retested. AI Background Remover and AI Upscaler are intentionally excluded from working-tool acceptance while marked Coming Soon.
+The manual gate passes only when every required environment and all 16 available tool workflows have recorded evidence, all export integrity checks pass, and blocking defects are fixed and retested. AI Background Remover and AI Upscaler are intentionally excluded from working-tool acceptance while marked Coming Soon.
