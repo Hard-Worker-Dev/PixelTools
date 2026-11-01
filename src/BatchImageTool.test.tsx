@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import BatchImageTool from "./BatchImageTool";
+import { readImageDimensions } from "./lib/image";
 
 vi.mock("./lib/image", () => ({
   formatBytes: (bytes: number) => bytes + " B",
@@ -35,5 +36,18 @@ describe("BatchImageTool", () => {
     fireEvent.change(input as HTMLInputElement, { target: { files: [file] } });
     expect(screen.getByRole("alert").textContent).toContain("choose JPG, PNG or WebP");
     expect(screen.queryByRole("button", { name: /Process/ })).toBeNull();
+  });
+
+  it("reports corrupt image data and keeps successful exports separate", async () => {
+    const user = userEvent.setup();
+    vi.mocked(readImageDimensions).mockRejectedValueOnce(new Error("Could not read image dimensions."));
+    const { container } = render(<BatchImageTool />);
+    const file = new File(["broken"], "broken.png", { type: "image/png" });
+    const input = container.querySelector<HTMLInputElement>('input[type="file"]');
+    fireEvent.change(input as HTMLInputElement, { target: { files: [file] } });
+    await user.click(screen.getByRole("button", { name: "Process 1 images" }));
+    expect(await screen.findByText("Batch results")).toBeTruthy();
+    expect(screen.getByText(/broken.png:/)).toBeTruthy();
+    expect(screen.getByText(/0 ready · 1 failed/)).toBeTruthy();
   });
 });
