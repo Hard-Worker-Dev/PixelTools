@@ -17,7 +17,7 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 - [x] Release, support, security, rollback and Search Console instructions are present.
 - [x] Pakistan-focused Privacy Policy and Terms drafts have been added to the existing public pages.
 - [x] Pakistan legal review and owner/counsel decision checklist added in `LEGAL_REVIEW_PAKISTAN.md`.
-- [x] Five Coming Soon catalogue categories added with 15 planned tools each (75 total); these are roadmap entries, not implemented features.
+- [x] Thirty Coming Soon catalogue categories added with 100 planned tools each (3,000 total); these are roadmap entries, not implemented features.
 
 ## Cloudflare Pages evidence (2026-11-01)
 
@@ -62,7 +62,7 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 
 ### P2 — Product roadmap and release hygiene
 
-- [ ] Implement and independently test the 75 planned tools in small batches; keep every unfinished entry disabled and Coming Soon. See `TOOL_ROADMAP.md`.
+- [ ] Implement and independently test the 3,000 planned tools in small batches; keep every unfinished entry disabled and Coming Soon. See `TOOL_ROADMAP.md`.
 
 - [ ] After all acceptance gates pass, publish release notes and create a final 1.0.0 version tag.
 - [ ] Keep AI features marked Coming Soon until a real model pipeline is integrated, privacy-reviewed and tested.
