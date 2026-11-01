@@ -51,7 +51,7 @@ PDF files, pages, forms and document workflows
 - Convert PDF forms
 - Convert PDF scans
 - Convert PDF reports
-- Convert PDF portfolios
+- Convert PDF files
 - Convert PDF archives
 - Compress PDF to JPG
 - Compress JPG to PDF
@@ -61,7 +61,7 @@ PDF files, pages, forms and document workflows
 - Compress PDF forms
 - Compress PDF scans
 - Compress PDF reports
-- Compress PDF portfolios
+- Compress PDF files
 - Compress PDF archives
 - Merge PDF to JPG
 - Merge JPG to PDF
@@ -71,7 +71,7 @@ PDF files, pages, forms and document workflows
 - Merge PDF forms
 - Merge PDF scans
 - Merge PDF reports
-- Merge PDF portfolios
+- Merge PDF files
 - Merge PDF archives
 - Split PDF to JPG
 - Split JPG to PDF
@@ -81,7 +81,7 @@ PDF files, pages, forms and document workflows
 - Split PDF forms
 - Split PDF scans
 - Split PDF reports
-- Split PDF portfolios
+- Split PDF files
 - Split PDF archives
 - Rotate PDF to JPG
 - Rotate JPG to PDF
@@ -91,7 +91,7 @@ PDF files, pages, forms and document workflows
 - Rotate PDF forms
 - Rotate PDF scans
 - Rotate PDF reports
-- Rotate PDF portfolios
+- Rotate PDF files
 - Rotate PDF archives
 - Reorder PDF to JPG
 - Reorder JPG to PDF
@@ -101,7 +101,7 @@ PDF files, pages, forms and document workflows
 - Reorder PDF forms
 - Reorder PDF scans
 - Reorder PDF reports
-- Reorder PDF portfolios
+- Reorder PDF files
 - Reorder PDF archives
 - Extract PDF to JPG
 - Extract JPG to PDF
@@ -111,7 +111,7 @@ PDF files, pages, forms and document workflows
 - Extract PDF forms
 - Extract PDF scans
 - Extract PDF reports
-- Extract PDF portfolios
+- Extract PDF files
 - Extract PDF archives
 - Watermark PDF to JPG
 - Watermark JPG to PDF
@@ -121,18 +121,18 @@ PDF files, pages, forms and document workflows
 - Watermark PDF forms
 - Watermark PDF scans
 - Watermark PDF reports
-- Watermark PDF portfolios
+- Watermark PDF files
 - Watermark PDF archives
-- Annotate PDF to JPG
+- Edit PDF to JPG
 - Annotate JPG to PDF
 - Annotate PNG to PDF
 - Annotate WebP to PDF
-- Annotate PDF pages
-- Annotate PDF forms
-- Annotate PDF scans
-- Annotate PDF reports
-- Annotate PDF portfolios
-- Annotate PDF archives
+- Edit PDF pages
+- Edit PDF forms
+- Edit PDF scans
+- Edit PDF reports
+- Edit PDF files
+- Edit PDF archives
 - Protect PDF to JPG
 - Protect JPG to PDF
 - Protect PNG to PDF
@@ -141,7 +141,7 @@ PDF files, pages, forms and document workflows
 - Protect PDF forms
 - Protect PDF scans
 - Protect PDF reports
-- Protect PDF portfolios
+- Protect PDF files
 - Protect PDF archives
 
 ### Design & Graphics — 100 planned tools
