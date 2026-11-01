@@ -60,7 +60,7 @@ describe("PixelTools ease-of-use workflows", () => {
       "Image Metadata Viewer", "Image to Base64", "Image Metadata Cleaner"
     ];
     for (const title of titles) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
+      fireEvent.click(screen.getByRole("button", { name: new RegExp("^" + title) }));
       expect(screen.getByRole("dialog", { name: title })).toBeTruthy();
       expect(screen.getByText(/Drop your image here/i)).toBeTruthy();
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
@@ -329,7 +329,7 @@ describe("PixelTools ease-of-use workflows", () => {
 
     const { container } = render(<App />);
     for (const name of toolNames) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(name) }));
+      fireEvent.click(screen.getByRole("button", { name: new RegExp("^" + name) }));
       const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
       expect(upload, name + " should provide an image input").toBeTruthy();
       fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
@@ -438,7 +438,7 @@ describe("PixelTools ease-of-use workflows", () => {
     view.setUint32(20, 480, false);
     const source = new File([buffer], "source.png", { type: "image/png" });
     const { container } = render(<App />);
-    fireEvent.click(screen.getByRole("button", { name: /Image Converter/ }));
+    fireEvent.click(screen.getByRole("button", { name: /^Image Converter/ }));
     const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
     fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
     await screen.findByAltText("Selected image preview");
