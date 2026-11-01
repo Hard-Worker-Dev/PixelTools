@@ -3,6 +3,25 @@ import { describe, expect, it } from "vitest";
 import { PDFDocument } from "pdf-lib";
 import { mergePdfFiles, parsePdfPageRanges, splitPdfFile } from "./pdf-operations";
 
+function readStoredZip(bytes: Uint8Array): Array<{name:string;bytes:Uint8Array}> {
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const decoder = new TextDecoder();
+  const entries: Array<{name:string;bytes:Uint8Array}> = [];
+  let offset = 0;
+  while (offset + 30 <= bytes.length && view.getUint32(offset, true) === 0x04034b50) {
+    const compressedSize = view.getUint32(offset + 18, true);
+    const nameLength = view.getUint16(offset + 26, true);
+    const extraLength = view.getUint16(offset + 28, true);
+    const nameStart = offset + 30;
+    const dataStart = nameStart + nameLength + extraLength;
+    const dataEnd = dataStart + compressedSize;
+    if (dataEnd > bytes.length) throw new Error("Invalid stored ZIP entry length.");
+    entries.push({ name: decoder.decode(bytes.subarray(nameStart, nameStart + nameLength)), bytes: bytes.slice(dataStart, dataEnd) });
+    offset = dataEnd;
+  }
+  return entries;
+}
+
 async function makePdf(name: string, pages: number): Promise<File> {
   const doc = await PDFDocument.create();
   for (let index = 0; index < pages; index += 1) doc.addPage([300 + index, 400]);
@@ -18,6 +37,7 @@ describe("PDF merge and split operations", () => {
     expect(merged.type).toBe("application/pdf");
     expect(parsed.getPageCount()).toBe(3);
     expect(parsed.getPage(0).getWidth()).toBe(300);
+    expect(parsed.getPage(1).getWidth()).toBe(301);
     expect(parsed.getPage(2).getWidth()).toBe(300);
   });
 
@@ -27,9 +47,12 @@ describe("PDF merge and split operations", () => {
     const bytes = new Uint8Array(await archive.arrayBuffer());
     expect(archive.type).toBe("application/zip");
     expect(new DataView(bytes.buffer).getUint32(0, true)).toBe(0x04034b50);
-    const text = new TextDecoder().decode(bytes);
-    expect(text).toContain("report-pages-1-2.pdf");
-    expect(text).toContain("report-pages-4-5.pdf");
+    const entries = readStoredZip(bytes);
+    expect(entries.map(entry => entry.name)).toEqual(["report-pages-1-2.pdf", "report-pages-4-5.pdf"]);
+    const first = await PDFDocument.load(entries[0].bytes);
+    const second = await PDFDocument.load(entries[1].bytes);
+    expect(first.getPageCount()).toBe(2);
+    expect(second.getPageCount()).toBe(2);
   });
 
   it("parses single pages and ordered ranges", () => {
