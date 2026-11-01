@@ -2,6 +2,24 @@
 
 All notable PixelTools changes are documented here.
 
+## Unreleased — platform implementation
+
+### Implemented browser tools
+- Added **PDF Merger** for combining 2–10 PDF files in a custom order, with per-file/combined size limits, a 200-page cap and local processing.
+- Added **PDF Splitter** for exporting selected page ranges as separate PDFs in a ZIP archive, with range validation, a 200-page cap and local processing.
+- Added **PDF Rotator** for rotating all pages in 90-degree steps, **PDF Page Reorder** for custom page sequences, and **PDF Page Extractor** for saving selected pages as individual PDFs in a ZIP.
+- Added automated tests for rotation preservation, page permutation validation, page-order fidelity and independently readable extracted PDF files.
+- PDF Merger and PDF Splitter are feature-branch implementations; independent PDF-reader/ZIP validation and physical-device QA remain release gates.
+- Added `pdf-lib` as a pinned runtime dependency and automated tests for PDF merge order, split ZIP entries, invalid ranges, corrupt files and input validation. Password-protected PDFs are not supported.
+- Added a browser-local **Batch Image Converter** for up to 30 JPG, PNG or WebP images (25 MB per file, 100 MB combined), with configurable WebP/JPG/PNG output, sequential processing, per-file downloads and a ZIP archive export.
+- Added a ZIP32 writer with CRC-32 checksums, UTF-8 filenames, duplicate-name protection and path-safe archive entries. Source images never leave the browser.
+- Added automated coverage for ZIP headers/checksums, duplicate filenames, safe paths and the batch conversion UI workflow.
+- Added **Image to PDF**: combine up to 20 JPG, PNG or WebP files into a multi-page A4 PDF, reorder pages before export, auto-select portrait/landscape page orientation and process locally in the browser.
+- Added a dependency-free PDF 1.4 writer with embedded JPEG streams, page-tree construction and cross-reference offsets, plus automated PDF structure and page-order tests.
+- Added dedicated SEO landing pages and sitemap entries for Batch Image Converter and Image to PDF.
+- Added PDF safety limits: 25 MB per input, 100 MB combined input, 120 megapixels combined and 150 MB output.
+- The working tool count is now 16; the 3,000 catalogue entries remain planned until individually implemented and verified.
+
 ## Unreleased — release-readiness documentation
 
 ### Legal and privacy
