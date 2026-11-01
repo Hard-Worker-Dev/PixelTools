@@ -8,6 +8,7 @@ PixelTools is a professional, browser-first creative utility workspace. The cata
 - 3,000 additional catalogue entries are roadmap items, not functional features.
 - AI Background Remover and AI Upscaler are not enabled.
 - The professional visual refresh is being developed on `work/platform-3000-professional-ui`.
+- CI now includes `work/release-readiness-audit` as a pull-request target so this stacked feature PR can run the repository's standard verification workflow.
 - Production must not be changed until the user explicitly authorizes release.
 
 ## Delivery sequence
