@@ -28,7 +28,7 @@ describe("PDF generation utilities", () => {
     ]);
     const source = text.decode(new Uint8Array(await pdf.arrayBuffer()));
     expect(source).toContain("/Count 2");
-    expect(source.match(/\\/Type \\/Page /g)).toHaveLength(2);
+    expect(source.split("/Type /Page ").slice(1).length).toHaveLength(2);
     expect(source).toContain("/MediaBox [0 0 841.89 595.28]");
     expect(source).toContain("/MediaBox [0 0 595.28 841.89]");
   });
