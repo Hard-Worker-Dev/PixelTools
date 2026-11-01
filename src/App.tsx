@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import BatchImageTool from "./BatchImageTool";
 import ImageToPdfTool from "./ImageToPdfTool";
-import { PdfExtractTool, PdfMergeTool, PdfReorderTool, PdfRotateTool, PdfSplitTool } from "./PdfTools";
+import { PdfExtractTool, PdfMergeTool, PdfReorderTool, PdfRotateTool, PdfSplitTool, PdfWatermarkTool } from "./PdfTools";
 import exifr from "exifr";
 import {
   ArrowDownToLine, ArrowRight, Check, Copy, FileImage, Image as ImageIcon,
@@ -15,7 +15,7 @@ import {
 type ToolId =
   | "compress" | "resize" | "crop" | "convert" | "rotate" | "flip"
   | "watermark" | "rounded" | "blur" | "grayscale" | "color"
-  | "metadata" | "base64" | "metadata-cleaner" | "batch" | "image-to-pdf" | "pdf-merge" | "pdf-split" | "pdf-rotate" | "pdf-reorder" | "pdf-extract";
+  | "metadata" | "base64" | "metadata-cleaner" | "batch" | "image-to-pdf" | "pdf-merge" | "pdf-split" | "pdf-rotate" | "pdf-reorder" | "pdf-extract" | "pdf-watermark";
 
 const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: string }> = [
   { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular" },
@@ -38,6 +38,7 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
   { id: "pdf-rotate", title: "PDF Rotator", desc: "Rotate every page in a PDF clockwise or counterclockwise.", icon: "↻", tag: "New", category: "pdf" },
   { id: "pdf-reorder", title: "PDF Page Reorder", desc: "Change the order of individual PDF pages.", icon: "☷", tag: "New", category: "pdf" },
   { id: "pdf-extract", title: "PDF Page Extractor", desc: "Save selected PDF pages as separate documents in a ZIP.", icon: "▣", tag: "New", category: "pdf" },
+  { id: "pdf-watermark", title: "PDF Watermark", desc: "Add adjustable text watermarks to every page of a PDF.", icon: "✎", tag: "New", category: "pdf" },
   { id: "base64", title: "Image to Base64", desc: "Create a Base64 data URL and copy it.", icon: "⌘", tag: "Developer" },
   { id: "background", title: "Background Remover", desc: "AI-powered background removal.", icon: "✧", tag: "Coming soon", comingSoon: true },
   { id: "upscaler", title: "AI Image Upscaler", desc: "Increase image resolution with an AI model.", icon: "⤢", tag: "Coming soon", comingSoon: true }
@@ -934,7 +935,7 @@ const toolSlugs: Record<ToolId, string> = {
   convert: "image-converter", rotate: "image-rotator", flip: "image-flipper",
   watermark: "image-watermark", rounded: "rounded-corners", blur: "image-blur",
   grayscale: "grayscale-converter", color: "image-color-picker",
-  metadata: "image-metadata-viewer", base64: "image-to-base64", "metadata-cleaner": "image-metadata-cleaner", batch: "batch-image-converter", "image-to-pdf": "image-to-pdf", "pdf-merge": "pdf-merger", "pdf-split": "pdf-splitter", "pdf-rotate": "pdf-rotator", "pdf-reorder": "pdf-page-reorder", "pdf-extract": "pdf-page-extractor"
+  metadata: "image-metadata-viewer", base64: "image-to-base64", "metadata-cleaner": "image-metadata-cleaner", batch: "batch-image-converter", "image-to-pdf": "image-to-pdf", "pdf-merge": "pdf-merger", "pdf-split": "pdf-splitter", "pdf-rotate": "pdf-rotator", "pdf-reorder": "pdf-page-reorder", "pdf-extract": "pdf-page-extractor", "pdf-watermark": "pdf-watermark"
 };
 
 function getInitialTool(): ToolId | null {
@@ -1618,7 +1619,7 @@ export default function App() {
     {active && <div className="modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) closeTool() }}>
       <section ref={dialogRef} className="tool-modal" role="dialog" aria-modal="true" aria-labelledby="tool-dialog-title" tabIndex={-1}>
         <div className="modal-head"><div><div className="eyebrow">PIXELTOOLS WORKSPACE</div><h2 id="tool-dialog-title">{toolName}</h2><p className="modal-subtitle">{tools.find(t => t.id === active)?.desc}</p></div><button className="icon-btn" aria-label="Close tool" onClick={closeTool}><X size={20}/></button></div>
-        {active === "image-to-pdf" ? <ImageToPdfTool/> : active === "pdf-merge" ? <PdfMergeTool/> : active === "pdf-split" ? <PdfSplitTool/> : active === "pdf-rotate" ? <PdfRotateTool/> : active === "pdf-reorder" ? <PdfReorderTool/> : active === "pdf-extract" ? <PdfExtractTool/> : active === "batch" ? <BatchImageTool/> : <>
+        {active === "image-to-pdf" ? <ImageToPdfTool/> : active === "pdf-merge" ? <PdfMergeTool/> : active === "pdf-split" ? <PdfSplitTool/> : active === "pdf-rotate" ? <PdfRotateTool/> : active === "pdf-reorder" ? <PdfReorderTool/> : active === "pdf-extract" ? <PdfExtractTool/> : active === "pdf-watermark" ? <PdfWatermarkTool/> : active === "batch" ? <BatchImageTool/> : <>
         <div className="workflow-steps" aria-label="Tool workflow"><span className={!file ? "current" : "done"}><b>1</b> Add image</span><span className={file ? "current" : ""}><b>2</b> Adjust options</span><span className={result ? "done current" : ""}><b>3</b> Download</span></div>
         {!file ? <button className="dropzone" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); selectFile(e.dataTransfer.files[0]); }}><span className="upload-icon"><UploadCloud size={28}/></span><b>Drop your image here</b><span>or click to browse files</span><small>JPG, PNG, WebP · Up to 25 MB</small></button> : <div className="workspace">
           <div className="preview-panel">
