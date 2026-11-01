@@ -37,12 +37,13 @@ AI Background Remover and AI Upscaler are shown as coming soon. They are not adv
 - EXIF data can contain sensitive camera details and GPS coordinates; it is read locally in the metadata viewer.
 - JPEG exports use a selectable background color because JPEG cannot preserve transparency.
 - The Metadata Cleaner re-encodes pixels rather than copying the source file container. Browser encoders may write basic output metadata; do not treat this as a forensic sanitizer.
+- The site is hosted on Cloudflare Pages and currently requests fonts from Google Fonts; those providers may independently process technical connection data. See the [Privacy Policy](https://pixeltools-9xe.pages.dev/privacy/).
 
 ## SEO and informational pages
 - Home, About, Privacy Policy, Terms, Contact and 404.
 - Dedicated tool landing pages with unique titles, descriptions, canonical URLs and FAQ structured data.
 - XML sitemap, robots.txt, Open Graph metadata, favicon and security headers.
-- Canonical URLs and sitemap entries use the verified Pages hostname.
+- Canonical URLs and sitemap entries use the Pages hostname configured for this release.
 
 ## Development and verification
 ```bash
@@ -69,6 +70,7 @@ No server-side environment variables are required for the current browser-only r
 - Release status and manual acceptance gates: [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md)
 - Detailed browser/device and export acceptance matrix: [MANUAL_QA_MATRIX.md](MANUAL_QA_MATRIX.md)
 - Evidence-based repository audit: [RELEASE_AUDIT.md](RELEASE_AUDIT.md)
+- Pakistan legal review decisions and owner/counsel checklist: [LEGAL_REVIEW_PAKISTAN.md](LEGAL_REVIEW_PAKISTAN.md)
 - User-facing changes: [CHANGELOG.md](CHANGELOG.md)
 - Support and bug reports: [SUPPORT.md](SUPPORT.md)
 - Security reporting: [SECURITY.md](SECURITY.md)
