@@ -30,10 +30,13 @@ export function PdfMergeTool() {
     setFiles(next); setResult(null); setError(issues.join(" "));
     if (input.current) input.current.value = "";
   };
-  const move = (index: number, direction: -1 | 1) => setFiles(current => {
-    const target = index + direction; if (target < 0 || target >= current.length) return current;
-    const next = [...current]; [next[index], next[target]] = [next[target], next[index]]; return next;
-  });
+  const move = (index: number, direction: -1 | 1) => {
+    setFiles(current => {
+      const target = index + direction; if (target < 0 || target >= current.length) return current;
+      const next = [...current]; [next[index], next[target]] = [next[target], next[index]]; return next;
+    });
+    setResult(null);
+  };
   const merge = async () => {
     if (files.length < 2 || busy) return;
     setBusy(true); setError(""); setResult(null);
