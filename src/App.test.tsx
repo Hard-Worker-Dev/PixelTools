@@ -238,7 +238,7 @@ describe("PixelTools ease-of-use workflows", () => {
       "Image Metadata Viewer", "Image to Base64", "Image Metadata Cleaner"
     ];
     for (const title of titles) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
+      fireEvent.click(screen.getByRole("button", { name: new RegExp("^" + title) }));
       const fileInput = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
       fireEvent.change(fileInput as HTMLInputElement, { target: { files: [image] } });
       await screen.findByAltText("Selected image preview");
