@@ -14,12 +14,6 @@ import {
 
 import { tools, roadmapCategories, toolCounts, toolCategoryCounts, type ToolId } from "./toolRegistry";
 
-// 30-category catalogue. Each category has exactly 100 distinct roadmap entries.
-
-const plannedTools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: string }> = roadmapCategories.flatMap(group => group.actions.flatMap((action, actionIndex) => group.subjects.map((subject, subjectIndex) => ({ id: group.key + "-" + (actionIndex + 1) + "-" + (subjectIndex + 1), title: action + " " + subject, desc: action + " for " + subject + " with browser-based preview and export options.", icon: "✧", tag: "Coming soon", comingSoon: true, category: group.key }))));
-if (plannedTools.length !== 3000 || roadmapCategories.some(group => group.actions.length * group.subjects.length !== 100)) throw new Error("Roadmap must contain exactly 100 tools in each of 30 categories.");
-tools.push(...plannedTools);
-
 function readAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
