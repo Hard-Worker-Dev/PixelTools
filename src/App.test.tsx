@@ -476,4 +476,26 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.getByText(/multi-page PDF/)).toBeTruthy();
     expect(screen.getByText(/Up to 20 pages/)).toBeTruthy();
   });
+  it("paginates the complete catalogue and reports accurate implementation counts", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    expect(screen.getByRole("status").textContent).toContain("3024 tools");
+    expect(screen.getByRole("status").textContent).toContain("22 implemented");
+    expect(document.querySelectorAll(".tool-card")).toHaveLength(100);
+    await user.click(screen.getByRole("button", { name: /Load 100 more tools/ }));
+    expect(document.querySelectorAll(".tool-card")).toHaveLength(200);
+  });
+
+  it("shows computed category totals instead of hard-coded counts", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const category = screen.getByLabelText("Browse category");
+    expect(category.querySelector('option[value="pdf"]')?.textContent).toContain("107 tools");
+    await user.selectOptions(category, "pdf");
+    expect(screen.getByRole("status").textContent).toContain("107 tools found");
+    expect(document.querySelectorAll(".tool-card")).toHaveLength(100);
+    await user.click(screen.getByRole("button", { name: /Load 100 more tools/ }));
+    expect(document.querySelectorAll(".tool-card")).toHaveLength(107);
+  });
+
 });
