@@ -583,7 +583,7 @@ export default function App() {
     const category = toolCategory === "all"
       || (toolCategory === "optimize" && ["compression", "resizing", "conversion"].includes(tool.category))
       || (toolCategory === "edit" && ["editing", "effects", "protection"].includes(tool.category))
-      || (toolCategory === "inspect" && ["analysis", "metadata", "developer"].includes(tool.category))
+      || (toolCategory === "inspect" && ["color", "analysis", "metadata", "developer"].includes(tool.category))
       || tool.category === toolCategory;
     return matchesSearch && category;
   });
