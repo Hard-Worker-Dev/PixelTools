@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { roadmapCategories, roadmapTools, tools, toolCounts, toolCategoryCounts, workingTools } from "./toolRegistry";
+import { roadmapCategories, roadmapTools, tools, toolCounts, toolCategoryCounts, implementedTools } from "./toolRegistry";
 
 describe("central tool registry", () => {
-  it("keeps working tools, coming-soon tools and roadmap entries distinct", () => {
-    expect(toolCounts.working).toBe(22);
+  it("keeps implemented tools, coming-soon tools and roadmap entries distinct", () => {
+    expect(toolCounts.implemented).toBe(22);
     expect(toolCounts.roadmap).toBe(3000);
     expect(toolCounts.planned).toBe(3002);
     expect(toolCounts.total).toBe(3024);
-    expect(workingTools.every(tool => tool.status === "working" && !tool.comingSoon)).toBe(true);
+    expect(implementedTools.every(tool => tool.status === "implemented" && !tool.comingSoon)).toBe(true);
     expect(tools.filter(tool => tool.status === "planned").every(tool => tool.comingSoon)).toBe(true);
   });
 
@@ -30,6 +30,6 @@ describe("central tool registry", () => {
 
   it("keeps all seven implemented PDF workflows grouped under PDF Tools", () => {
     expect(toolCategoryCounts.pdf).toBe(107);
-    expect(workingTools.filter(tool => tool.category === "pdf")).toHaveLength(7);
+    expect(implementedTools.filter(tool => tool.category === "pdf")).toHaveLength(7);
   });
 });
