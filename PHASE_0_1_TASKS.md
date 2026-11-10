@@ -11,7 +11,7 @@
 | P0-01 | Inspect current feature branch, open PRs, CI workflow, package manifest and release gates | None | Done | Current feature branch and base commit identified; PR #14 divergence and open dependency PRs recorded |
 | P0-02 | Create isolated implementation branch and stacked draft PR | P0-01 | Done | Changes isolated from production/main; PR #17 remains draft and targets the PDF feature branch |
 | P0-03 | Verify dependency audit, typecheck, tests and production build on the implementation head | P0-02 | Pending | Fresh CI run is green on the latest head; no reliance on historical run results |
-| P0-04 | Reconcile release docs and preserve manual/legal/rollback blockers | P0-01 | In progress | Counts agree across README, roadmap, release audit, checklist and manual QA; unverified release gates remain unchecked |
+| P0-04 | Reconcile release docs and preserve manual/legal/rollback blockers | P0-01 | Done | Counts agree across README, roadmap, release audit, checklist and manual QA; unverified release gates remain unchecked |
 | P0-05 | Resolve the pre-existing PR #14 base-branch divergence | P0-01 | Blocked / separate review | Conflict resolution is reviewed before any PR #14 branch rewrite or merge; no force-push or merge performed here |
 
 ## Phase 1 — Tool registry and catalogue
