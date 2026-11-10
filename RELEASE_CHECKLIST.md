@@ -34,6 +34,14 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [ ] Recheck Gazette/parliamentary status of proposed data-protection legislation immediately before launch.
 - [ ] Do not describe these drafts as lawyer-approved or legally compliant until the above review is documented.
 
+## Phase 0 / Phase 1 implementation baseline
+
+- [ ] Central registry tests pass for 22 implemented tools, 3,002 planned entries, 30 categories, unique IDs and exactly 100 roadmap entries per category.
+- [ ] Catalogue pagination, search and computed category counts pass automated UI tests.
+- [ ] Re-run the complete CI workflow on the isolated implementation branch; do not infer current branch status from earlier release-candidate runs.
+- [ ] Keep independent PDF export checks, physical-device QA, legal approval and rollback rehearsal open until evidence is recorded.
+- [ ] No PR merge or production deployment is authorized by this implementation step.
+
 ## Expanded tool roadmap
 
 - [x] Added 30 catalogue categories with 100 planned entries each (3,000 total); all are disabled and labelled Coming Soon.
