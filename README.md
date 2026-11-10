@@ -12,7 +12,7 @@ A professional, free creative utility workspace for image and file workflows. Th
 - Vitest and React Testing Library
 - Cloudflare Pages with GitHub integration
 
-## Working tools
+## Implemented tools
 1. Batch Image Converter — convert up to 30 JPG, PNG or WebP files in one run, with individual downloads or a locally generated ZIP archive
 2. Image to PDF — combine up to 20 JPG, PNG or WebP images into an ordered A4 PDF, with automatic page orientation and local processing
 3. Image Compressor — JPG/WebP quality presets and target-size search, plus PNG lossless export
@@ -38,10 +38,10 @@ A professional, free creative utility workspace for image and file workflows. Th
 21. PDF Page Extractor — export selected pages as individual PDFs in a ZIP archive
 22. PDF Watermark — add adjustable text watermarks to every page, with color, opacity, font size, rotation and five placement options
 
-AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. The tool catalogue now contains 30 roadmap categories with 100 Coming Soon entries each (3,000 planned entries total), separate from the 16 established working tools. Six PDF tools (Merger, Splitter, Rotator, Page Reorder, Page Extractor and Watermark) are implemented in the current feature branch and remain pending independent export-reader and physical-device QA; they are not part of the production release yet. These roadmap entries are not implemented features. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
+AI Background Remover and AI Upscaler are shown as coming soon. They are not advertised as working until a real model pipeline is integrated and tested. The tool catalogue now contains 30 roadmap categories with 100 Coming Soon entries each (3,000 planned entries total), separate from the 22 implemented tools (16 existing image/batch workflows plus six PDF workflows pending manual release QA). Six PDF tools (Merger, Splitter, Rotator, Page Reorder, Page Extractor and Watermark) are implemented in the current feature branch and remain pending independent export-reader and physical-device QA; they are not part of the production release yet. These roadmap entries are not implemented features. See [TOOL_ROADMAP.md](TOOL_ROADMAP.md).
 
 ## Privacy and safety
-- Working image tools process files locally in the browser; selected image files are not uploaded to a PixelTools image-processing server.
+- Implemented image and PDF workflows process selected files locally in the browser; the six PDF tools remain pending independent export-reader and physical-device QA. Selected files are not uploaded to a PixelTools image-processing server.
 - Supported inputs: JPG, PNG and WebP.
 - Image-to-PDF accepts up to 20 pages, 25 MB per source image, 100 MB combined input and 120 megapixels combined per PDF. Output is capped at 150 MB.
 - The new PDF Merger accepts 2–10 PDFs, 25 MB per file, 100 MB combined input and 200 pages; output is capped at 150 MB.

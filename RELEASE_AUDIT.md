@@ -82,6 +82,7 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 
 - Draft PR #12 (`work/platform-3000-professional-ui`) builds on this audit branch; it is not part of the audited `main` baseline and is not deployed to production.
 - The follow-on branch adds a browser-local Batch Image Converter and Image to PDF workflow, bringing the code branch to 16 implemented tools (14 original + 2 new).
+- The PDF feature branch adds six browser-local PDF workflows (Merger, Splitter, Rotator, Page Reorder, Page Extractor and Watermark), bringing the feature-branch implementation count to 22 (16 earlier image/batch workflows + 6 PDF). Independent PDF export-reader and physical-device QA remains pending.
 - Automated tests and dedicated SEO landing pages were added for both tools. CI was expanded to include the stacked release-readiness branch as a pull-request target.
 - GitHub Actions run #199 for PR #12 commit `f48dc5a637f9645227f1eb8e33cda3b7608b032a` completed successfully: dependency audits, TypeScript checks, all 84 tests and production build passed.
 - Independent ZIP/PDF export validation and manual browser/device QA remain required. Do not promote either new tool to production until those checks pass.

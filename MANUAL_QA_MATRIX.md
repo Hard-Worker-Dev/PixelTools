@@ -113,7 +113,7 @@ Copy one record per environment and attach non-sensitive sample files or screens
 
 ## Release gate
 
-The manual gate passes only when every required environment and all 21 feature-branch tool workflows have recorded evidence, all export integrity checks pass, and blocking defects are fixed and retested. AI Background Remover and AI Upscaler are intentionally excluded from working-tool acceptance while marked Coming Soon.
+The manual gate passes only when every required environment and all 22 feature-branch tool workflows have recorded evidence, all export integrity checks pass, and blocking defects are fixed and retested. AI Background Remover and AI Upscaler are intentionally excluded from working-tool acceptance while marked Coming Soon.
 
 
 ## PDF merge and split acceptance cases

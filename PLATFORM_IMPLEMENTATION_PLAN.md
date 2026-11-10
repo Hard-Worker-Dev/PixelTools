@@ -4,7 +4,7 @@
 PixelTools is a professional, browser-first creative utility workspace. The catalogue target is 30 categories and 3,000 tool concepts. A tool is only called **Working** after its complete user workflow, validation, output, accessibility, privacy behavior, and automated/manual QA are verified.
 
 ## Current verified baseline
-- 21 browser-based tools are implemented in the current feature branch, including a batch image converter, Image to PDF and six PDF tools (Merger, Splitter, Rotator, Page Reorder, Page Extractor and Watermark). The new PDF tools remain pending independent export-reader and physical-device QA.
+- 22 browser-based tools are implemented (16 established image/batch workflows plus six PDF workflows pending independent export-reader and physical-device QA) in the current feature branch, including a batch image converter, Image to PDF and six PDF tools (Merger, Splitter, Rotator, Page Reorder, Page Extractor and Watermark). The new PDF tools remain pending independent export-reader and physical-device QA.
 - 3,000 additional catalogue entries are roadmap items, not functional features.
 - AI Background Remover and AI Upscaler are not enabled.
 - The professional visual refresh is being developed on `work/platform-3000-professional-ui`.

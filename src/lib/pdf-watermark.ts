@@ -1,4 +1,4 @@
-import { PDFDocument, StandardFonts, degrees, rgb } from "pdf-lib";
+import { StandardFonts, degrees, rgb } from "pdf-lib";
 import { loadPdfFile, PDF_MAX_OUTPUT_BYTES, PDF_MAX_PAGES } from "./pdf-operations";
 
 export type PdfWatermarkOptions = {

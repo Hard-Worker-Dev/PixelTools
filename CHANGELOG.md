@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Phase 0 and Phase 1
+
+- Centralized the tool catalogue in a typed registry with explicit categories and implemented/planned status.
+- Corrected the feature-branch baseline to 22 implemented tools: 16 established image/batch workflows and six PDF workflows pending manual release QA.
+- Added computed category counts, category-aware search, paginated catalogue loading and registry integrity tests.
+
+
 All notable PixelTools changes are documented here.
 
 ## Unreleased — platform implementation

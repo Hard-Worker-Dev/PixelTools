@@ -2,9 +2,9 @@ name: PixelTools CI
 
 on:
   push:
-    branches: [main, work/release-readiness-audit, work/pdf-merge-split]
+    branches: [main, work/release-readiness-audit, work/pdf-merge-split, work/phase-0-1-foundation-registry]
   pull_request:
-    branches: [main, work/release-readiness-audit]
+    branches: [main, work/release-readiness-audit, work/pdf-merge-split]
   workflow_dispatch:
 
 permissions:
