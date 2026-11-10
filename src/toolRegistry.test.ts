@@ -30,6 +30,7 @@ describe("central tool registry", () => {
 
   it("keeps all seven implemented PDF workflows grouped under PDF Tools", () => {
     expect(toolCategoryCounts.pdf).toBe(107);
+    expect(toolCategoryCounts.color).toBe(101);
     expect(implementedTools.filter(tool => tool.category === "pdf")).toHaveLength(7);
   });
 });
