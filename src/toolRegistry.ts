@@ -6,32 +6,32 @@ export type ToolId =
 
 export interface ToolDefinition {
   id: string; title: string; desc: string; icon: string; tag: string;
-  category: string; status: "working" | "planned"; comingSoon?: boolean;
+  category: string; status: "implemented" | "planned"; comingSoon?: boolean;
 }
 
 const coreTools: ToolDefinition[] = [
-  { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular" , category: "compression", status: "working" },
-  { id: "resize", title: "Image Resizer", desc: "Set precise width and height in pixels.", icon: "▧", tag: "Quick" , category: "resizing", status: "working" },
-  { id: "crop", title: "Image Cropper", desc: "Crop to the exact rectangle you need.", icon: "▣", tag: "Precision" , category: "editing", status: "working" },
-  { id: "convert", title: "Image Converter", desc: "Convert between JPG, PNG and WebP.", icon: "⇄", tag: "3 formats" , category: "conversion", status: "working" },
-  { id: "rotate", title: "Image Rotator", desc: "Rotate an image in 90-degree steps.", icon: "↻", tag: "Quick" , category: "editing", status: "working" },
-  { id: "flip", title: "Image Flipper", desc: "Mirror images horizontally or vertically.", icon: "⇋", tag: "Quick" , category: "editing", status: "working" },
-  { id: "watermark", title: "Image Watermark", desc: "Add text or a transparent logo watermark with position and opacity controls.", icon: "✎", tag: "Custom" , category: "protection", status: "working" },
-  { id: "rounded", title: "Rounded Corners", desc: "Create smooth rounded image corners.", icon: "▢", tag: "Transparent PNG" , category: "editing", status: "working" },
-  { id: "blur", title: "Image Blur", desc: "Apply adjustable blur to the full image.", icon: "◌", tag: "Creative" , category: "effects", status: "working" },
-  { id: "grayscale", title: "Grayscale Converter", desc: "Convert an image to monochrome.", icon: "◐", tag: "One click" , category: "effects", status: "working" },
-  { id: "color", title: "Image Color Picker", desc: "Click any pixel to inspect its color value.", icon: "◉", tag: "Pixel sampling" , category: "analysis", status: "working" },
-  { id: "metadata", title: "Image Metadata Viewer", desc: "Inspect file details, type and image dimensions.", icon: "ⓘ", tag: "File details" , category: "metadata", status: "working" },
-  { id: "metadata-cleaner", title: "Image Metadata Cleaner", desc: "Export a fresh image copy without the source photo metadata.", icon: "⌁", tag: "Privacy" , category: "metadata", status: "working" },
-  { id: "batch", title: "Batch Image Converter", desc: "Convert and optimize up to 30 images at once, then download them individually or as one ZIP.", icon: "▤", tag: "New" , category: "batch", status: "working" },
-  { id: "image-to-pdf", title: "Image to PDF", desc: "Combine JPG, PNG or WebP images into an ordered, multi-page A4 PDF.", icon: "▧", tag: "New" , category: "pdf", status: "working" },
-  { id: "pdf-merge", title: "PDF Merger", desc: "Combine multiple PDF documents in a custom order, right in your browser.", icon: "▤", tag: "New" , category: "pdf", status: "working" },
-  { id: "pdf-split", title: "PDF Splitter", desc: "Extract selected page ranges into separate PDF files.", icon: "▥", tag: "New" , category: "pdf", status: "working" },
-  { id: "pdf-rotate", title: "PDF Rotator", desc: "Rotate every page in a PDF clockwise or counterclockwise.", icon: "↻", tag: "New" , category: "pdf", status: "working" },
-  { id: "pdf-reorder", title: "PDF Page Reorder", desc: "Change the order of individual PDF pages.", icon: "☷", tag: "New" , category: "pdf", status: "working" },
-  { id: "pdf-extract", title: "PDF Page Extractor", desc: "Save selected PDF pages as separate documents in a ZIP.", icon: "▣", tag: "New" , category: "pdf", status: "working" },
-  { id: "pdf-watermark", title: "PDF Watermark", desc: "Add adjustable text watermarks to every page of a PDF.", icon: "✎", tag: "New" , category: "pdf", status: "working" },
-  { id: "base64", title: "Image to Base64", desc: "Create a Base64 data URL and copy it.", icon: "⌘", tag: "Developer" , category: "developer", status: "working" },
+  { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular" , category: "compression", status: "implemented" },
+  { id: "resize", title: "Image Resizer", desc: "Set precise width and height in pixels.", icon: "▧", tag: "Quick" , category: "resizing", status: "implemented" },
+  { id: "crop", title: "Image Cropper", desc: "Crop to the exact rectangle you need.", icon: "▣", tag: "Precision" , category: "editing", status: "implemented" },
+  { id: "convert", title: "Image Converter", desc: "Convert between JPG, PNG and WebP.", icon: "⇄", tag: "3 formats" , category: "conversion", status: "implemented" },
+  { id: "rotate", title: "Image Rotator", desc: "Rotate an image in 90-degree steps.", icon: "↻", tag: "Quick" , category: "editing", status: "implemented" },
+  { id: "flip", title: "Image Flipper", desc: "Mirror images horizontally or vertically.", icon: "⇋", tag: "Quick" , category: "editing", status: "implemented" },
+  { id: "watermark", title: "Image Watermark", desc: "Add text or a transparent logo watermark with position and opacity controls.", icon: "✎", tag: "Custom" , category: "protection", status: "implemented" },
+  { id: "rounded", title: "Rounded Corners", desc: "Create smooth rounded image corners.", icon: "▢", tag: "Transparent PNG" , category: "editing", status: "implemented" },
+  { id: "blur", title: "Image Blur", desc: "Apply adjustable blur to the full image.", icon: "◌", tag: "Creative" , category: "effects", status: "implemented" },
+  { id: "grayscale", title: "Grayscale Converter", desc: "Convert an image to monochrome.", icon: "◐", tag: "One click" , category: "effects", status: "implemented" },
+  { id: "color", title: "Image Color Picker", desc: "Click any pixel to inspect its color value.", icon: "◉", tag: "Pixel sampling" , category: "analysis", status: "implemented" },
+  { id: "metadata", title: "Image Metadata Viewer", desc: "Inspect file details, type and image dimensions.", icon: "ⓘ", tag: "File details" , category: "metadata", status: "implemented" },
+  { id: "metadata-cleaner", title: "Image Metadata Cleaner", desc: "Export a fresh image copy without the source photo metadata.", icon: "⌁", tag: "Privacy" , category: "metadata", status: "implemented" },
+  { id: "batch", title: "Batch Image Converter", desc: "Convert and optimize up to 30 images at once, then download them individually or as one ZIP.", icon: "▤", tag: "New" , category: "batch", status: "implemented" },
+  { id: "image-to-pdf", title: "Image to PDF", desc: "Combine JPG, PNG or WebP images into an ordered, multi-page A4 PDF.", icon: "▧", tag: "New" , category: "pdf", status: "implemented" },
+  { id: "pdf-merge", title: "PDF Merger", desc: "Combine multiple PDF documents in a custom order, right in your browser.", icon: "▤", tag: "New" , category: "pdf", status: "implemented" },
+  { id: "pdf-split", title: "PDF Splitter", desc: "Extract selected page ranges into separate PDF files.", icon: "▥", tag: "New" , category: "pdf", status: "implemented" },
+  { id: "pdf-rotate", title: "PDF Rotator", desc: "Rotate every page in a PDF clockwise or counterclockwise.", icon: "↻", tag: "New" , category: "pdf", status: "implemented" },
+  { id: "pdf-reorder", title: "PDF Page Reorder", desc: "Change the order of individual PDF pages.", icon: "☷", tag: "New" , category: "pdf", status: "implemented" },
+  { id: "pdf-extract", title: "PDF Page Extractor", desc: "Save selected PDF pages as separate documents in a ZIP.", icon: "▣", tag: "New" , category: "pdf", status: "implemented" },
+  { id: "pdf-watermark", title: "PDF Watermark", desc: "Add adjustable text watermarks to every page of a PDF.", icon: "✎", tag: "New" , category: "pdf", status: "implemented" },
+  { id: "base64", title: "Image to Base64", desc: "Create a Base64 data URL and copy it.", icon: "⌘", tag: "Developer" , category: "developer", status: "implemented" },
   { id: "background", title: "Background Remover", desc: "AI-powered background removal.", icon: "✧", tag: "Coming soon", comingSoon: true , category: "ai", status: "planned" },
   { id: "upscaler", title: "AI Image Upscaler", desc: "Increase image resolution with an AI model.", icon: "⤢", tag: "Coming soon", comingSoon: true , category: "ai", status: "planned" }
 ];
@@ -926,12 +926,12 @@ if (roadmapCategories.length !== 30 || roadmapTools.length !== 3000 ||
 }
 
 export const tools: ToolDefinition[] = [...coreTools, ...roadmapTools];
-export const workingTools = coreTools.filter(tool => tool.status === "working");
+export const implementedTools = coreTools.filter(tool => tool.status === "implemented");
 export const plannedTools = tools.filter(tool => tool.status === "planned");
 export const toolCategoryCounts: Record<string, number> = Object.fromEntries(
   roadmapCategories.map(group => [group.key, tools.filter(tool => tool.category === group.key).length])
 );
 export const toolCounts = {
-  working: workingTools.length, planned: plannedTools.length, total: tools.length,
+  implemented: implementedTools.length, planned: plannedTools.length, total: tools.length,
   categories: roadmapCategories.length, roadmap: roadmapTools.length
 };
