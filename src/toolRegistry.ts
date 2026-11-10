@@ -20,7 +20,7 @@ const coreTools: ToolDefinition[] = [
   { id: "rounded", title: "Rounded Corners", desc: "Create smooth rounded image corners.", icon: "▢", tag: "Transparent PNG" , category: "editing", status: "implemented" },
   { id: "blur", title: "Image Blur", desc: "Apply adjustable blur to the full image.", icon: "◌", tag: "Creative" , category: "effects", status: "implemented" },
   { id: "grayscale", title: "Grayscale Converter", desc: "Convert an image to monochrome.", icon: "◐", tag: "One click" , category: "effects", status: "implemented" },
-  { id: "color", title: "Image Color Picker", desc: "Click any pixel to inspect its color value.", icon: "◉", tag: "Pixel sampling" , category: "analysis", status: "implemented" },
+  { id: "color", title: "Image Color Picker", desc: "Click any pixel to inspect its color value.", icon: "◉", tag: "Pixel sampling" , category: "color", status: "implemented" },
   { id: "metadata", title: "Image Metadata Viewer", desc: "Inspect file details, type and image dimensions.", icon: "ⓘ", tag: "File details" , category: "metadata", status: "implemented" },
   { id: "metadata-cleaner", title: "Image Metadata Cleaner", desc: "Export a fresh image copy without the source photo metadata.", icon: "⌁", tag: "Privacy" , category: "metadata", status: "implemented" },
   { id: "batch", title: "Batch Image Converter", desc: "Convert and optimize up to 30 images at once, then download them individually or as one ZIP.", icon: "▤", tag: "New" , category: "batch", status: "implemented" },
