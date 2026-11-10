@@ -26,6 +26,12 @@
 | P1-06 | Add registry and UI regression tests | P1-01–P1-05 | Added / CI pending | Tests assert 22 implemented, 3,002 planned, 3,024 total, 30 categories, 100 roadmap entries/category, unique IDs, PDF counts and pagination |
 | P1-07 | Reconcile product and release documentation | P1-01–P1-06 | Done | Feature-branch count and six-PDF QA caveat are consistent across user-facing and release documents |
 
+## CI investigation notes
+
+- Run #267 completed both full and production dependency audits with **0 vulnerabilities**.
+- TypeScript then found two errors: an unused `PDFDocument` import in the existing PDF watermark module and a too-narrow inferred `Set` type in the new registry test.
+- Both source corrections are committed. The next fresh CI result is still pending; the failed run is not counted as a pass.
+
 ## Explicit release gates
 
 - CI status must be verified against the latest implementation commit.
