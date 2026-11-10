@@ -22,7 +22,7 @@ describe("central tool registry", () => {
   });
 
   it("assigns every tool to a known category and gives it a unique id", () => {
-    const categoryKeys = new Set(roadmapCategories.map(category => category.key));
+    const categoryKeys: Set<string> = new Set(roadmapCategories.map(category => category.key));
     const ids = tools.map(tool => tool.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(tools.every(tool => categoryKeys.has(tool.category))).toBe(true);
