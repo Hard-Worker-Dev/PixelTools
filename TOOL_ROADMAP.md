@@ -1,0 +1,3207 @@
+# PixelTools — 30-Category, 3,000-Tool Roadmap
+
+**Catalogue target:** 30 categories × 100 entries = **3,000 planned tools**.
+
+**Important status:** All 3,000 entries are disabled and marked Coming Soon. They are catalogue/roadmap ideas, not implemented functionality. The existing 14 working image tools remain separate. AI Background Remover and AI Upscaler remain Coming Soon.
+
+## Category overview
+
+1. **PDF Tools** — 100 tools
+2. **Design & Graphics** — 100 tools
+3. **Social Media** — 100 tools
+4. **Color & Branding** — 100 tools
+5. **Developer Tools** — 100 tools
+6. **Image Conversion** — 100 tools
+7. **Image Compression** — 100 tools
+8. **Image Resizing** — 100 tools
+9. **Photo Editing** — 100 tools
+10. **Photo Restoration** — 100 tools
+11. **AI Image Tools** — 100 tools
+12. **Screenshots & Capture** — 100 tools
+13. **Icons & Favicons** — 100 tools
+14. **SVG & Vector** — 100 tools
+15. **Animation & GIF** — 100 tools
+16. **Typography & Text** — 100 tools
+17. **Watermark & Protection** — 100 tools
+18. **Metadata & Privacy** — 100 tools
+19. **Image Analysis** — 100 tools
+20. **Batch Processing** — 100 tools
+21. **E-commerce Product Images** — 100 tools
+22. **Print & Documents** — 100 tools
+23. **Web Optimization** — 100 tools
+24. **Accessibility** — 100 tools
+25. **QR & Barcode** — 100 tools
+26. **Mockups & Templates** — 100 tools
+27. **Background & Removal** — 100 tools
+28. **Image Effects & Filters** — 100 tools
+29. **File Utilities** — 100 tools
+30. **Creative Assets** — 100 tools
+
+## Full catalogue
+
+### PDF Tools — 100 planned tools
+
+PDF files, pages, forms and document workflows
+
+- Convert PDF to JPG
+- Convert JPG to PDF
+- Convert PNG to PDF
+- Convert WebP to PDF
+- Convert PDF pages
+- Convert PDF forms
+- Convert PDF scans
+- Convert PDF reports
+- Convert PDF files
+- Convert PDF archives
+- Compress PDF to JPG
+- Compress JPG to PDF
+- Compress PNG to PDF
+- Compress WebP to PDF
+- Compress PDF pages
+- Compress PDF forms
+- Compress PDF scans
+- Compress PDF reports
+- Compress PDF files
+- Compress PDF archives
+- Merge PDF to JPG
+- Merge JPG to PDF
+- Merge PNG to PDF
+- Merge WebP to PDF
+- Merge PDF pages
+- Merge PDF forms
+- Merge PDF scans
+- Merge PDF reports
+- Merge PDF files
+- Merge PDF archives
+- Split PDF to JPG
+- Split JPG to PDF
+- Split PNG to PDF
+- Split WebP to PDF
+- Split PDF pages
+- Split PDF forms
+- Split PDF scans
+- Split PDF reports
+- Split PDF files
+- Split PDF archives
+- Rotate PDF to JPG
+- Rotate JPG to PDF
+- Rotate PNG to PDF
+- Rotate WebP to PDF
+- Rotate PDF pages
+- Rotate PDF forms
+- Rotate PDF scans
+- Rotate PDF reports
+- Rotate PDF files
+- Rotate PDF archives
+- Reorder PDF to JPG
+- Reorder JPG to PDF
+- Reorder PNG to PDF
+- Reorder WebP to PDF
+- Reorder PDF pages
+- Reorder PDF forms
+- Reorder PDF scans
+- Reorder PDF reports
+- Reorder PDF files
+- Reorder PDF archives
+- Extract PDF to JPG
+- Extract JPG to PDF
+- Extract PNG to PDF
+- Extract WebP to PDF
+- Extract PDF pages
+- Extract PDF forms
+- Extract PDF scans
+- Extract PDF reports
+- Extract PDF files
+- Extract PDF archives
+- Watermark PDF to JPG
+- Watermark JPG to PDF
+- Watermark PNG to PDF
+- Watermark WebP to PDF
+- Watermark PDF pages
+- Watermark PDF forms
+- Watermark PDF scans
+- Watermark PDF reports
+- Watermark PDF files
+- Watermark PDF archives
+- Edit PDF to JPG
+- Annotate JPG to PDF
+- Annotate PNG to PDF
+- Annotate WebP to PDF
+- Edit PDF pages
+- Edit PDF forms
+- Edit PDF scans
+- Edit PDF reports
+- Edit PDF files
+- Edit PDF archives
+- Protect PDF to JPG
+- Protect JPG to PDF
+- Protect PNG to PDF
+- Protect WebP to PDF
+- Protect PDF pages
+- Protect PDF forms
+- Protect PDF scans
+- Protect PDF reports
+- Protect PDF files
+- Protect PDF archives
+
+### Design & Graphics — 100 planned tools
+
+Creative composition, layout and graphic design
+
+- Create photo collages
+- Create social graphics
+- Create poster layouts
+- Create flyer layouts
+- Create presentation graphics
+- Create brand graphics
+- Create product compositions
+- Create mood boards
+- Create banners
+- Create digital cards
+- Arrange photo collages
+- Arrange social graphics
+- Arrange poster layouts
+- Arrange flyer layouts
+- Arrange presentation graphics
+- Arrange brand graphics
+- Arrange product compositions
+- Arrange mood boards
+- Arrange banners
+- Arrange digital cards
+- Overlay photo collages
+- Overlay social graphics
+- Overlay poster layouts
+- Overlay flyer layouts
+- Overlay presentation graphics
+- Overlay brand graphics
+- Overlay product compositions
+- Overlay mood boards
+- Overlay banners
+- Overlay digital cards
+- Frame photo collages
+- Frame social graphics
+- Frame poster layouts
+- Frame flyer layouts
+- Frame presentation graphics
+- Frame brand graphics
+- Frame product compositions
+- Frame mood boards
+- Frame banners
+- Frame digital cards
+- Border photo collages
+- Border social graphics
+- Border poster layouts
+- Border flyer layouts
+- Border presentation graphics
+- Border brand graphics
+- Border product compositions
+- Border mood boards
+- Border banners
+- Border digital cards
+- Shadow photo collages
+- Shadow social graphics
+- Shadow poster layouts
+- Shadow flyer layouts
+- Shadow presentation graphics
+- Shadow brand graphics
+- Shadow product compositions
+- Shadow mood boards
+- Shadow banners
+- Shadow digital cards
+- Outline photo collages
+- Outline social graphics
+- Outline poster layouts
+- Outline flyer layouts
+- Outline presentation graphics
+- Outline brand graphics
+- Outline product compositions
+- Outline mood boards
+- Outline banners
+- Outline digital cards
+- Reflect photo collages
+- Reflect social graphics
+- Reflect poster layouts
+- Reflect flyer layouts
+- Reflect presentation graphics
+- Reflect brand graphics
+- Reflect product compositions
+- Reflect mood boards
+- Reflect banners
+- Reflect digital cards
+- Tile photo collages
+- Tile social graphics
+- Tile poster layouts
+- Tile flyer layouts
+- Tile presentation graphics
+- Tile brand graphics
+- Tile product compositions
+- Tile mood boards
+- Tile banners
+- Tile digital cards
+- Stitch photo collages
+- Stitch social graphics
+- Stitch poster layouts
+- Stitch flyer layouts
+- Stitch presentation graphics
+- Stitch brand graphics
+- Stitch product compositions
+- Stitch mood boards
+- Stitch banners
+- Stitch digital cards
+
+### Social Media — 100 planned tools
+
+Platform-ready image sizing, layouts and publishing assets
+
+- Resize Instagram posts
+- Resize Instagram stories
+- Resize Facebook covers
+- Resize YouTube thumbnails
+- Resize YouTube banners
+- Resize TikTok covers
+- Resize Pinterest pins
+- Resize LinkedIn banners
+- Resize X headers
+- Resize social carousels
+- Design Instagram posts
+- Design Instagram stories
+- Design Facebook covers
+- Design YouTube thumbnails
+- Design YouTube banners
+- Design TikTok covers
+- Design Pinterest pins
+- Design LinkedIn banners
+- Design X headers
+- Design social carousels
+- Crop Instagram posts
+- Crop Instagram stories
+- Crop Facebook covers
+- Crop YouTube thumbnails
+- Crop YouTube banners
+- Crop TikTok covers
+- Crop Pinterest pins
+- Crop LinkedIn banners
+- Crop X headers
+- Crop social carousels
+- Split Instagram posts
+- Split Instagram stories
+- Split Facebook covers
+- Split YouTube thumbnails
+- Split YouTube banners
+- Split TikTok covers
+- Split Pinterest pins
+- Split LinkedIn banners
+- Split X headers
+- Split social carousels
+- Preview Instagram posts
+- Preview Instagram stories
+- Preview Facebook covers
+- Preview YouTube thumbnails
+- Preview YouTube banners
+- Preview TikTok covers
+- Preview Pinterest pins
+- Preview LinkedIn banners
+- Preview X headers
+- Preview social carousels
+- Compose Instagram posts
+- Compose Instagram stories
+- Compose Facebook covers
+- Compose YouTube thumbnails
+- Compose YouTube banners
+- Compose TikTok covers
+- Compose Pinterest pins
+- Compose LinkedIn banners
+- Compose X headers
+- Compose social carousels
+- Export Instagram posts
+- Export Instagram stories
+- Export Facebook covers
+- Export YouTube thumbnails
+- Export YouTube banners
+- Export TikTok covers
+- Export Pinterest pins
+- Export LinkedIn banners
+- Export X headers
+- Export social carousels
+- Caption Instagram posts
+- Caption Instagram stories
+- Caption Facebook covers
+- Caption YouTube thumbnails
+- Caption YouTube banners
+- Caption TikTok covers
+- Caption Pinterest pins
+- Caption LinkedIn banners
+- Caption X headers
+- Caption social carousels
+- Arrange Instagram posts
+- Arrange Instagram stories
+- Arrange Facebook covers
+- Arrange YouTube thumbnails
+- Arrange YouTube banners
+- Arrange TikTok covers
+- Arrange Pinterest pins
+- Arrange LinkedIn banners
+- Arrange X headers
+- Arrange social carousels
+- Optimize Instagram posts
+- Optimize Instagram stories
+- Optimize Facebook covers
+- Optimize YouTube thumbnails
+- Optimize YouTube banners
+- Optimize TikTok covers
+- Optimize Pinterest pins
+- Optimize LinkedIn banners
+- Optimize X headers
+- Optimize social carousels
+
+### Color & Branding — 100 planned tools
+
+Color conversion, palettes, contrast and brand systems
+
+- Convert HEX colors
+- Convert RGB colors
+- Convert HSL colors
+- Convert brand palettes
+- Convert image palettes
+- Convert gradients
+- Convert duotones
+- Convert accessible palettes
+- Convert color tokens
+- Convert brand kits
+- Generate HEX colors
+- Generate RGB colors
+- Generate HSL colors
+- Generate brand palettes
+- Generate image palettes
+- Generate gradients
+- Generate duotones
+- Generate accessible palettes
+- Generate color tokens
+- Generate brand kits
+- Extract HEX colors
+- Extract RGB colors
+- Extract HSL colors
+- Extract brand palettes
+- Extract image palettes
+- Extract gradients
+- Extract duotones
+- Extract accessible palettes
+- Extract color tokens
+- Extract brand kits
+- Compare HEX colors
+- Compare RGB colors
+- Compare HSL colors
+- Compare brand palettes
+- Compare image palettes
+- Compare gradients
+- Compare duotones
+- Compare accessible palettes
+- Compare color tokens
+- Compare brand kits
+- Audit HEX colors
+- Audit RGB colors
+- Audit HSL colors
+- Audit brand palettes
+- Audit image palettes
+- Audit gradients
+- Audit duotones
+- Audit accessible palettes
+- Audit color tokens
+- Audit brand kits
+- Visualize HEX colors
+- Visualize RGB colors
+- Visualize HSL colors
+- Visualize brand palettes
+- Visualize image palettes
+- Visualize gradients
+- Visualize duotones
+- Visualize accessible palettes
+- Visualize color tokens
+- Visualize brand kits
+- Tune HEX colors
+- Tune RGB colors
+- Tune HSL colors
+- Tune brand palettes
+- Tune image palettes
+- Tune gradients
+- Tune duotones
+- Tune accessible palettes
+- Tune color tokens
+- Tune brand kits
+- Pair HEX colors
+- Pair RGB colors
+- Pair HSL colors
+- Pair brand palettes
+- Pair image palettes
+- Pair gradients
+- Pair duotones
+- Pair accessible palettes
+- Pair color tokens
+- Pair brand kits
+- Export HEX colors
+- Export RGB colors
+- Export HSL colors
+- Export brand palettes
+- Export image palettes
+- Export gradients
+- Export duotones
+- Export accessible palettes
+- Export color tokens
+- Export brand kits
+- Document HEX colors
+- Document RGB colors
+- Document HSL colors
+- Document brand palettes
+- Document image palettes
+- Document gradients
+- Document duotones
+- Document accessible palettes
+- Document color tokens
+- Document brand kits
+
+### Developer Tools — 100 planned tools
+
+Image assets and utilities for software development
+
+- Optimize SVG assets
+- Optimize PNG assets
+- Optimize WebP assets
+- Optimize Base64 data
+- Optimize data URIs
+- Optimize favicons
+- Optimize app icons
+- Optimize PWA icons
+- Optimize responsive images
+- Optimize placeholder hashes
+- Convert SVG assets
+- Convert PNG assets
+- Convert WebP assets
+- Convert Base64 data
+- Convert data URIs
+- Convert favicons
+- Convert app icons
+- Convert PWA icons
+- Convert responsive images
+- Convert placeholder hashes
+- Encode SVG assets
+- Encode PNG assets
+- Encode WebP assets
+- Encode Base64 data
+- Encode data URIs
+- Encode favicons
+- Encode app icons
+- Encode PWA icons
+- Encode responsive images
+- Encode placeholder hashes
+- Decode SVG assets
+- Decode PNG assets
+- Decode WebP assets
+- Decode Base64 data
+- Decode data URIs
+- Decode favicons
+- Decode app icons
+- Decode PWA icons
+- Decode responsive images
+- Decode placeholder hashes
+- Inspect SVG assets
+- Inspect PNG assets
+- Inspect WebP assets
+- Inspect Base64 data
+- Inspect data URIs
+- Inspect favicons
+- Inspect app icons
+- Inspect PWA icons
+- Inspect responsive images
+- Inspect placeholder hashes
+- Generate SVG assets
+- Generate PNG assets
+- Generate WebP assets
+- Generate Base64 data
+- Generate data URIs
+- Generate favicons
+- Generate app icons
+- Generate PWA icons
+- Generate responsive images
+- Generate placeholder hashes
+- Validate SVG assets
+- Validate PNG assets
+- Validate WebP assets
+- Validate Base64 data
+- Validate data URIs
+- Validate favicons
+- Validate app icons
+- Validate PWA icons
+- Validate responsive images
+- Validate placeholder hashes
+- Trace SVG assets
+- Trace PNG assets
+- Trace WebP assets
+- Trace Base64 data
+- Trace data URIs
+- Trace favicons
+- Trace app icons
+- Trace PWA icons
+- Trace responsive images
+- Trace placeholder hashes
+- Package SVG assets
+- Package PNG assets
+- Package WebP assets
+- Package Base64 data
+- Package data URIs
+- Package favicons
+- Package app icons
+- Package PWA icons
+- Package responsive images
+- Package placeholder hashes
+- Preview SVG assets
+- Preview PNG assets
+- Preview WebP assets
+- Preview Base64 data
+- Preview data URIs
+- Preview favicons
+- Preview app icons
+- Preview PWA icons
+- Preview responsive images
+- Preview placeholder hashes
+
+### Image Conversion — 100 planned tools
+
+Image format conversion and export pipelines
+
+- Convert JPG files
+- Convert PNG files
+- Convert WebP files
+- Convert AVIF files
+- Convert GIF files
+- Convert TIFF files
+- Convert BMP files
+- Convert HEIC files
+- Convert ICO files
+- Convert SVG files
+- Transcode JPG files
+- Transcode PNG files
+- Transcode WebP files
+- Transcode AVIF files
+- Transcode GIF files
+- Transcode TIFF files
+- Transcode BMP files
+- Transcode HEIC files
+- Transcode ICO files
+- Transcode SVG files
+- Export JPG files
+- Export PNG files
+- Export WebP files
+- Export AVIF files
+- Export GIF files
+- Export TIFF files
+- Export BMP files
+- Export HEIC files
+- Export ICO files
+- Export SVG files
+- Import JPG files
+- Import PNG files
+- Import WebP files
+- Import AVIF files
+- Import GIF files
+- Import TIFF files
+- Import BMP files
+- Import HEIC files
+- Import ICO files
+- Import SVG files
+- Normalize JPG files
+- Normalize PNG files
+- Normalize WebP files
+- Normalize AVIF files
+- Normalize GIF files
+- Normalize TIFF files
+- Normalize BMP files
+- Normalize HEIC files
+- Normalize ICO files
+- Normalize SVG files
+- Batch convert JPG files
+- Batch convert PNG files
+- Batch convert WebP files
+- Batch convert AVIF files
+- Batch convert GIF files
+- Batch convert TIFF files
+- Batch convert BMP files
+- Batch convert HEIC files
+- Batch convert ICO files
+- Batch convert SVG files
+- Preview JPG files
+- Preview PNG files
+- Preview WebP files
+- Preview AVIF files
+- Preview GIF files
+- Preview TIFF files
+- Preview BMP files
+- Preview HEIC files
+- Preview ICO files
+- Preview SVG files
+- Validate JPG files
+- Validate PNG files
+- Validate WebP files
+- Validate AVIF files
+- Validate GIF files
+- Validate TIFF files
+- Validate BMP files
+- Validate HEIC files
+- Validate ICO files
+- Validate SVG files
+- Package JPG files
+- Package PNG files
+- Package WebP files
+- Package AVIF files
+- Package GIF files
+- Package TIFF files
+- Package BMP files
+- Package HEIC files
+- Package ICO files
+- Package SVG files
+- Compare JPG files
+- Compare PNG files
+- Compare WebP files
+- Compare AVIF files
+- Compare GIF files
+- Compare TIFF files
+- Compare BMP files
+- Compare HEIC files
+- Compare ICO files
+- Compare SVG files
+
+### Image Compression — 100 planned tools
+
+File-size reduction and quality optimization
+
+- Compress JPG photos
+- Compress PNG graphics
+- Compress WebP images
+- Compress AVIF images
+- Compress GIF animations
+- Compress TIFF scans
+- Compress large images
+- Compress transparent images
+- Compress web assets
+- Compress image folders
+- Optimize JPG photos
+- Optimize PNG graphics
+- Optimize WebP images
+- Optimize AVIF images
+- Optimize GIF animations
+- Optimize TIFF scans
+- Optimize large images
+- Optimize transparent images
+- Optimize web assets
+- Optimize image folders
+- Minify JPG photos
+- Minify PNG graphics
+- Minify WebP images
+- Minify AVIF images
+- Minify GIF animations
+- Minify TIFF scans
+- Minify large images
+- Minify transparent images
+- Minify web assets
+- Minify image folders
+- Re-encode JPG photos
+- Re-encode PNG graphics
+- Re-encode WebP images
+- Re-encode AVIF images
+- Re-encode GIF animations
+- Re-encode TIFF scans
+- Re-encode large images
+- Re-encode transparent images
+- Re-encode web assets
+- Re-encode image folders
+- Downsample JPG photos
+- Downsample PNG graphics
+- Downsample WebP images
+- Downsample AVIF images
+- Downsample GIF animations
+- Downsample TIFF scans
+- Downsample large images
+- Downsample transparent images
+- Downsample web assets
+- Downsample image folders
+- Quantize JPG photos
+- Quantize PNG graphics
+- Quantize WebP images
+- Quantize AVIF images
+- Quantize GIF animations
+- Quantize TIFF scans
+- Quantize large images
+- Quantize transparent images
+- Quantize web assets
+- Quantize image folders
+- Compare JPG photos
+- Compare PNG graphics
+- Compare WebP images
+- Compare AVIF images
+- Compare GIF animations
+- Compare TIFF scans
+- Compare large images
+- Compare transparent images
+- Compare web assets
+- Compare image folders
+- Batch compress JPG photos
+- Batch compress PNG graphics
+- Batch compress WebP images
+- Batch compress AVIF images
+- Batch compress GIF animations
+- Batch compress TIFF scans
+- Batch compress large images
+- Batch compress transparent images
+- Batch compress web assets
+- Batch compress image folders
+- Tune JPG photos
+- Tune PNG graphics
+- Tune WebP images
+- Tune AVIF images
+- Tune GIF animations
+- Tune TIFF scans
+- Tune large images
+- Tune transparent images
+- Tune web assets
+- Tune image folders
+- Report JPG photos
+- Report PNG graphics
+- Report WebP images
+- Report AVIF images
+- Report GIF animations
+- Report TIFF scans
+- Report large images
+- Report transparent images
+- Report web assets
+- Report image folders
+
+### Image Resizing — 100 planned tools
+
+Dimensions, scaling, cropping and responsive variants
+
+- Resize portrait photos
+- Resize landscape photos
+- Resize square images
+- Resize product photos
+- Resize profile pictures
+- Resize thumbnails
+- Resize wallpapers
+- Resize mobile screens
+- Resize desktop banners
+- Resize print images
+- Scale portrait photos
+- Scale landscape photos
+- Scale square images
+- Scale product photos
+- Scale profile pictures
+- Scale thumbnails
+- Scale wallpapers
+- Scale mobile screens
+- Scale desktop banners
+- Scale print images
+- Crop portrait photos
+- Crop landscape photos
+- Crop square images
+- Crop product photos
+- Crop profile pictures
+- Crop thumbnails
+- Crop wallpapers
+- Crop mobile screens
+- Crop desktop banners
+- Crop print images
+- Fit portrait photos
+- Fit landscape photos
+- Fit square images
+- Fit product photos
+- Fit profile pictures
+- Fit thumbnails
+- Fit wallpapers
+- Fit mobile screens
+- Fit desktop banners
+- Fit print images
+- Fill portrait photos
+- Fill landscape photos
+- Fill square images
+- Fill product photos
+- Fill profile pictures
+- Fill thumbnails
+- Fill wallpapers
+- Fill mobile screens
+- Fill desktop banners
+- Fill print images
+- Pad portrait photos
+- Pad landscape photos
+- Pad square images
+- Pad product photos
+- Pad profile pictures
+- Pad thumbnails
+- Pad wallpapers
+- Pad mobile screens
+- Pad desktop banners
+- Pad print images
+- Extend portrait photos
+- Extend landscape photos
+- Extend square images
+- Extend product photos
+- Extend profile pictures
+- Extend thumbnails
+- Extend wallpapers
+- Extend mobile screens
+- Extend desktop banners
+- Extend print images
+- Generate variants portrait photos
+- Generate variants landscape photos
+- Generate variants square images
+- Generate variants product photos
+- Generate variants profile pictures
+- Generate variants thumbnails
+- Generate variants wallpapers
+- Generate variants mobile screens
+- Generate variants desktop banners
+- Generate variants print images
+- Batch resize portrait photos
+- Batch resize landscape photos
+- Batch resize square images
+- Batch resize product photos
+- Batch resize profile pictures
+- Batch resize thumbnails
+- Batch resize wallpapers
+- Batch resize mobile screens
+- Batch resize desktop banners
+- Batch resize print images
+- Inspect portrait photos
+- Inspect landscape photos
+- Inspect square images
+- Inspect product photos
+- Inspect profile pictures
+- Inspect thumbnails
+- Inspect wallpapers
+- Inspect mobile screens
+- Inspect desktop banners
+- Inspect print images
+
+### Photo Editing — 100 planned tools
+
+Everyday photo adjustments and retouching workflows
+
+- Adjust exposure
+- Adjust brightness
+- Adjust contrast
+- Adjust saturation
+- Adjust white balance
+- Adjust sharpness
+- Adjust skin tones
+- Adjust low-light photos
+- Adjust old photographs
+- Adjust portrait photos
+- Retouch exposure
+- Retouch brightness
+- Retouch contrast
+- Retouch saturation
+- Retouch white balance
+- Retouch sharpness
+- Retouch skin tones
+- Retouch low-light photos
+- Retouch old photographs
+- Retouch portrait photos
+- Straighten exposure
+- Straighten brightness
+- Straighten contrast
+- Straighten saturation
+- Straighten white balance
+- Straighten sharpness
+- Straighten skin tones
+- Straighten low-light photos
+- Straighten old photographs
+- Straighten portrait photos
+- Sharpen exposure
+- Sharpen brightness
+- Sharpen contrast
+- Sharpen saturation
+- Sharpen white balance
+- Sharpen sharpness
+- Sharpen skin tones
+- Sharpen low-light photos
+- Sharpen old photographs
+- Sharpen portrait photos
+- Soften exposure
+- Soften brightness
+- Soften contrast
+- Soften saturation
+- Soften white balance
+- Soften sharpness
+- Soften skin tones
+- Soften low-light photos
+- Soften old photographs
+- Soften portrait photos
+- Denoise exposure
+- Denoise brightness
+- Denoise contrast
+- Denoise saturation
+- Denoise white balance
+- Denoise sharpness
+- Denoise skin tones
+- Denoise low-light photos
+- Denoise old photographs
+- Denoise portrait photos
+- Enhance exposure
+- Enhance brightness
+- Enhance contrast
+- Enhance saturation
+- Enhance white balance
+- Enhance sharpness
+- Enhance skin tones
+- Enhance low-light photos
+- Enhance old photographs
+- Enhance portrait photos
+- Tone exposure
+- Tone brightness
+- Tone contrast
+- Tone saturation
+- Tone white balance
+- Tone sharpness
+- Tone skin tones
+- Tone low-light photos
+- Tone old photographs
+- Tone portrait photos
+- Balance exposure
+- Balance brightness
+- Balance contrast
+- Balance saturation
+- Balance white balance
+- Balance sharpness
+- Balance skin tones
+- Balance low-light photos
+- Balance old photographs
+- Balance portrait photos
+- Prepare exposure
+- Prepare brightness
+- Prepare contrast
+- Prepare saturation
+- Prepare white balance
+- Prepare sharpness
+- Prepare skin tones
+- Prepare low-light photos
+- Prepare old photographs
+- Prepare portrait photos
+
+### Photo Restoration — 100 planned tools
+
+Repair, recovery and enhancement of damaged images
+
+- Restore faded photos
+- Restore scratched photos
+- Restore dusty scans
+- Restore creased photos
+- Restore blurred portraits
+- Restore old family photos
+- Restore damaged scans
+- Restore discolored prints
+- Restore low-resolution photos
+- Restore archival images
+- Repair faded photos
+- Repair scratched photos
+- Repair dusty scans
+- Repair creased photos
+- Repair blurred portraits
+- Repair old family photos
+- Repair damaged scans
+- Repair discolored prints
+- Repair low-resolution photos
+- Repair archival images
+- Recover faded photos
+- Recover scratched photos
+- Recover dusty scans
+- Recover creased photos
+- Recover blurred portraits
+- Recover old family photos
+- Recover damaged scans
+- Recover discolored prints
+- Recover low-resolution photos
+- Recover archival images
+- Clean faded photos
+- Clean scratched photos
+- Clean dusty scans
+- Clean creased photos
+- Clean blurred portraits
+- Clean old family photos
+- Clean damaged scans
+- Clean discolored prints
+- Clean low-resolution photos
+- Clean archival images
+- Correct faded photos
+- Correct scratched photos
+- Correct dusty scans
+- Correct creased photos
+- Correct blurred portraits
+- Correct old family photos
+- Correct damaged scans
+- Correct discolored prints
+- Correct low-resolution photos
+- Correct archival images
+- Rebuild faded photos
+- Rebuild scratched photos
+- Rebuild dusty scans
+- Rebuild creased photos
+- Rebuild blurred portraits
+- Rebuild old family photos
+- Rebuild damaged scans
+- Rebuild discolored prints
+- Rebuild low-resolution photos
+- Rebuild archival images
+- Enhance faded photos
+- Enhance scratched photos
+- Enhance dusty scans
+- Enhance creased photos
+- Enhance blurred portraits
+- Enhance old family photos
+- Enhance damaged scans
+- Enhance discolored prints
+- Enhance low-resolution photos
+- Enhance archival images
+- Denoise faded photos
+- Denoise scratched photos
+- Denoise dusty scans
+- Denoise creased photos
+- Denoise blurred portraits
+- Denoise old family photos
+- Denoise damaged scans
+- Denoise discolored prints
+- Denoise low-resolution photos
+- Denoise archival images
+- Deblur faded photos
+- Deblur scratched photos
+- Deblur dusty scans
+- Deblur creased photos
+- Deblur blurred portraits
+- Deblur old family photos
+- Deblur damaged scans
+- Deblur discolored prints
+- Deblur low-resolution photos
+- Deblur archival images
+- Colorize faded photos
+- Colorize scratched photos
+- Colorize dusty scans
+- Colorize creased photos
+- Colorize blurred portraits
+- Colorize old family photos
+- Colorize damaged scans
+- Colorize discolored prints
+- Colorize low-resolution photos
+- Colorize archival images
+
+### AI Image Tools — 100 planned tools
+
+AI-assisted image understanding and creative workflows
+
+- Generate backgrounds
+- Generate objects
+- Generate portraits
+- Generate product photos
+- Generate landscapes
+- Generate illustrations
+- Generate textures
+- Generate scenes
+- Generate image captions
+- Generate visual variations
+- Enhance backgrounds
+- Enhance objects
+- Enhance portraits
+- Enhance product photos
+- Enhance landscapes
+- Enhance illustrations
+- Enhance textures
+- Enhance scenes
+- Enhance image captions
+- Enhance visual variations
+- Remove backgrounds
+- Remove objects
+- Remove portraits
+- Remove product photos
+- Remove landscapes
+- Remove illustrations
+- Remove textures
+- Remove scenes
+- Remove image captions
+- Remove visual variations
+- Replace backgrounds
+- Replace objects
+- Replace portraits
+- Replace product photos
+- Replace landscapes
+- Replace illustrations
+- Replace textures
+- Replace scenes
+- Replace image captions
+- Replace visual variations
+- Expand backgrounds
+- Expand objects
+- Expand portraits
+- Expand product photos
+- Expand landscapes
+- Expand illustrations
+- Expand textures
+- Expand scenes
+- Expand image captions
+- Expand visual variations
+- Relight backgrounds
+- Relight objects
+- Relight portraits
+- Relight product photos
+- Relight landscapes
+- Relight illustrations
+- Relight textures
+- Relight scenes
+- Relight image captions
+- Relight visual variations
+- Retouch backgrounds
+- Retouch objects
+- Retouch portraits
+- Retouch product photos
+- Retouch landscapes
+- Retouch illustrations
+- Retouch textures
+- Retouch scenes
+- Retouch image captions
+- Retouch visual variations
+- Segment backgrounds
+- Segment objects
+- Segment portraits
+- Segment product photos
+- Segment landscapes
+- Segment illustrations
+- Segment textures
+- Segment scenes
+- Segment image captions
+- Segment visual variations
+- Describe backgrounds
+- Describe objects
+- Describe portraits
+- Describe product photos
+- Describe landscapes
+- Describe illustrations
+- Describe textures
+- Describe scenes
+- Describe image captions
+- Describe visual variations
+- Upscale backgrounds
+- Upscale objects
+- Upscale portraits
+- Upscale product photos
+- Upscale landscapes
+- Upscale illustrations
+- Upscale textures
+- Upscale scenes
+- Upscale image captions
+- Upscale visual variations
+
+### Screenshots & Capture — 100 planned tools
+
+Capture, annotate and prepare screen images
+
+- Capture browser pages
+- Capture desktop screens
+- Capture mobile screens
+- Capture web components
+- Capture long pages
+- Capture app windows
+- Capture error messages
+- Capture tutorial steps
+- Capture design reviews
+- Capture bug reports
+- Annotate browser pages
+- Annotate desktop screens
+- Annotate mobile screens
+- Annotate web components
+- Annotate long pages
+- Annotate app windows
+- Annotate error messages
+- Annotate tutorial steps
+- Annotate design reviews
+- Annotate bug reports
+- Blur browser pages
+- Blur desktop screens
+- Blur mobile screens
+- Blur web components
+- Blur long pages
+- Blur app windows
+- Blur error messages
+- Blur tutorial steps
+- Blur design reviews
+- Blur bug reports
+- Highlight browser pages
+- Highlight desktop screens
+- Highlight mobile screens
+- Highlight web components
+- Highlight long pages
+- Highlight app windows
+- Highlight error messages
+- Highlight tutorial steps
+- Highlight design reviews
+- Highlight bug reports
+- Frame browser pages
+- Frame desktop screens
+- Frame mobile screens
+- Frame web components
+- Frame long pages
+- Frame app windows
+- Frame error messages
+- Frame tutorial steps
+- Frame design reviews
+- Frame bug reports
+- Crop browser pages
+- Crop desktop screens
+- Crop mobile screens
+- Crop web components
+- Crop long pages
+- Crop app windows
+- Crop error messages
+- Crop tutorial steps
+- Crop design reviews
+- Crop bug reports
+- Scroll browser pages
+- Scroll desktop screens
+- Scroll mobile screens
+- Scroll web components
+- Scroll long pages
+- Scroll app windows
+- Scroll error messages
+- Scroll tutorial steps
+- Scroll design reviews
+- Scroll bug reports
+- Compare browser pages
+- Compare desktop screens
+- Compare mobile screens
+- Compare web components
+- Compare long pages
+- Compare app windows
+- Compare error messages
+- Compare tutorial steps
+- Compare design reviews
+- Compare bug reports
+- Export browser pages
+- Export desktop screens
+- Export mobile screens
+- Export web components
+- Export long pages
+- Export app windows
+- Export error messages
+- Export tutorial steps
+- Export design reviews
+- Export bug reports
+- Organize browser pages
+- Organize desktop screens
+- Organize mobile screens
+- Organize web components
+- Organize long pages
+- Organize app windows
+- Organize error messages
+- Organize tutorial steps
+- Organize design reviews
+- Organize bug reports
+
+### Icons & Favicons — 100 planned tools
+
+Icon creation, conversion and packaging
+
+- Generate browser favicons
+- Generate iOS icons
+- Generate Android icons
+- Generate Windows icons
+- Generate macOS icons
+- Generate PWA icons
+- Generate app icons
+- Generate monochrome icons
+- Generate adaptive icons
+- Generate notification icons
+- Resize browser favicons
+- Resize iOS icons
+- Resize Android icons
+- Resize Windows icons
+- Resize macOS icons
+- Resize PWA icons
+- Resize app icons
+- Resize monochrome icons
+- Resize adaptive icons
+- Resize notification icons
+- Convert browser favicons
+- Convert iOS icons
+- Convert Android icons
+- Convert Windows icons
+- Convert macOS icons
+- Convert PWA icons
+- Convert app icons
+- Convert monochrome icons
+- Convert adaptive icons
+- Convert notification icons
+- Mask browser favicons
+- Mask iOS icons
+- Mask Android icons
+- Mask Windows icons
+- Mask macOS icons
+- Mask PWA icons
+- Mask app icons
+- Mask monochrome icons
+- Mask adaptive icons
+- Mask notification icons
+- Preview browser favicons
+- Preview iOS icons
+- Preview Android icons
+- Preview Windows icons
+- Preview macOS icons
+- Preview PWA icons
+- Preview app icons
+- Preview monochrome icons
+- Preview adaptive icons
+- Preview notification icons
+- Package browser favicons
+- Package iOS icons
+- Package Android icons
+- Package Windows icons
+- Package macOS icons
+- Package PWA icons
+- Package app icons
+- Package monochrome icons
+- Package adaptive icons
+- Package notification icons
+- Validate browser favicons
+- Validate iOS icons
+- Validate Android icons
+- Validate Windows icons
+- Validate macOS icons
+- Validate PWA icons
+- Validate app icons
+- Validate monochrome icons
+- Validate adaptive icons
+- Validate notification icons
+- Optimize browser favicons
+- Optimize iOS icons
+- Optimize Android icons
+- Optimize Windows icons
+- Optimize macOS icons
+- Optimize PWA icons
+- Optimize app icons
+- Optimize monochrome icons
+- Optimize adaptive icons
+- Optimize notification icons
+- Colorize browser favicons
+- Colorize iOS icons
+- Colorize Android icons
+- Colorize Windows icons
+- Colorize macOS icons
+- Colorize PWA icons
+- Colorize app icons
+- Colorize monochrome icons
+- Colorize adaptive icons
+- Colorize notification icons
+- Export browser favicons
+- Export iOS icons
+- Export Android icons
+- Export Windows icons
+- Export macOS icons
+- Export PWA icons
+- Export app icons
+- Export monochrome icons
+- Export adaptive icons
+- Export notification icons
+
+### SVG & Vector — 100 planned tools
+
+Vector graphics creation, cleanup and conversion
+
+- Optimize SVG logos
+- Optimize SVG icons
+- Optimize line drawings
+- Optimize raster artwork
+- Optimize vector paths
+- Optimize illustrations
+- Optimize charts
+- Optimize diagrams
+- Optimize web graphics
+- Optimize print graphics
+- Trace SVG logos
+- Trace SVG icons
+- Trace line drawings
+- Trace raster artwork
+- Trace vector paths
+- Trace illustrations
+- Trace charts
+- Trace diagrams
+- Trace web graphics
+- Trace print graphics
+- Convert SVG logos
+- Convert SVG icons
+- Convert line drawings
+- Convert raster artwork
+- Convert vector paths
+- Convert illustrations
+- Convert charts
+- Convert diagrams
+- Convert web graphics
+- Convert print graphics
+- Simplify SVG logos
+- Simplify SVG icons
+- Simplify line drawings
+- Simplify raster artwork
+- Simplify vector paths
+- Simplify illustrations
+- Simplify charts
+- Simplify diagrams
+- Simplify web graphics
+- Simplify print graphics
+- Clean SVG logos
+- Clean SVG icons
+- Clean line drawings
+- Clean raster artwork
+- Clean vector paths
+- Clean illustrations
+- Clean charts
+- Clean diagrams
+- Clean web graphics
+- Clean print graphics
+- Inspect SVG logos
+- Inspect SVG icons
+- Inspect line drawings
+- Inspect raster artwork
+- Inspect vector paths
+- Inspect illustrations
+- Inspect charts
+- Inspect diagrams
+- Inspect web graphics
+- Inspect print graphics
+- Combine SVG logos
+- Combine SVG icons
+- Combine line drawings
+- Combine raster artwork
+- Combine vector paths
+- Combine illustrations
+- Combine charts
+- Combine diagrams
+- Combine web graphics
+- Combine print graphics
+- Split SVG logos
+- Split SVG icons
+- Split line drawings
+- Split raster artwork
+- Split vector paths
+- Split illustrations
+- Split charts
+- Split diagrams
+- Split web graphics
+- Split print graphics
+- Colorize SVG logos
+- Colorize SVG icons
+- Colorize line drawings
+- Colorize raster artwork
+- Colorize vector paths
+- Colorize illustrations
+- Colorize charts
+- Colorize diagrams
+- Colorize web graphics
+- Colorize print graphics
+- Export SVG logos
+- Export SVG icons
+- Export line drawings
+- Export raster artwork
+- Export vector paths
+- Export illustrations
+- Export charts
+- Export diagrams
+- Export web graphics
+- Export print graphics
+
+### Animation & GIF — 100 planned tools
+
+Animated image creation, editing and optimization
+
+- Create GIF animations
+- Create APNG animations
+- Create animated WebP
+- Create sprite sheets
+- Create reaction clips
+- Create product demos
+- Create tutorial loops
+- Create sticker animations
+- Create banner animations
+- Create frame sequences
+- Convert GIF animations
+- Convert APNG animations
+- Convert animated WebP
+- Convert sprite sheets
+- Convert reaction clips
+- Convert product demos
+- Convert tutorial loops
+- Convert sticker animations
+- Convert banner animations
+- Convert frame sequences
+- Trim GIF animations
+- Trim APNG animations
+- Trim animated WebP
+- Trim sprite sheets
+- Trim reaction clips
+- Trim product demos
+- Trim tutorial loops
+- Trim sticker animations
+- Trim banner animations
+- Trim frame sequences
+- Loop GIF animations
+- Loop APNG animations
+- Loop animated WebP
+- Loop sprite sheets
+- Loop reaction clips
+- Loop product demos
+- Loop tutorial loops
+- Loop sticker animations
+- Loop banner animations
+- Loop frame sequences
+- Reverse GIF animations
+- Reverse APNG animations
+- Reverse animated WebP
+- Reverse sprite sheets
+- Reverse reaction clips
+- Reverse product demos
+- Reverse tutorial loops
+- Reverse sticker animations
+- Reverse banner animations
+- Reverse frame sequences
+- Resize GIF animations
+- Resize APNG animations
+- Resize animated WebP
+- Resize sprite sheets
+- Resize reaction clips
+- Resize product demos
+- Resize tutorial loops
+- Resize sticker animations
+- Resize banner animations
+- Resize frame sequences
+- Compress GIF animations
+- Compress APNG animations
+- Compress animated WebP
+- Compress sprite sheets
+- Compress reaction clips
+- Compress product demos
+- Compress tutorial loops
+- Compress sticker animations
+- Compress banner animations
+- Compress frame sequences
+- Extract frames GIF animations
+- Extract frames APNG animations
+- Extract frames animated WebP
+- Extract frames sprite sheets
+- Extract frames reaction clips
+- Extract frames product demos
+- Extract frames tutorial loops
+- Extract frames sticker animations
+- Extract frames banner animations
+- Extract frames frame sequences
+- Combine frames GIF animations
+- Combine frames APNG animations
+- Combine frames animated WebP
+- Combine frames sprite sheets
+- Combine frames reaction clips
+- Combine frames product demos
+- Combine frames tutorial loops
+- Combine frames sticker animations
+- Combine frames banner animations
+- Combine frames frame sequences
+- Preview GIF animations
+- Preview APNG animations
+- Preview animated WebP
+- Preview sprite sheets
+- Preview reaction clips
+- Preview product demos
+- Preview tutorial loops
+- Preview sticker animations
+- Preview banner animations
+- Preview frame sequences
+
+### Typography & Text — 100 planned tools
+
+Text overlays, typography layouts and text extraction
+
+- Add text to photos
+- Add text to posters
+- Add text to banners
+- Add text to product labels
+- Add text to screenshots
+- Add text to scanned pages
+- Add text to memes
+- Add text to social cards
+- Add text to documents
+- Add text to thumbnails
+- Style text on photos
+- Style text on posters
+- Style text on banners
+- Style text on product labels
+- Style text on screenshots
+- Style text on scanned pages
+- Style text on memes
+- Style text on social cards
+- Style text on documents
+- Style text on thumbnails
+- Align text on photos
+- Align text on posters
+- Align text on banners
+- Align text on product labels
+- Align text on screenshots
+- Align text on scanned pages
+- Align text on memes
+- Align text on social cards
+- Align text on documents
+- Align text on thumbnails
+- Wrap text on photos
+- Wrap text on posters
+- Wrap text on banners
+- Wrap text on product labels
+- Wrap text on screenshots
+- Wrap text on scanned pages
+- Wrap text on memes
+- Wrap text on social cards
+- Wrap text on documents
+- Wrap text on thumbnails
+- Outline text on photos
+- Outline text on posters
+- Outline text on banners
+- Outline text on product labels
+- Outline text on screenshots
+- Outline text on scanned pages
+- Outline text on memes
+- Outline text on social cards
+- Outline text on documents
+- Outline text on thumbnails
+- Shadow text on photos
+- Shadow text on posters
+- Shadow text on banners
+- Shadow text on product labels
+- Shadow text on screenshots
+- Shadow text on scanned pages
+- Shadow text on memes
+- Shadow text on social cards
+- Shadow text on documents
+- Shadow text on thumbnails
+- Extract text from photos
+- Extract text from posters
+- Extract text from banners
+- Extract text from product labels
+- Extract text from screenshots
+- Extract text from scanned pages
+- Extract text from memes
+- Extract text from social cards
+- Extract text from documents
+- Extract text from thumbnails
+- Translate text in photos
+- Translate text in posters
+- Translate text in banners
+- Translate text in product labels
+- Translate text in screenshots
+- Translate text in scanned pages
+- Translate text in memes
+- Translate text in social cards
+- Translate text in documents
+- Translate text in thumbnails
+- Detect text in photos
+- Detect text in posters
+- Detect text in banners
+- Detect text in product labels
+- Detect text in screenshots
+- Detect text in scanned pages
+- Detect text in memes
+- Detect text in social cards
+- Detect text in documents
+- Detect text in thumbnails
+- Export text from photos
+- Export text from posters
+- Export text from banners
+- Export text from product labels
+- Export text from screenshots
+- Export text from scanned pages
+- Export text from memes
+- Export text from social cards
+- Export text from documents
+- Export text from thumbnails
+
+### Watermark & Protection — 100 planned tools
+
+Ownership marks, redaction and image protection
+
+- Watermark photos
+- Watermark product images
+- Watermark documents
+- Watermark proof sheets
+- Watermark preview images
+- Watermark brand assets
+- Watermark portfolio images
+- Watermark screenshots
+- Watermark marketing graphics
+- Watermark download previews
+- Redact photos
+- Redact product images
+- Redact documents
+- Redact proof sheets
+- Redact preview images
+- Redact brand assets
+- Redact portfolio images
+- Redact screenshots
+- Redact marketing graphics
+- Redact download previews
+- Mask photos
+- Mask product images
+- Mask documents
+- Mask proof sheets
+- Mask preview images
+- Mask brand assets
+- Mask portfolio images
+- Mask screenshots
+- Mask marketing graphics
+- Mask download previews
+- Stamp photos
+- Stamp product images
+- Stamp documents
+- Stamp proof sheets
+- Stamp preview images
+- Stamp brand assets
+- Stamp portfolio images
+- Stamp screenshots
+- Stamp marketing graphics
+- Stamp download previews
+- Fingerprint photos
+- Fingerprint product images
+- Fingerprint documents
+- Fingerprint proof sheets
+- Fingerprint preview images
+- Fingerprint brand assets
+- Fingerprint portfolio images
+- Fingerprint screenshots
+- Fingerprint marketing graphics
+- Fingerprint download previews
+- Track photos
+- Track product images
+- Track documents
+- Track proof sheets
+- Track preview images
+- Track brand assets
+- Track portfolio images
+- Track screenshots
+- Track marketing graphics
+- Track download previews
+- Protect photos
+- Protect product images
+- Protect documents
+- Protect proof sheets
+- Protect preview images
+- Protect brand assets
+- Protect portfolio images
+- Protect screenshots
+- Protect marketing graphics
+- Protect download previews
+- Obscure photos
+- Obscure product images
+- Obscure documents
+- Obscure proof sheets
+- Obscure preview images
+- Obscure brand assets
+- Obscure portfolio images
+- Obscure screenshots
+- Obscure marketing graphics
+- Obscure download previews
+- Label photos
+- Label product images
+- Label documents
+- Label proof sheets
+- Label preview images
+- Label brand assets
+- Label portfolio images
+- Label screenshots
+- Label marketing graphics
+- Label download previews
+- Audit photos
+- Audit product images
+- Audit documents
+- Audit proof sheets
+- Audit preview images
+- Audit brand assets
+- Audit portfolio images
+- Audit screenshots
+- Audit marketing graphics
+- Audit download previews
+
+### Metadata & Privacy — 100 planned tools
+
+Image metadata inspection, cleanup and privacy checks
+
+- Inspect EXIF metadata
+- Inspect GPS coordinates
+- Inspect camera details
+- Inspect IPTC fields
+- Inspect XMP fields
+- Inspect ICC profiles
+- Inspect timestamps
+- Inspect copyright fields
+- Inspect embedded thumbnails
+- Inspect file properties
+- Remove EXIF metadata
+- Remove GPS coordinates
+- Remove camera details
+- Remove IPTC fields
+- Remove XMP fields
+- Remove ICC profiles
+- Remove timestamps
+- Remove copyright fields
+- Remove embedded thumbnails
+- Remove file properties
+- Edit EXIF metadata
+- Edit GPS coordinates
+- Edit camera details
+- Edit IPTC fields
+- Edit XMP fields
+- Edit ICC profiles
+- Edit timestamps
+- Edit copyright fields
+- Edit embedded thumbnails
+- Edit file properties
+- Export EXIF metadata
+- Export GPS coordinates
+- Export camera details
+- Export IPTC fields
+- Export XMP fields
+- Export ICC profiles
+- Export timestamps
+- Export copyright fields
+- Export embedded thumbnails
+- Export file properties
+- Compare EXIF metadata
+- Compare GPS coordinates
+- Compare camera details
+- Compare IPTC fields
+- Compare XMP fields
+- Compare ICC profiles
+- Compare timestamps
+- Compare copyright fields
+- Compare embedded thumbnails
+- Compare file properties
+- Validate EXIF metadata
+- Validate GPS coordinates
+- Validate camera details
+- Validate IPTC fields
+- Validate XMP fields
+- Validate ICC profiles
+- Validate timestamps
+- Validate copyright fields
+- Validate embedded thumbnails
+- Validate file properties
+- Audit EXIF metadata
+- Audit GPS coordinates
+- Audit camera details
+- Audit IPTC fields
+- Audit XMP fields
+- Audit ICC profiles
+- Audit timestamps
+- Audit copyright fields
+- Audit embedded thumbnails
+- Audit file properties
+- Summarize EXIF metadata
+- Summarize GPS coordinates
+- Summarize camera details
+- Summarize IPTC fields
+- Summarize XMP fields
+- Summarize ICC profiles
+- Summarize timestamps
+- Summarize copyright fields
+- Summarize embedded thumbnails
+- Summarize file properties
+- Batch clean EXIF metadata
+- Batch clean GPS coordinates
+- Batch clean camera details
+- Batch clean IPTC fields
+- Batch clean XMP fields
+- Batch clean ICC profiles
+- Batch clean timestamps
+- Batch clean copyright fields
+- Batch clean embedded thumbnails
+- Batch clean file properties
+- Report EXIF metadata
+- Report GPS coordinates
+- Report camera details
+- Report IPTC fields
+- Report XMP fields
+- Report ICC profiles
+- Report timestamps
+- Report copyright fields
+- Report embedded thumbnails
+- Report file properties
+
+### Image Analysis — 100 planned tools
+
+Image properties, quality metrics and visual inspection
+
+- Analyze dimensions
+- Analyze aspect ratios
+- Analyze dominant colors
+- Analyze histograms
+- Analyze sharpness
+- Analyze noise levels
+- Analyze file signatures
+- Analyze transparency
+- Analyze color profiles
+- Analyze visual similarity
+- Measure dimensions
+- Measure aspect ratios
+- Measure dominant colors
+- Measure histograms
+- Measure sharpness
+- Measure noise levels
+- Measure file signatures
+- Measure transparency
+- Measure color profiles
+- Measure visual similarity
+- Detect dimensions
+- Detect aspect ratios
+- Detect dominant colors
+- Detect histograms
+- Detect sharpness
+- Detect noise levels
+- Detect file signatures
+- Detect transparency
+- Detect color profiles
+- Detect visual similarity
+- Compare dimensions
+- Compare aspect ratios
+- Compare dominant colors
+- Compare histograms
+- Compare sharpness
+- Compare noise levels
+- Compare file signatures
+- Compare transparency
+- Compare color profiles
+- Compare visual similarity
+- Score dimensions
+- Score aspect ratios
+- Score dominant colors
+- Score histograms
+- Score sharpness
+- Score noise levels
+- Score file signatures
+- Score transparency
+- Score color profiles
+- Score visual similarity
+- Inspect dimensions
+- Inspect aspect ratios
+- Inspect dominant colors
+- Inspect histograms
+- Inspect sharpness
+- Inspect noise levels
+- Inspect file signatures
+- Inspect transparency
+- Inspect color profiles
+- Inspect visual similarity
+- Profile dimensions
+- Profile aspect ratios
+- Profile dominant colors
+- Profile histograms
+- Profile sharpness
+- Profile noise levels
+- Profile file signatures
+- Profile transparency
+- Profile color profiles
+- Profile visual similarity
+- Summarize dimensions
+- Summarize aspect ratios
+- Summarize dominant colors
+- Summarize histograms
+- Summarize sharpness
+- Summarize noise levels
+- Summarize file signatures
+- Summarize transparency
+- Summarize color profiles
+- Summarize visual similarity
+- Validate dimensions
+- Validate aspect ratios
+- Validate dominant colors
+- Validate histograms
+- Validate sharpness
+- Validate noise levels
+- Validate file signatures
+- Validate transparency
+- Validate color profiles
+- Validate visual similarity
+- Report dimensions
+- Report aspect ratios
+- Report dominant colors
+- Report histograms
+- Report sharpness
+- Report noise levels
+- Report file signatures
+- Report transparency
+- Report color profiles
+- Report visual similarity
+
+### Batch Processing — 100 planned tools
+
+Multi-file workflows and repeatable image operations
+
+- Batch resize JPG collections
+- Batch resize PNG collections
+- Batch resize WebP collections
+- Batch resize product catalogs
+- Batch resize photo folders
+- Batch resize design exports
+- Batch resize screenshots
+- Batch resize icon libraries
+- Batch resize social assets
+- Batch resize archive folders
+- Batch convert JPG collections
+- Batch convert PNG collections
+- Batch convert WebP collections
+- Batch convert product catalogs
+- Batch convert photo folders
+- Batch convert design exports
+- Batch convert screenshots
+- Batch convert icon libraries
+- Batch convert social assets
+- Batch convert archive folders
+- Batch rename JPG collections
+- Batch rename PNG collections
+- Batch rename WebP collections
+- Batch rename product catalogs
+- Batch rename photo folders
+- Batch rename design exports
+- Batch rename screenshots
+- Batch rename icon libraries
+- Batch rename social assets
+- Batch rename archive folders
+- Batch compress JPG collections
+- Batch compress PNG collections
+- Batch compress WebP collections
+- Batch compress product catalogs
+- Batch compress photo folders
+- Batch compress design exports
+- Batch compress screenshots
+- Batch compress icon libraries
+- Batch compress social assets
+- Batch compress archive folders
+- Batch watermark JPG collections
+- Batch watermark PNG collections
+- Batch watermark WebP collections
+- Batch watermark product catalogs
+- Batch watermark photo folders
+- Batch watermark design exports
+- Batch watermark screenshots
+- Batch watermark icon libraries
+- Batch watermark social assets
+- Batch watermark archive folders
+- Batch crop JPG collections
+- Batch crop PNG collections
+- Batch crop WebP collections
+- Batch crop product catalogs
+- Batch crop photo folders
+- Batch crop design exports
+- Batch crop screenshots
+- Batch crop icon libraries
+- Batch crop social assets
+- Batch crop archive folders
+- Batch optimize JPG collections
+- Batch optimize PNG collections
+- Batch optimize WebP collections
+- Batch optimize product catalogs
+- Batch optimize photo folders
+- Batch optimize design exports
+- Batch optimize screenshots
+- Batch optimize icon libraries
+- Batch optimize social assets
+- Batch optimize archive folders
+- Batch export JPG collections
+- Batch export PNG collections
+- Batch export WebP collections
+- Batch export product catalogs
+- Batch export photo folders
+- Batch export design exports
+- Batch export screenshots
+- Batch export icon libraries
+- Batch export social assets
+- Batch export archive folders
+- Batch inspect JPG collections
+- Batch inspect PNG collections
+- Batch inspect WebP collections
+- Batch inspect product catalogs
+- Batch inspect photo folders
+- Batch inspect design exports
+- Batch inspect screenshots
+- Batch inspect icon libraries
+- Batch inspect social assets
+- Batch inspect archive folders
+- Batch package JPG collections
+- Batch package PNG collections
+- Batch package WebP collections
+- Batch package product catalogs
+- Batch package photo folders
+- Batch package design exports
+- Batch package screenshots
+- Batch package icon libraries
+- Batch package social assets
+- Batch package archive folders
+
+### E-commerce Product Images — 100 planned tools
+
+Product photography, catalog images and marketplace assets
+
+- Prepare marketplace listings
+- Prepare catalog photos
+- Prepare white-background products
+- Prepare fashion products
+- Prepare electronics
+- Prepare furniture
+- Prepare jewelry
+- Prepare food products
+- Prepare variant photos
+- Prepare product galleries
+- Resize marketplace listings
+- Resize catalog photos
+- Resize white-background products
+- Resize fashion products
+- Resize electronics
+- Resize furniture
+- Resize jewelry
+- Resize food products
+- Resize variant photos
+- Resize product galleries
+- Crop marketplace listings
+- Crop catalog photos
+- Crop white-background products
+- Crop fashion products
+- Crop electronics
+- Crop furniture
+- Crop jewelry
+- Crop food products
+- Crop variant photos
+- Crop product galleries
+- Normalize marketplace listings
+- Normalize catalog photos
+- Normalize white-background products
+- Normalize fashion products
+- Normalize electronics
+- Normalize furniture
+- Normalize jewelry
+- Normalize food products
+- Normalize variant photos
+- Normalize product galleries
+- Enhance marketplace listings
+- Enhance catalog photos
+- Enhance white-background products
+- Enhance fashion products
+- Enhance electronics
+- Enhance furniture
+- Enhance jewelry
+- Enhance food products
+- Enhance variant photos
+- Enhance product galleries
+- Shadow marketplace listings
+- Shadow catalog photos
+- Shadow white-background products
+- Shadow fashion products
+- Shadow electronics
+- Shadow furniture
+- Shadow jewelry
+- Shadow food products
+- Shadow variant photos
+- Shadow product galleries
+- Background marketplace listings
+- Background catalog photos
+- Background white-background products
+- Background fashion products
+- Background electronics
+- Background furniture
+- Background jewelry
+- Background food products
+- Background variant photos
+- Background product galleries
+- Watermark marketplace listings
+- Watermark catalog photos
+- Watermark white-background products
+- Watermark fashion products
+- Watermark electronics
+- Watermark furniture
+- Watermark jewelry
+- Watermark food products
+- Watermark variant photos
+- Watermark product galleries
+- Package marketplace listings
+- Package catalog photos
+- Package white-background products
+- Package fashion products
+- Package electronics
+- Package furniture
+- Package jewelry
+- Package food products
+- Package variant photos
+- Package product galleries
+- Validate marketplace listings
+- Validate catalog photos
+- Validate white-background products
+- Validate fashion products
+- Validate electronics
+- Validate furniture
+- Validate jewelry
+- Validate food products
+- Validate variant photos
+- Validate product galleries
+
+### Print & Documents — 100 planned tools
+
+Print-ready artwork, page layouts and document images
+
+- Prepare A4 pages
+- Prepare A3 posters
+- Prepare business cards
+- Prepare brochures
+- Prepare labels
+- Prepare stickers
+- Prepare photo prints
+- Prepare book covers
+- Prepare flyers
+- Prepare large-format posters
+- Bleed-check A4 pages
+- Bleed-check A3 posters
+- Bleed-check business cards
+- Bleed-check brochures
+- Bleed-check labels
+- Bleed-check stickers
+- Bleed-check photo prints
+- Bleed-check book covers
+- Bleed-check flyers
+- Bleed-check large-format posters
+- DPI-check A4 pages
+- DPI-check A3 posters
+- DPI-check business cards
+- DPI-check brochures
+- DPI-check labels
+- DPI-check stickers
+- DPI-check photo prints
+- DPI-check book covers
+- DPI-check flyers
+- DPI-check large-format posters
+- Crop A4 pages
+- Crop A3 posters
+- Crop business cards
+- Crop brochures
+- Crop labels
+- Crop stickers
+- Crop photo prints
+- Crop book covers
+- Crop flyers
+- Crop large-format posters
+- Tile A4 pages
+- Tile A3 posters
+- Tile business cards
+- Tile brochures
+- Tile labels
+- Tile stickers
+- Tile photo prints
+- Tile book covers
+- Tile flyers
+- Tile large-format posters
+- Impose A4 pages
+- Impose A3 posters
+- Impose business cards
+- Impose brochures
+- Impose labels
+- Impose stickers
+- Impose photo prints
+- Impose book covers
+- Impose flyers
+- Impose large-format posters
+- Convert A4 pages
+- Convert A3 posters
+- Convert business cards
+- Convert brochures
+- Convert labels
+- Convert stickers
+- Convert photo prints
+- Convert book covers
+- Convert flyers
+- Convert large-format posters
+- Proof A4 pages
+- Proof A3 posters
+- Proof business cards
+- Proof brochures
+- Proof labels
+- Proof stickers
+- Proof photo prints
+- Proof book covers
+- Proof flyers
+- Proof large-format posters
+- Annotate A4 pages
+- Annotate A3 posters
+- Annotate business cards
+- Annotate brochures
+- Annotate labels
+- Annotate stickers
+- Annotate photo prints
+- Annotate book covers
+- Annotate flyers
+- Annotate large-format posters
+- Export A4 pages
+- Export A3 posters
+- Export business cards
+- Export brochures
+- Export labels
+- Export stickers
+- Export photo prints
+- Export book covers
+- Export flyers
+- Export large-format posters
+
+### Web Optimization — 100 planned tools
+
+Fast-loading web image assets and delivery preparation
+
+- Optimize hero images
+- Optimize article images
+- Optimize thumbnails
+- Optimize responsive breakpoints
+- Optimize retina displays
+- Optimize background images
+- Optimize Open Graph cards
+- Optimize web galleries
+- Optimize landing pages
+- Optimize content libraries
+- Generate hero images
+- Generate article images
+- Generate thumbnails
+- Generate responsive breakpoints
+- Generate retina displays
+- Generate background images
+- Generate Open Graph cards
+- Generate web galleries
+- Generate landing pages
+- Generate content libraries
+- Resize hero images
+- Resize article images
+- Resize thumbnails
+- Resize responsive breakpoints
+- Resize retina displays
+- Resize background images
+- Resize Open Graph cards
+- Resize web galleries
+- Resize landing pages
+- Resize content libraries
+- Compress hero images
+- Compress article images
+- Compress thumbnails
+- Compress responsive breakpoints
+- Compress retina displays
+- Compress background images
+- Compress Open Graph cards
+- Compress web galleries
+- Compress landing pages
+- Compress content libraries
+- Convert hero images
+- Convert article images
+- Convert thumbnails
+- Convert responsive breakpoints
+- Convert retina displays
+- Convert background images
+- Convert Open Graph cards
+- Convert web galleries
+- Convert landing pages
+- Convert content libraries
+- Prepare lazy-load assets for hero images
+- Prepare lazy-load assets for article images
+- Prepare lazy-load assets for thumbnails
+- Prepare lazy-load assets for responsive breakpoints
+- Prepare lazy-load assets for retina displays
+- Prepare lazy-load assets for background images
+- Prepare lazy-load assets for Open Graph cards
+- Prepare lazy-load assets for web galleries
+- Prepare lazy-load assets for landing pages
+- Prepare lazy-load assets for content libraries
+- Create placeholders for hero images
+- Create placeholders for article images
+- Create placeholders for thumbnails
+- Create placeholders for responsive breakpoints
+- Create placeholders for retina displays
+- Create placeholders for background images
+- Create placeholders for Open Graph cards
+- Create placeholders for web galleries
+- Create placeholders for landing pages
+- Create placeholders for content libraries
+- Audit hero images
+- Audit article images
+- Audit thumbnails
+- Audit responsive breakpoints
+- Audit retina displays
+- Audit background images
+- Audit Open Graph cards
+- Audit web galleries
+- Audit landing pages
+- Audit content libraries
+- Package hero images
+- Package article images
+- Package thumbnails
+- Package responsive breakpoints
+- Package retina displays
+- Package background images
+- Package Open Graph cards
+- Package web galleries
+- Package landing pages
+- Package content libraries
+- Preview hero images
+- Preview article images
+- Preview thumbnails
+- Preview responsive breakpoints
+- Preview retina displays
+- Preview background images
+- Preview Open Graph cards
+- Preview web galleries
+- Preview landing pages
+- Preview content libraries
+
+### Accessibility — 100 planned tools
+
+Accessible graphics, contrast and alternative descriptions
+
+- Check contrast for web images
+- Check contrast for infographics
+- Check contrast for charts
+- Check contrast for diagrams
+- Check contrast for icons
+- Check contrast for text overlays
+- Check contrast for product graphics
+- Check contrast for social posts
+- Check contrast for presentations
+- Check contrast for UI screenshots
+- Generate alt text for web images
+- Generate alt text for infographics
+- Generate alt text for charts
+- Generate alt text for diagrams
+- Generate alt text for icons
+- Generate alt text for text overlays
+- Generate alt text for product graphics
+- Generate alt text for social posts
+- Generate alt text for presentations
+- Generate alt text for UI screenshots
+- Review readability of web images
+- Review readability of infographics
+- Review readability of charts
+- Review readability of diagrams
+- Review readability of icons
+- Review readability of text overlays
+- Review readability of product graphics
+- Review readability of social posts
+- Review readability of presentations
+- Review readability of UI screenshots
+- Simulate color vision for web images
+- Simulate color vision for infographics
+- Simulate color vision for charts
+- Simulate color vision for diagrams
+- Simulate color vision for icons
+- Simulate color vision for text overlays
+- Simulate color vision for product graphics
+- Simulate color vision for social posts
+- Simulate color vision for presentations
+- Simulate color vision for UI screenshots
+- Add labels to web images
+- Add labels to infographics
+- Add labels to charts
+- Add labels to diagrams
+- Add labels to icons
+- Add labels to text overlays
+- Add labels to product graphics
+- Add labels to social posts
+- Add labels to presentations
+- Add labels to UI screenshots
+- Inspect text in web images
+- Inspect text in infographics
+- Inspect text in charts
+- Inspect text in diagrams
+- Inspect text in icons
+- Inspect text in text overlays
+- Inspect text in product graphics
+- Inspect text in social posts
+- Inspect text in presentations
+- Inspect text in UI screenshots
+- Create accessible palettes for web images
+- Create accessible palettes for infographics
+- Create accessible palettes for charts
+- Create accessible palettes for diagrams
+- Create accessible palettes for icons
+- Create accessible palettes for text overlays
+- Create accessible palettes for product graphics
+- Create accessible palettes for social posts
+- Create accessible palettes for presentations
+- Create accessible palettes for UI screenshots
+- Audit focus visuals in web images
+- Audit focus visuals in infographics
+- Audit focus visuals in charts
+- Audit focus visuals in diagrams
+- Audit focus visuals in icons
+- Audit focus visuals in text overlays
+- Audit focus visuals in product graphics
+- Audit focus visuals in social posts
+- Audit focus visuals in presentations
+- Audit focus visuals in UI screenshots
+- Describe web images
+- Describe infographics
+- Describe charts
+- Describe diagrams
+- Describe icons
+- Describe text overlays
+- Describe product graphics
+- Describe social posts
+- Describe presentations
+- Describe UI screenshots
+- Validate web images
+- Validate infographics
+- Validate charts
+- Validate diagrams
+- Validate icons
+- Validate text overlays
+- Validate product graphics
+- Validate social posts
+- Validate presentations
+- Validate UI screenshots
+
+### QR & Barcode — 100 planned tools
+
+QR codes, barcodes and scannable visual assets
+
+- Generate URL QR codes
+- Generate Wi-Fi QR codes
+- Generate contact QR codes
+- Generate email QR codes
+- Generate SMS QR codes
+- Generate product barcodes
+- Generate EAN codes
+- Generate UPC codes
+- Generate Code 128 labels
+- Generate event QR passes
+- Decode URL QR codes
+- Decode Wi-Fi QR codes
+- Decode contact QR codes
+- Decode email QR codes
+- Decode SMS QR codes
+- Decode product barcodes
+- Decode EAN codes
+- Decode UPC codes
+- Decode Code 128 labels
+- Decode event QR passes
+- Style URL QR codes
+- Style Wi-Fi QR codes
+- Style contact QR codes
+- Style email QR codes
+- Style SMS QR codes
+- Style product barcodes
+- Style EAN codes
+- Style UPC codes
+- Style Code 128 labels
+- Style event QR passes
+- Validate URL QR codes
+- Validate Wi-Fi QR codes
+- Validate contact QR codes
+- Validate email QR codes
+- Validate SMS QR codes
+- Validate product barcodes
+- Validate EAN codes
+- Validate UPC codes
+- Validate Code 128 labels
+- Validate event QR passes
+- Batch create URL QR codes
+- Batch create Wi-Fi QR codes
+- Batch create contact QR codes
+- Batch create email QR codes
+- Batch create SMS QR codes
+- Batch create product barcodes
+- Batch create EAN codes
+- Batch create UPC codes
+- Batch create Code 128 labels
+- Batch create event QR passes
+- Add logo to URL QR codes
+- Add logo to Wi-Fi QR codes
+- Add logo to contact QR codes
+- Add logo to email QR codes
+- Add logo to SMS QR codes
+- Add logo to product barcodes
+- Add logo to EAN codes
+- Add logo to UPC codes
+- Add logo to Code 128 labels
+- Add logo to event QR passes
+- Export URL QR codes
+- Export Wi-Fi QR codes
+- Export contact QR codes
+- Export email QR codes
+- Export SMS QR codes
+- Export product barcodes
+- Export EAN codes
+- Export UPC codes
+- Export Code 128 labels
+- Export event QR passes
+- Print URL QR codes
+- Print Wi-Fi QR codes
+- Print contact QR codes
+- Print email QR codes
+- Print SMS QR codes
+- Print product barcodes
+- Print EAN codes
+- Print UPC codes
+- Print Code 128 labels
+- Print event QR passes
+- Inspect URL QR codes
+- Inspect Wi-Fi QR codes
+- Inspect contact QR codes
+- Inspect email QR codes
+- Inspect SMS QR codes
+- Inspect product barcodes
+- Inspect EAN codes
+- Inspect UPC codes
+- Inspect Code 128 labels
+- Inspect event QR passes
+- Compose URL QR codes
+- Compose Wi-Fi QR codes
+- Compose contact QR codes
+- Compose email QR codes
+- Compose SMS QR codes
+- Compose product barcodes
+- Compose EAN codes
+- Compose UPC codes
+- Compose Code 128 labels
+- Compose event QR passes
+
+### Mockups & Templates — 100 planned tools
+
+Reusable mockups, layouts and creative templates
+
+- Create device mockups
+- Create laptop mockups
+- Create phone mockups
+- Create tablet mockups
+- Create poster templates
+- Create book covers
+- Create packaging mockups
+- Create app screens
+- Create website previews
+- Create social templates
+- Customize device mockups
+- Customize laptop mockups
+- Customize phone mockups
+- Customize tablet mockups
+- Customize poster templates
+- Customize book covers
+- Customize packaging mockups
+- Customize app screens
+- Customize website previews
+- Customize social templates
+- Preview device mockups
+- Preview laptop mockups
+- Preview phone mockups
+- Preview tablet mockups
+- Preview poster templates
+- Preview book covers
+- Preview packaging mockups
+- Preview app screens
+- Preview website previews
+- Preview social templates
+- Render device mockups
+- Render laptop mockups
+- Render phone mockups
+- Render tablet mockups
+- Render poster templates
+- Render book covers
+- Render packaging mockups
+- Render app screens
+- Render website previews
+- Render social templates
+- Export device mockups
+- Export laptop mockups
+- Export phone mockups
+- Export tablet mockups
+- Export poster templates
+- Export book covers
+- Export packaging mockups
+- Export app screens
+- Export website previews
+- Export social templates
+- Resize device mockups
+- Resize laptop mockups
+- Resize phone mockups
+- Resize tablet mockups
+- Resize poster templates
+- Resize book covers
+- Resize packaging mockups
+- Resize app screens
+- Resize website previews
+- Resize social templates
+- Brand device mockups
+- Brand laptop mockups
+- Brand phone mockups
+- Brand tablet mockups
+- Brand poster templates
+- Brand book covers
+- Brand packaging mockups
+- Brand app screens
+- Brand website previews
+- Brand social templates
+- Arrange device mockups
+- Arrange laptop mockups
+- Arrange phone mockups
+- Arrange tablet mockups
+- Arrange poster templates
+- Arrange book covers
+- Arrange packaging mockups
+- Arrange app screens
+- Arrange website previews
+- Arrange social templates
+- Annotate device mockups
+- Annotate laptop mockups
+- Annotate phone mockups
+- Annotate tablet mockups
+- Annotate poster templates
+- Annotate book covers
+- Annotate packaging mockups
+- Annotate app screens
+- Annotate website previews
+- Annotate social templates
+- Package device mockups
+- Package laptop mockups
+- Package phone mockups
+- Package tablet mockups
+- Package poster templates
+- Package book covers
+- Package packaging mockups
+- Package app screens
+- Package website previews
+- Package social templates
+
+### Background & Removal — 100 planned tools
+
+Background editing, masking and subject isolation
+
+- Remove photo backgrounds
+- Remove product backgrounds
+- Remove portrait backgrounds
+- Remove transparent backgrounds
+- Remove studio scenes
+- Remove gradient backgrounds
+- Remove solid backgrounds
+- Remove outdoor scenes
+- Remove profile photos
+- Remove catalog images
+- Replace photo backgrounds
+- Replace product backgrounds
+- Replace portrait backgrounds
+- Replace transparent backgrounds
+- Replace studio scenes
+- Replace gradient backgrounds
+- Replace solid backgrounds
+- Replace outdoor scenes
+- Replace profile photos
+- Replace catalog images
+- Blur photo backgrounds
+- Blur product backgrounds
+- Blur portrait backgrounds
+- Blur transparent backgrounds
+- Blur studio scenes
+- Blur gradient backgrounds
+- Blur solid backgrounds
+- Blur outdoor scenes
+- Blur profile photos
+- Blur catalog images
+- Extend photo backgrounds
+- Extend product backgrounds
+- Extend portrait backgrounds
+- Extend transparent backgrounds
+- Extend studio scenes
+- Extend gradient backgrounds
+- Extend solid backgrounds
+- Extend outdoor scenes
+- Extend profile photos
+- Extend catalog images
+- Colorize photo backgrounds
+- Colorize product backgrounds
+- Colorize portrait backgrounds
+- Colorize transparent backgrounds
+- Colorize studio scenes
+- Colorize gradient backgrounds
+- Colorize solid backgrounds
+- Colorize outdoor scenes
+- Colorize profile photos
+- Colorize catalog images
+- Mask photo backgrounds
+- Mask product backgrounds
+- Mask portrait backgrounds
+- Mask transparent backgrounds
+- Mask studio scenes
+- Mask gradient backgrounds
+- Mask solid backgrounds
+- Mask outdoor scenes
+- Mask profile photos
+- Mask catalog images
+- Feather photo backgrounds
+- Feather product backgrounds
+- Feather portrait backgrounds
+- Feather transparent backgrounds
+- Feather studio scenes
+- Feather gradient backgrounds
+- Feather solid backgrounds
+- Feather outdoor scenes
+- Feather profile photos
+- Feather catalog images
+- Refine photo backgrounds
+- Refine product backgrounds
+- Refine portrait backgrounds
+- Refine transparent backgrounds
+- Refine studio scenes
+- Refine gradient backgrounds
+- Refine solid backgrounds
+- Refine outdoor scenes
+- Refine profile photos
+- Refine catalog images
+- Preview photo backgrounds
+- Preview product backgrounds
+- Preview portrait backgrounds
+- Preview transparent backgrounds
+- Preview studio scenes
+- Preview gradient backgrounds
+- Preview solid backgrounds
+- Preview outdoor scenes
+- Preview profile photos
+- Preview catalog images
+- Export photo backgrounds
+- Export product backgrounds
+- Export portrait backgrounds
+- Export transparent backgrounds
+- Export studio scenes
+- Export gradient backgrounds
+- Export solid backgrounds
+- Export outdoor scenes
+- Export profile photos
+- Export catalog images
+
+### Image Effects & Filters — 100 planned tools
+
+Creative effects, filters and visual treatments
+
+- Apply vintage effects
+- Apply film effects
+- Apply duotone effects
+- Apply grain effects
+- Apply glow effects
+- Apply vignette effects
+- Apply halftone effects
+- Apply pixel effects
+- Apply sketch effects
+- Apply cinematic looks
+- Blend vintage effects
+- Blend film effects
+- Blend duotone effects
+- Blend grain effects
+- Blend glow effects
+- Blend vignette effects
+- Blend halftone effects
+- Blend pixel effects
+- Blend sketch effects
+- Blend cinematic looks
+- Layer vintage effects
+- Layer film effects
+- Layer duotone effects
+- Layer grain effects
+- Layer glow effects
+- Layer vignette effects
+- Layer halftone effects
+- Layer pixel effects
+- Layer sketch effects
+- Layer cinematic looks
+- Distort vintage effects
+- Distort film effects
+- Distort duotone effects
+- Distort grain effects
+- Distort glow effects
+- Distort vignette effects
+- Distort halftone effects
+- Distort pixel effects
+- Distort sketch effects
+- Distort cinematic looks
+- Stylize vintage effects
+- Stylize film effects
+- Stylize duotone effects
+- Stylize grain effects
+- Stylize glow effects
+- Stylize vignette effects
+- Stylize halftone effects
+- Stylize pixel effects
+- Stylize sketch effects
+- Stylize cinematic looks
+- Tone vintage effects
+- Tone film effects
+- Tone duotone effects
+- Tone grain effects
+- Tone glow effects
+- Tone vignette effects
+- Tone halftone effects
+- Tone pixel effects
+- Tone sketch effects
+- Tone cinematic looks
+- Texture vintage effects
+- Texture film effects
+- Texture duotone effects
+- Texture grain effects
+- Texture glow effects
+- Texture vignette effects
+- Texture halftone effects
+- Texture pixel effects
+- Texture sketch effects
+- Texture cinematic looks
+- Glow vintage effects
+- Glow film effects
+- Glow duotone effects
+- Glow grain effects
+- Glow glow effects
+- Glow vignette effects
+- Glow halftone effects
+- Glow pixel effects
+- Glow sketch effects
+- Glow cinematic looks
+- Vintage vintage effects
+- Vintage film effects
+- Vintage duotone effects
+- Vintage grain effects
+- Vintage glow effects
+- Vintage vignette effects
+- Vintage halftone effects
+- Vintage pixel effects
+- Vintage sketch effects
+- Vintage cinematic looks
+- Preview vintage effects
+- Preview film effects
+- Preview duotone effects
+- Preview grain effects
+- Preview glow effects
+- Preview vignette effects
+- Preview halftone effects
+- Preview pixel effects
+- Preview sketch effects
+- Preview cinematic looks
+
+### File Utilities — 100 planned tools
+
+Image file inspection, naming and archive utilities
+
+- Inspect image files
+- Inspect photo folders
+- Inspect asset libraries
+- Inspect download batches
+- Inspect camera imports
+- Inspect design exports
+- Inspect archive contents
+- Inspect duplicate sets
+- Inspect large files
+- Inspect mixed formats
+- Rename image files
+- Rename photo folders
+- Rename asset libraries
+- Rename download batches
+- Rename camera imports
+- Rename design exports
+- Rename archive contents
+- Rename duplicate sets
+- Rename large files
+- Rename mixed formats
+- Compare image files
+- Compare photo folders
+- Compare asset libraries
+- Compare download batches
+- Compare camera imports
+- Compare design exports
+- Compare archive contents
+- Compare duplicate sets
+- Compare large files
+- Compare mixed formats
+- Deduplicate image files
+- Deduplicate photo folders
+- Deduplicate asset libraries
+- Deduplicate download batches
+- Deduplicate camera imports
+- Deduplicate design exports
+- Deduplicate archive contents
+- Deduplicate duplicate sets
+- Deduplicate large files
+- Deduplicate mixed formats
+- Hash image files
+- Hash photo folders
+- Hash asset libraries
+- Hash download batches
+- Hash camera imports
+- Hash design exports
+- Hash archive contents
+- Hash duplicate sets
+- Hash large files
+- Hash mixed formats
+- Sort image files
+- Sort photo folders
+- Sort asset libraries
+- Sort download batches
+- Sort camera imports
+- Sort design exports
+- Sort archive contents
+- Sort duplicate sets
+- Sort large files
+- Sort mixed formats
+- Group image files
+- Group photo folders
+- Group asset libraries
+- Group download batches
+- Group camera imports
+- Group design exports
+- Group archive contents
+- Group duplicate sets
+- Group large files
+- Group mixed formats
+- Package image files
+- Package photo folders
+- Package asset libraries
+- Package download batches
+- Package camera imports
+- Package design exports
+- Package archive contents
+- Package duplicate sets
+- Package large files
+- Package mixed formats
+- Extract image files
+- Extract photo folders
+- Extract asset libraries
+- Extract download batches
+- Extract camera imports
+- Extract design exports
+- Extract archive contents
+- Extract duplicate sets
+- Extract large files
+- Extract mixed formats
+- Validate image files
+- Validate photo folders
+- Validate asset libraries
+- Validate download batches
+- Validate camera imports
+- Validate design exports
+- Validate archive contents
+- Validate duplicate sets
+- Validate large files
+- Validate mixed formats
+
+### Creative Assets — 100 planned tools
+
+Creative image assets for makers, teams and campaigns
+
+- Generate stickers
+- Generate avatars
+- Generate patterns
+- Generate textures
+- Generate wallpapers
+- Generate mood boards
+- Generate infographics
+- Generate event graphics
+- Generate campaign visuals
+- Generate presentation covers
+- Compose stickers
+- Compose avatars
+- Compose patterns
+- Compose textures
+- Compose wallpapers
+- Compose mood boards
+- Compose infographics
+- Compose event graphics
+- Compose campaign visuals
+- Compose presentation covers
+- Arrange stickers
+- Arrange avatars
+- Arrange patterns
+- Arrange textures
+- Arrange wallpapers
+- Arrange mood boards
+- Arrange infographics
+- Arrange event graphics
+- Arrange campaign visuals
+- Arrange presentation covers
+- Customize stickers
+- Customize avatars
+- Customize patterns
+- Customize textures
+- Customize wallpapers
+- Customize mood boards
+- Customize infographics
+- Customize event graphics
+- Customize campaign visuals
+- Customize presentation covers
+- Remix stickers
+- Remix avatars
+- Remix patterns
+- Remix textures
+- Remix wallpapers
+- Remix mood boards
+- Remix infographics
+- Remix event graphics
+- Remix campaign visuals
+- Remix presentation covers
+- Export stickers
+- Export avatars
+- Export patterns
+- Export textures
+- Export wallpapers
+- Export mood boards
+- Export infographics
+- Export event graphics
+- Export campaign visuals
+- Export presentation covers
+- Preview stickers
+- Preview avatars
+- Preview patterns
+- Preview textures
+- Preview wallpapers
+- Preview mood boards
+- Preview infographics
+- Preview event graphics
+- Preview campaign visuals
+- Preview presentation covers
+- Brand stickers
+- Brand avatars
+- Brand patterns
+- Brand textures
+- Brand wallpapers
+- Brand mood boards
+- Brand infographics
+- Brand event graphics
+- Brand campaign visuals
+- Brand presentation covers
+- Package stickers
+- Package avatars
+- Package patterns
+- Package textures
+- Package wallpapers
+- Package mood boards
+- Package infographics
+- Package event graphics
+- Package campaign visuals
+- Package presentation covers
+- Adapt stickers
+- Adapt avatars
+- Adapt patterns
+- Adapt textures
+- Adapt wallpapers
+- Adapt mood boards
+- Adapt infographics
+- Adapt event graphics
+- Adapt campaign visuals
+- Adapt presentation covers
+
+## Implementation and release gates
+
+- [ ] Prioritize and implement tools in small, independently tested batches.
+- [ ] Each tool must have a real workflow, not just a catalogue card or placeholder.
+- [ ] Define accepted input types, output types, size/pixel limits, browser support and error handling.
+- [ ] Prefer local browser processing. Any cloud processing, third-party API, analytics, account, upload or storage flow requires privacy/security review and updated public disclosures before activation.
+- [ ] Add unit tests for transformations, boundary cases and malformed inputs.
+- [ ] Add UI tests for upload/input, controls, validation, preview, errors and downloads.
+- [ ] Independently verify downloaded file signatures, dimensions, transparency, metadata and output correctness.
+- [ ] Add accessible controls, keyboard support, mobile layouts and physical-device QA.
+- [ ] Add dedicated SEO pages and sitemap entries only after each tool is implemented and tested.
+- [ ] Do not enable Coming Soon entries until QA and release gates pass.
+
+## Security-sensitive groups
+
+PDF parsing, SVG sanitization, remote URL inspection, QR/barcode decoding, AI inference, OCR, metadata handling and batch archive extraction require dedicated threat modelling and dependency review. Remote URL tools must not create an unrestricted server-side fetch/proxy or bypass browser same-origin protections.
