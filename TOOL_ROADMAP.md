@@ -2,7 +2,7 @@
 
 **Catalogue target:** 30 categories × 100 entries = **3,000 planned tools**.
 
-**Important status:** All 3,000 entries are disabled and marked Coming Soon. They are catalogue/roadmap ideas, not implemented functionality. The existing 14 working image tools remain separate. AI Background Remover and AI Upscaler remain Coming Soon.
+**Important status:** All 3,000 entries are disabled and marked Coming Soon. They are catalogue/roadmap ideas, not implemented functionality. The Batch Image Converter and Image to PDF are separate working tools in the Batch Processing and PDF categories respectively. The existing 16 working browser-based tools remain separate from the planned catalogue, including the Batch Image Converter and Image to PDF. AI Background Remover and AI Upscaler remain Coming Soon.
 
 ## Category overview
 

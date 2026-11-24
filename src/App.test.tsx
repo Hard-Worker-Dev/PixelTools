@@ -11,6 +11,12 @@ afterEach(() => {
   window.history.replaceState({}, "", "/");
 });
 
+function getToolCard(title: string): HTMLButtonElement {
+  const card = Array.from(document.querySelectorAll<HTMLButtonElement>(".tool-card")).find(item => item.querySelector("h3")?.textContent === title);
+  if (!card) throw new Error("Tool card not found: " + title);
+  return card;
+}
+
 describe("PixelTools ease-of-use workflows", () => {
   it("lets a visitor search for an image tool", async () => {
     const user = userEvent.setup();
@@ -60,7 +66,7 @@ describe("PixelTools ease-of-use workflows", () => {
       "Image Metadata Viewer", "Image to Base64", "Image Metadata Cleaner"
     ];
     for (const title of titles) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
+      fireEvent.click(getToolCard(title));
       expect(screen.getByRole("dialog", { name: title })).toBeTruthy();
       expect(screen.getByText(/Drop your image here/i)).toBeTruthy();
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
@@ -238,7 +244,7 @@ describe("PixelTools ease-of-use workflows", () => {
       "Image Metadata Viewer", "Image to Base64", "Image Metadata Cleaner"
     ];
     for (const title of titles) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
+      fireEvent.click(getToolCard(title));
       const fileInput = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
       fireEvent.change(fileInput as HTMLInputElement, { target: { files: [image] } });
       await screen.findByAltText("Selected image preview");
@@ -329,7 +335,7 @@ describe("PixelTools ease-of-use workflows", () => {
 
     const { container } = render(<App />);
     for (const name of toolNames) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(name) }));
+      fireEvent.click(getToolCard(name));
       const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
       expect(upload, name + " should provide an image input").toBeTruthy();
       fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
@@ -438,7 +444,7 @@ describe("PixelTools ease-of-use workflows", () => {
     view.setUint32(20, 480, false);
     const source = new File([buffer], "source.png", { type: "image/png" });
     const { container } = render(<App />);
-    fireEvent.click(screen.getByRole("button", { name: /Image Converter/ }));
+    fireEvent.click(getToolCard("Image Converter"));
     const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
     fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
     await screen.findByAltText("Selected image preview");
@@ -451,4 +457,23 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(createdBlobs.at(-1)?.size).toBeGreaterThan(0);
   }, 20000);
 
+
+  it("opens the local batch image converter workspace", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /Batch Image Converter/ }));
+    expect(screen.getByRole("dialog", { name: "Batch Image Converter" })).toBeTruthy();
+    expect(screen.getByText(/Process a whole image set in one go/)).toBeTruthy();
+    expect(screen.getByText(/Up to 30 files/)).toBeTruthy();
+  });
+
+  it("opens the working Image to PDF tool from the PDF category", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.selectOptions(screen.getByLabelText("Browse category"), "pdf");
+    await user.click(screen.getByRole("button", { name: /Image to PDF/ }));
+    expect(screen.getByRole("dialog", { name: "Image to PDF" })).toBeTruthy();
+    expect(screen.getByText(/multi-page PDF/)).toBeTruthy();
+    expect(screen.getByText(/Up to 20 pages/)).toBeTruthy();
+  });
 });
