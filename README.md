@@ -36,7 +36,7 @@ AI Background Remover and AI Upscaler are shown as coming soon. They are not adv
 - Input and output dimension guard: header dimensions are checked before pixel decoding; at most 12,000 pixels per side and 60 megapixels total.
 - EXIF data can contain sensitive camera details and GPS coordinates; it is read locally in the metadata viewer.
 - JPEG exports use a selectable background color because JPEG cannot preserve transparency.
-- The Metadata Cleaner re-encodes pixels rather than copying the source file container. Browser encoders may write basic output metadata; do not treat this as a forensic sanitizer.
+- The Metadata Cleaner re-encodes pixels rather than copying the source file container. Browser encoders may write basic output metadata; do not treat it as a forensic sanitizer.
 - The site uses system fonts and is hosted on Cloudflare Pages. Cloudflare may independently process technical request and security data. See the [Privacy Policy](https://pixeltools-9xe.pages.dev/privacy/).
 
 ## SEO and informational pages
@@ -63,6 +63,8 @@ CI runs full and production-only dependency audits, TypeScript checks, image uti
 - Build command: `npm run build`
 - Build output directory: `dist`
 - Live project hostname: `https://pixeltools-9xe.pages.dev`
+
+The repository's `wrangler.jsonc` is used only by the separate Cloudflare Workers Builds branch-preview workflow. It serves the generated `dist/` files through a Worker Preview; it does not change the Pages production project, production branch or Pages deployment command. Worker Preview URLs are public unless protected separately with Cloudflare Access.
 
 No server-side environment variables are required for the current browser-only release. If the production hostname changes, update canonical URLs, sitemap and robots.txt.
 
