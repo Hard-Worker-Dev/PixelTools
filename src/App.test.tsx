@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
+import exifr from "exifr";
 
 afterEach(() => {
   cleanup();
@@ -421,6 +422,54 @@ describe("PixelTools ease-of-use workflows", () => {
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
   }, 30000);
+
+  it("hides GPS metadata by default and omits it from copied reports until opted in", async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText } });
+    vi.spyOn(exifr, "parse").mockResolvedValueOnce({
+      Make: "PixelTools Test Camera",
+      GPSLatitude: 37.7749,
+      GPSLongitude: -122.4194,
+      GPSAltitude: 12
+    } as Awaited<ReturnType<typeof exifr.parse>>);
+    const context = {
+      drawImage: vi.fn(),
+      getImageData: vi.fn(() => ({ data: new Uint8ClampedArray([255, 0, 0, 255]) }))
+    } as unknown as CanvasRenderingContext2D;
+    vi.stubGlobal("createImageBitmap", vi.fn(async () => ({
+      width: 640, height: 480, close: vi.fn()
+    } as unknown as ImageBitmap)));
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(() => context);
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const file = new File([buffer], "gps-photo.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Metadata Viewer/ }));
+    const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [file] } });
+    expect(await screen.findByText("PixelTools Test Camera")).toBeTruthy();
+    expect(screen.queryByText("37.7749")).toBeNull();
+    expect(screen.queryByText("-122.4194")).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy metadata JSON" }));
+    await act(async () => { await Promise.resolve(); });
+    expect(writeText).toHaveBeenCalledTimes(1);
+    expect(writeText.mock.calls[0][0]).not.toContain("GPSLatitude");
+    expect(writeText.mock.calls[0][0]).not.toContain("GPSLongitude");
+
+    fireEvent.click(screen.getByRole("checkbox", { name: /Include GPS coordinates/ }));
+    expect(await screen.findByText("37.7749")).toBeTruthy();
+    expect(screen.getByText("-122.4194")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Copy metadata JSON" }));
+    await act(async () => { await Promise.resolve(); });
+    expect(writeText).toHaveBeenCalledTimes(2);
+    expect(writeText.mock.calls[1][0]).toContain("GPSLatitude");
+    expect(writeText.mock.calls[1][0]).toContain("37.7749");
+  });
 
   it("verifies the output UI for color sampling, metadata inspection and Base64 encoding", async () => {
     const pixelData = new Uint8ClampedArray([255, 0, 0, 255]);

@@ -88,7 +88,8 @@ export default function ImageToPdfTool() {
       setResult(pdf);
     } catch (reason) {
       if (!mountedRef.current) return;
-      if (reason instanceof Error && reason.name === "AbortError") {
+      const wasAborted = typeof reason === "object" && reason !== null && "name" in reason && reason.name === "AbortError";
+      if (wasAborted) {
         setError("PDF creation stopped. No partial PDF was saved. Your images remain available.");
       } else {
         setError(reason instanceof Error ? reason.message : "Could not create the PDF. Try different images or a smaller batch.");
