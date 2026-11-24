@@ -1,7 +1,7 @@
 # PixelTools Public Release Checklist
 
-**Candidate:** 1.0.0-rc.1 (integrated release branch; not final)  
-**Release branch:** `release/v1.0.0-rc.1-2026-11-24`  
+**Candidate:** 1.0.0-rc.2 (integrated release branch; not final)  
+**Release branch:** `release/v1.0.0-rc.2-2026-11-24`  
 **Production hostname:** https://pixeltools-9xe.pages.dev  
 **Repository:** https://github.com/Hard-Worker-Dev/PixelTools  
 **Legal jurisdiction selected by owner:** Pakistan
