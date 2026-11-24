@@ -2,7 +2,7 @@
 
 > Release candidate: **1.0.0-rc.2**. The public beta is deployed; see [release readiness](RELEASE_CHECKLIST.md) for remaining manual launch checks.
 
-A premium, free online image toolkit. The product focuses on practical image workflows, clear controls and browser-local processing.
+A premium, free online image and PDF toolkit. The product focuses on practical file workflows, clear controls and browser-local processing.
 
 ## Stack
 - React 18, TypeScript and Vite 8
@@ -26,8 +26,10 @@ A premium, free online image toolkit. The product focuses on practical image wor
 12. Image Metadata Viewer — file properties, readable EXIF details (including possible GPS tags) and JSON report export
 13. Image to Base64 — copy or save raw Base64 or a full data URL
 14. Image Metadata Cleaner — re-encode a clean copy without copying original EXIF/GPS metadata
+15. Batch Image Converter — convert up to 30 images and download each result or a ZIP archive
+16. Image to PDF — combine JPG, PNG or WebP images into an ordered multi-page A4 PDF
 
-AI Background Remover and AI Upscaler are shown as coming soon and are not counted as working tools. The public catalogue contains only the 14 implemented image tools and these two clearly labelled previews; the 3,000-entry `TOOL_ROADMAP.md` is an internal planning inventory and is not generated as public catalogue entries or SEO pages. Release 1 still targets 16 working tools; Batch Image Converter and Image to PDF require separate integration and verification before they can be counted.
+AI Background Remover and AI Upscaler are shown as coming soon and are not counted as working tools. The public catalogue contains 16 implemented tools and these two clearly labelled previews. The 3,000-entry `TOOL_ROADMAP.md` is an internal planning inventory and is not generated as public catalogue entries or SEO pages. Batch Image Converter and Image to PDF are integrated into this release-candidate branch; independent export checks and manual browser/device acceptance remain release gates.
 
 ## Privacy and safety
 - Working image tools process files locally in the browser; selected image files are not uploaded to a PixelTools image-processing server.

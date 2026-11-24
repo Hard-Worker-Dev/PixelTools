@@ -2,6 +2,12 @@
 
 All notable PixelTools changes are documented here.
 
+## Unreleased — Release 1 16-tool integration
+- Integrate Batch Image Converter with browser-local sequential processing, per-file results and ZIP32 export.
+- Integrate Image to PDF with image ordering, A4 page orientation and browser-local PDF generation.
+- Add dedicated SEO landing pages, sitemap entries, responsive workspace styling and automated UI/utility tests for both tools.
+- Expand the public catalogue to 16 implemented tools while keeping two AI previews explicitly marked Coming Soon; keep the 3,000-item roadmap internal.
+
 ## Unreleased — public catalogue and trust fixes
 - Keep the 3,000-entry planning inventory out of the public tool catalogue; show only implemented tools and clearly labelled Coming Soon previews.
 - Show an accurate available-tool count separately from Coming Soon entries.
