@@ -19,7 +19,22 @@ describe("PixelTools ease-of-use workflows", () => {
     await user.type(search, "cropper");
     expect(screen.getByRole("button", { name: /Image Cropper/ })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Image Compressor/ })).toBeNull();
-    expect(screen.getByRole("status").textContent).toContain("Showing 1 of 1 tools");
+    expect(screen.getByRole("status").textContent).toContain("1 available tool");
+  });
+
+  it("keeps roadmap ideas out of the public catalogue and distinguishes upcoming tools", () => {
+    render(<App />);
+    expect(screen.getByRole("status").textContent).toContain("14 available tools");
+    expect(screen.getByRole("status").textContent).toContain("2 coming soon");
+    expect(screen.queryByRole("button", { name: /PDF to JPG/i })).toBeNull();
+    expect(screen.getAllByRole("option")).toHaveLength(4);
+  });
+
+  it("labels the homepage illustration and does not present invented processing results", () => {
+    render(<App />);
+    expect(screen.getByText("Illustrative preview")).toBeTruthy();
+    expect(screen.queryByText(/−68%|768 KB|2\.4 MB/)).toBeNull();
+    expect(screen.getAllByRole("link", { name: /pixeltools/i })[0].getAttribute("href")).toBe("/#tools");
   });
 
   it("filters the toolkit by category and explains empty results", async () => {

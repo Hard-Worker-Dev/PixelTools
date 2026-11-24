@@ -1,8 +1,8 @@
-# PixelTools — 30-Category, 3,000-Tool Roadmap
+# PixelTools — Internal 30-Category, 3,000-Idea Planning Inventory
 
-**Catalogue target:** 30 categories × 100 entries = **3,000 planned tools**.
+**Planning inventory:** 30 categories × 100 entries = **3,000 proposed ideas**. This is not a public catalogue target.
 
-**Important status:** All 3,000 entries are disabled and marked Coming Soon. They are catalogue/roadmap ideas, not implemented functionality. The existing 14 working image tools remain separate. AI Background Remover and AI Upscaler remain Coming Soon.
+**Public product policy:** These ideas must not be generated as public tool cards, indexed pages or advertised functionality. Only independently implemented and verified tools belong in the public catalogue. The current baseline has 14 working image tools; AI Background Remover and AI Upscaler remain Coming Soon. Batch Image Converter and Image to PDF are Release 1 integration targets until they are merged and verified.
 
 ## Category overview
 
@@ -37,7 +37,7 @@
 29. **File Utilities** — 100 tools
 30. **Creative Assets** — 100 tools
 
-## Full catalogue
+## Internal planning inventory
 
 ### PDF Tools — 100 planned tools
 

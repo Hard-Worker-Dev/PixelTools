@@ -62,7 +62,8 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 
 ### P2 — Product roadmap and release hygiene
 
-- [ ] Implement and independently test the 3,000 planned tools in small batches; keep every unfinished entry disabled and Coming Soon. See `TOOL_ROADMAP.md`.
+- [x] Keep the 3,000 proposed entries as an internal planning inventory; do not materialize them in the public catalogue or publish thin Coming Soon pages. See `TOOL_ROADMAP.md`.
+- [ ] Integrate Batch Image Converter and Image to PDF into the selected release baseline and independently verify their processing and exports before counting them toward the 16-tool Release 1 target.
 
 - [ ] After all acceptance gates pass, publish release notes and create a final 1.0.0 version tag.
 - [ ] Keep AI features marked Coming Soon until a real model pipeline is integrated, privacy-reviewed and tested.
@@ -73,6 +74,11 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 - The 2026-11-01 audit branch deployment is a preview, not production. The canonical production deployment still points to the 2026-10-30 `main` commit.
 - The legal pages are drafts, not lawyer-approved advice or a guarantee of statutory compliance. The repo currently lacks a published legal entity name, postal address and private privacy-request channel; the owner-detail task was deferred once at the user's direction, not waived.
 - Public legal sources consulted during drafting identify PECA 2016 (as amended in 2025) as relevant and the Personal Data Protection Bill 2023 as a proposal; status must be rechecked against current Gazette/parliamentary records before launch.
-- The five additional categories contain 75 planned Coming Soon entries only; they must not be counted as working tools until implemented and tested.
+- The 3,000-entry roadmap is an internal planning inventory and must not be represented as working functionality or generated as public tool pages.
 - CI and Pages deployment evidence verify only configured automation. They do not prove physical-device behavior, independent export correctness, legal approval, Search Console ownership, effective production headers or a successful rollback rehearsal.
 - PR #11 remains a draft and must not be merged or promoted to final 1.0.0 solely on repository checks.
+
+
+## Follow-up implementation — 2026-11-24
+
+The RC2 candidate’s public UI previously generated 3,000 planned roadmap entries at runtime and included them in catalogue search/filtering. The follow-up removes those generated entries from the public UI while retaining the planning inventory in `TOOL_ROADMAP.md`. The catalogue now distinguishes available tools from Coming Soon previews. The homepage hero no longer displays illustrative compression percentages or sample file-size results as if they were real. These changes require the updated PR CI run and browser review; they do not complete the separate Batch Image Converter / Image to PDF integration or manual release acceptance.

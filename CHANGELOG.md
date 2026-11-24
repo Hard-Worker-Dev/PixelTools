@@ -2,6 +2,12 @@
 
 All notable PixelTools changes are documented here.
 
+## Unreleased — public catalogue and trust fixes
+- Keep the 3,000-entry planning inventory out of the public tool catalogue; show only implemented tools and clearly labelled Coming Soon previews.
+- Show an accurate available-tool count separately from Coming Soon entries.
+- Replace the homepage illustration’s invented file-size reduction with a clearly labelled illustrative workspace.
+- Give the header brand link a real destination to the tool section.
+
 ## Unreleased — release candidate 1.0.0-rc.2
 
 ### Release integration
