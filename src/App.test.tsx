@@ -518,7 +518,7 @@ describe("PixelTools ease-of-use workflows", () => {
     view.setUint32(20, 480, false);
     const source = new File([buffer], "source.png", { type: "image/png" });
     const { container } = render(<App />);
-    fireEvent.click(screen.getByRole("button", { name: /Image Converter/ }));
+    fireEvent.click(screen.getByRole("button", { name: /^Image Converter/ }));
     const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
     fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
     await screen.findByAltText("Selected image preview");
