@@ -62,6 +62,8 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [x] A dedicated release branch exists; production main has not been modified.
 - [ ] Owner verifies repository backup and release permissions in GitHub.
 - [ ] Protect `main` with PR requirement, required CI check, conversation resolution, and force-push/deletion restrictions.
+- [ ] Enable and verify private vulnerability reporting and the private advisory route.
+- [ ] Enforce multi-factor authentication on the GitHub and Cloudflare owner accounts; Cloudflare account settings currently report account-wide two-factor enforcement disabled.
 - [ ] Owner verifies the site in Google Search Console and submits the sitemap.
 - [ ] Owner performs and documents a controlled rollback rehearsal before a high-traffic launch (the production site has not been deliberately rolled back).
 
