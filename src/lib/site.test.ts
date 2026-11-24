@@ -94,7 +94,7 @@ describe("published site contract", () => {
       ".github/ISSUE_TEMPLATE/feature_request.yml",
       ".github/ISSUE_TEMPLATE/config.yml"
     ]) expect(existsSync(resolve(root, path)), path).toBe(true);
-    expect(read("package.json")).toContain('"version": "1.0.0-rc.1"');
+    expect(read("package.json")).toContain('"version": "1.0.0-rc.2"');
     expect(read("RELEASE_CHECKLIST.md")).toContain("Manual acceptance still required");
   });
   it("runs release CI manually and preserves successful build artifacts", () => {
