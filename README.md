@@ -4,6 +4,8 @@
 
 A premium, free online image and PDF toolkit. The product focuses on practical file workflows, clear controls and browser-local processing.
 
+The refreshed interface includes popular task shortcuts, searchable category filters, dedicated tool workspaces, clear privacy guidance and responsive public pages.
+
 ## Stack
 - React 18, TypeScript and Vite 8
 - Canvas API, ImageBitmap and browser File APIs

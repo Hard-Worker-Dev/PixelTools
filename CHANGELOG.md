@@ -8,6 +8,13 @@ All notable PixelTools changes are documented here.
 - Add dedicated SEO landing pages, sitemap entries, responsive workspace styling and automated UI/utility tests for both tools.
 - Expand the public catalogue to 16 implemented tools while keeping two AI previews explicitly marked Coming Soon; keep the 3,000-item roadmap internal.
 
+## Unreleased — professional product experience refresh
+- Redesign the homepage hero and navigation around everyday image and PDF workflows, with direct popular-tool shortcuts and clearer browser-processing/privacy messaging.
+- Replace the category dropdown with accessible, keyboard-operable category filter chips and a live available/Coming Soon tool count.
+- Add concise product-benefit and FAQ sections covering local processing, pricing, supported formats and AI feature availability.
+- Expand individual tool workspaces for a more comfortable preview/settings layout, hide the generic single-image workflow steps for the batch and PDF tools, and improve small-screen layouts.
+- Apply a consistent, responsive visual system to informational and SEO landing pages, add skip navigation and respect reduced-motion preferences.
+
 ## Unreleased — public catalogue and trust fixes
 - Keep the 3,000-entry planning inventory out of the public tool catalogue; show only implemented tools and clearly labelled Coming Soon previews.
 - Show an accurate available-tool count separately from Coming Soon entries.
