@@ -18,8 +18,7 @@ Explain the desired workflow, output and any relevant format or dimension requir
 
 ## Privacy questions
 
-Do not post personal or sensitive information in a public issue. Review the Privacy Policy and contact the repository maintainer through the repository's GitHub contact route:
-https://pixeltools-9xe.pages.dev/privacy/
+Do not post personal or sensitive information in a public issue. The project does not yet publish a monitored private privacy-request channel. The owner must provide and publish a private contact route before broad public launch. Until then, do not send confidential information through GitHub public issues or discussions.
 
 ## Security vulnerabilities
 
