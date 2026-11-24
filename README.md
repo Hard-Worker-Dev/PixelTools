@@ -63,6 +63,8 @@ CI runs full and production-only dependency audits, TypeScript checks, image uti
 - Build output directory: `dist`
 - Live project hostname: `https://pixeltools-9xe.pages.dev`
 
+The repository's `wrangler.jsonc` is used only by the separate Cloudflare Workers Builds branch-preview workflow. It serves the generated `dist/` files through a Worker Preview; it does not change the Pages production project, production branch, or Pages deployment command. Worker Preview URLs are public unless protected separately with Cloudflare Access.
+
 No server-side environment variables are required for the current browser-only release. If the production hostname changes, update canonical URLs, sitemap and robots.txt.
 
 ## Release and support
