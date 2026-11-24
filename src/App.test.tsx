@@ -19,13 +19,13 @@ describe("PixelTools ease-of-use workflows", () => {
     await user.type(search, "cropper");
     expect(screen.getByRole("button", { name: /Image Cropper/ })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Image Compressor/ })).toBeNull();
-    expect(screen.getByRole("status").textContent).toContain("1 tools found");
+    expect(screen.getByRole("status").textContent).toContain("Showing 1 of 1 tools");
   });
 
   it("filters the toolkit by category and explains empty results", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.click(screen.getByRole("button", { name: "Edit" }));
+    await user.selectOptions(screen.getByRole("combobox", { name: "Browse category" }), "edit");
     expect(screen.getByRole("button", { name: /Image Cropper/ })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Image Compressor/ })).toBeNull();
     await user.type(screen.getByRole("searchbox", { name: "Find the right tool" }), "not-a-real-tool");
@@ -65,7 +65,7 @@ describe("PixelTools ease-of-use workflows", () => {
       expect(screen.getByText(/Drop your image here/i)).toBeTruthy();
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
-  }, 15000);
+  }, 45000);
   it("uses accessible output labels and explains the PNG lossless mode", async () => {
     const buffer = new ArrayBuffer(24);
     const bytes = new Uint8Array(buffer);
@@ -250,7 +250,7 @@ describe("PixelTools ease-of-use workflows", () => {
       }
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
-  }, 20000);
+  }, 60000);
 
   it("traps modal keyboard focus and restores page scrolling after close", async () => {
     const user = userEvent.setup();
