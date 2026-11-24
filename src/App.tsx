@@ -22,7 +22,7 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
   { id: "crop", title: "Image Cropper", desc: "Crop to the exact rectangle you need.", icon: "▣", tag: "Precision", category: "edit" },
   { id: "convert", title: "Image Converter", desc: "Convert between JPG, PNG and WebP.", icon: "⇄", tag: "3 formats", category: "optimize" },
   { id: "rotate", title: "Image Rotator", desc: "Rotate an image in 90-degree steps.", icon: "↻", tag: "Quick", category: "edit" },
-  { id: "flip", title: "Image Flipper", desc: "Mirror images horizontally or vertically.", icon: "⇋", tag: "Quick" },
+  { id: "flip", title: "Image Flipper", desc: "Mirror images horizontally or vertically.", icon: "⇋", tag: "Quick", category: "edit" },
   { id: "watermark", title: "Image Watermark", desc: "Add text or a transparent logo watermark with position and opacity controls.", icon: "✎", tag: "Custom", category: "edit" },
   { id: "rounded", title: "Rounded Corners", desc: "Create smooth rounded image corners.", icon: "▢", tag: "Transparent PNG", category: "edit" },
   { id: "blur", title: "Image Blur", desc: "Apply adjustable blur to the full image.", icon: "◌", tag: "Creative", category: "edit" },
