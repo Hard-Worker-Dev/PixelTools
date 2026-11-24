@@ -117,3 +117,70 @@ footer .footer-links{display:flex;align-items:center;gap:14px}footer .footer-lin
 
 /* Compact category selector for the expanded 30-category catalogue. */
 .tool-category-label{display:block;margin:12px 0 6px;color:#697387;font-size:11px;font-weight:700}.tool-category-select{width:100%;max-width:520px;min-height:42px;padding:9px 12px;border:1px solid #e3e5ef;border-radius:10px;background:#fff;color:#343b4b;font:inherit;font-size:12px}.tool-category-select:focus-visible{outline:3px solid #d9d4ff;outline-offset:2px}
+
+
+/* Release 1 multi-file image and PDF workspaces */
+.batch-workspace,.pdf-workspace{display:grid;gap:16px;min-width:0}
+.batch-intro,.pdf-intro{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid #e7e8f2;border-radius:12px;background:#f8f8ff}
+.batch-intro-icon,.pdf-intro>span{width:42px;height:42px;display:grid;place-items:center;flex:none;border-radius:11px;background:#fff;color:#6657e8}
+.batch-intro b,.pdf-intro b{font-size:13px;color:#303951}
+.batch-intro p,.pdf-intro p{margin:5px 0 0;font-size:11px;line-height:1.6;color:#7c8598}
+.batch-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px;border:1px solid #e9ebf2;border-radius:11px;background:#fff}
+.batch-toolbar>div,.pdf-quality{display:grid;gap:7px;min-width:0}
+.batch-toolbar label,.pdf-quality label{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:700;color:#505a70}
+.batch-toolbar label b,.pdf-quality label b{color:#6657e8}
+.batch-toolbar input[type=range],.pdf-quality input{width:100%;accent-color:#6657e8}
+.batch-toolbar .text-input{margin:0}
+.batch-dropzone,.pdf-dropzone{width:100%;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;border:1.5px dashed #c9c4fa;border-radius:13px;background:#fafaff;color:#6d62dc;cursor:pointer}
+.batch-dropzone b,.pdf-dropzone b{font-size:14px;color:#313a51}
+.batch-dropzone span,.pdf-dropzone span{font-size:10px;color:#8991a2;text-align:center;padding:0 10px}
+.batch-file-list,.pdf-file-list{border:1px solid #e9ebf2;border-radius:12px;overflow:hidden}
+.batch-list-head,.pdf-list-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 13px;background:#fafaff;border-bottom:1px solid #eceef4}
+.batch-list-head b,.pdf-list-head>b{font-size:11px;color:#424b61}
+.batch-list-actions,.pdf-list-head>div{display:flex;align-items:center;gap:8px}
+.batch-file-row,.pdf-file-row{display:flex;align-items:center;gap:9px;padding:10px 12px;border-bottom:1px solid #f0f1f5;min-width:0}
+.batch-file-row:last-child,.pdf-file-row:last-child{border-bottom:0}
+.batch-file-icon,.pdf-file-icon,.pdf-page-number{width:31px;height:31px;display:grid;place-items:center;flex:none;border-radius:9px;background:#f0efff;color:#6a5ee0}
+.pdf-page-number{width:23px;height:23px;font-size:10px;font-weight:800}
+.batch-file-row>div,.pdf-file-row>div:nth-of-type(1){display:grid;gap:3px;flex:1;min-width:0}
+.batch-file-row b,.pdf-file-row b{font-size:10px;color:#414a60;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.batch-file-row small,.pdf-file-row small{font-size:9px;color:#9299a8}
+.batch-remove,.pdf-remove,.pdf-reorder button,.batch-output-list button{width:30px;height:30px;display:grid;place-items:center;flex:none;border:1px solid #e8eaf1;border-radius:8px;background:#fff;color:#727c90;cursor:pointer}
+.batch-remove:disabled,.pdf-remove:disabled,.pdf-reorder button:disabled{opacity:.4;cursor:not-allowed}
+.batch-actions{display:flex;align-items:center;gap:10px}
+.batch-actions .process-btn{width:auto;flex:1;margin:0}
+.batch-actions>span{font-size:10px;color:#858d9d;white-space:nowrap}
+.batch-progress,.pdf-progress{display:grid;gap:8px;padding:12px;border:1px solid #eceef4;border-radius:10px;background:#f8f8fc}
+.batch-progress>div:first-child,.pdf-progress>div:first-child{display:flex;justify-content:space-between;gap:10px;font-size:10px;color:#737d91}
+.batch-progress-track,.pdf-progress>div:last-child{height:6px;border-radius:8px;background:#e9eaf2;overflow:hidden}
+.batch-progress-track i,.pdf-progress i{display:block;height:100%;background:linear-gradient(90deg,#786de9,#50b89b);transition:width .18s}
+.batch-results,.pdf-result{padding:14px;border:1px solid #dcefe7;border-radius:12px;background:#f7fcf9}
+.batch-result-title,.pdf-result>div{display:flex;align-items:center;gap:8px;color:#278b6d;font-size:12px}
+.batch-result-title span,.pdf-result>div span{margin-left:auto;color:#778a83;font-size:10px}
+.batch-result-copy,.pdf-result p{font-size:10px;color:#73847d;line-height:1.6}
+.batch-output-list{display:grid;gap:0;margin:10px 0}
+.batch-output-list>div{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e5f1eb}
+.batch-output-list>div>span{display:flex;align-items:center;gap:7px;flex:1;min-width:0;color:#3c6f5d;font-size:10px;overflow-wrap:anywhere}
+.batch-output-list small{color:#85968e;font-size:9px}
+.batch-output-list button{color:#298c6d}
+.batch-download,.pdf-result .download-btn{margin-top:10px}
+.batch-failure{margin:9px 0 0;padding:9px;background:#fff3f1;border-radius:8px;color:#a34c42;font-size:10px;line-height:1.5}
+.batch-footnote,.pdf-privacy{display:flex;align-items:center;gap:7px;color:#8790a0;font-size:10px}
+.pdf-list-head>b{font-size:10px}
+.pdf-reorder{display:flex;gap:4px}
+.pdf-reorder button,.pdf-remove{width:27px;height:27px}
+.pdf-quality{padding:13px;border:1px solid #eceef4;border-radius:11px;background:#fff}
+.pdf-quality p{margin:0;font-size:10px;line-height:1.6;color:#8790a0}
+@media(max-width:560px){
+  .batch-toolbar{grid-template-columns:1fr}
+  .batch-intro,.pdf-intro{align-items:flex-start}
+  .batch-actions{align-items:stretch;flex-direction:column}
+  .batch-actions .process-btn{width:100%}
+  .batch-actions>span{text-align:center}
+  .batch-list-head,.pdf-list-head{align-items:flex-start;flex-direction:column}
+  .batch-list-actions,.pdf-list-head>div{width:100%;justify-content:flex-end}
+  .batch-result-title,.pdf-result>div{flex-wrap:wrap}
+  .batch-result-title span,.pdf-result>div span{margin-left:0;flex-basis:100%}
+  .pdf-file-row{gap:6px;padding:9px 7px}
+  .pdf-file-row>div:nth-of-type(1) b{max-width:110px}
+}
