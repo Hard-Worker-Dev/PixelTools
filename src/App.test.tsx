@@ -409,7 +409,7 @@ describe("PixelTools ease-of-use workflows", () => {
 
     const { container } = render(<App />);
     for (const name of toolNames) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(name) }));
+      fireEvent.click(screen.getByRole("heading", { name }).closest("button")!);
       const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
       expect(upload, name + " should provide an image input").toBeTruthy();
       fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
