@@ -79,6 +79,9 @@ describe("published site contract", () => {
     expect(privacy).toContain("Pakistan");
     expect(privacy).toContain("Cloudflare");
     expect(terms).toContain("laws of Pakistan");
+    expect(terms).toContain("system fonts");
+    expect(terms).toContain("Cloudflare");
+    expect(terms).not.toContain("fonts.googleapis.com");
     expect(legalReview).toContain("Drafting and issue-spotting only");
     expect(legalReview).toContain("Pakistan-qualified lawyer");
   });
