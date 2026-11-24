@@ -82,3 +82,6 @@ This audit records repository, CI and connected-hosting evidence only. A checked
 ## Follow-up implementation — 2026-11-24
 
 The RC2 candidate’s public UI previously generated 3,000 planned roadmap entries at runtime and included them in catalogue search/filtering. The follow-up removes those generated entries from the public UI while retaining the planning inventory in `TOOL_ROADMAP.md`. The catalogue now distinguishes available tools from Coming Soon previews. The homepage hero no longer displays illustrative compression percentages or sample file-size results as if they were real. These changes require the updated PR CI run and browser review; they do not complete the separate Batch Image Converter / Image to PDF integration or manual release acceptance.
+
+
+The follow-up also guards asynchronous image-processing jobs against file replacement and workspace closure, cancels stale Base64/EXIF reads, and adds an explicit EXIF loading state. A regression test exercises replacement during an in-flight image export.

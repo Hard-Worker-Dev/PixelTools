@@ -73,6 +73,7 @@ export default function App() {
   const [toolCategory, setToolCategory] = useState("all");
   const [resultPreview, setResultPreview] = useState("");
   const [exifData, setExifData] = useState<Record<string, unknown> | null>(null);
+  const [exifLoading, setExifLoading] = useState(false);
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [format, setFormat] = useState<ImageFormat>("image/webp");
@@ -108,6 +109,8 @@ export default function App() {
   const dialogRef = useRef<HTMLElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const fileSelectionId = useRef(0);
+  const processingId = useRef(0);
+  const processingActive = useRef(false);
   const watermarkSelectionId = useRef(0);
   const cropSelectionRef = useRef<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
   const cropDragging = useRef(false);
@@ -125,13 +128,19 @@ export default function App() {
   }, [watermarkImagePreview]);
 
   useEffect(() => {
-    if (active === "base64" && file && dimensions.width > 0) {
-      readAsDataUrl(file).then(setBase64Text).catch(e => setError(e instanceof Error ? e.message : "Could not encode this image."));
-    }
+    if (active !== "base64" || !file || dimensions.width < 1) return;
+    let cancelled = false;
+    readAsDataUrl(file)
+      .then(value => { if (!cancelled) setBase64Text(value); })
+      .catch(e => { if (!cancelled) setError(e instanceof Error ? e.message : "Could not encode this image."); });
+    return () => { cancelled = true; };
   }, [active, file, dimensions.width]);
 
   const clear = () => {
     fileSelectionId.current += 1;
+    processingId.current += 1;
+    processingActive.current = false;
+    setBusy(false);
     watermarkSelectionId.current += 1;
     setFile(null);
     setResult(null);
@@ -152,6 +161,7 @@ export default function App() {
     cropSelectionRef.current = null;
     setCropSelection(null);
     setExifData(null);
+    setExifLoading(false);
     if (inputRef.current) inputRef.current.value = "";
   };
 
@@ -386,6 +396,11 @@ export default function App() {
       return;
     }
     const selectionId = ++fileSelectionId.current;
+    processingId.current += 1;
+    processingActive.current = false;
+    setBusy(false);
+    setExifData(null);
+    setExifLoading(active === "metadata");
     setFile(picked);
     setDimensions({ width: 0, height: 0 });
     setResult(null);
@@ -400,6 +415,7 @@ export default function App() {
       if (imageWidth > 12000 || imageHeight > 12000 || imageWidth * imageHeight > 60000000) {
         setFile(null);
         setDimensions({ width: 0, height: 0 });
+        setExifLoading(false);
         setError("This image is too large to process safely. Maximum dimensions are 12,000 px per side and 60 megapixels total.");
         return;
       }
@@ -416,12 +432,16 @@ export default function App() {
       setFile(null);
       setPreview("");
       setDimensions({ width: 0, height: 0 });
+      setExifLoading(false);
       setError(e instanceof Error ? e.message : "Could not read this image. Try exporting it as JPG, PNG or WebP.");
     });
   };
 
   const process = async () => {
-    if (!file || !active) return;
+    if (!file || !active || processingActive.current) return;
+    const selectionId = fileSelectionId.current;
+    const currentProcessId = ++processingId.current;
+    processingActive.current = true;
     setBusy(true);
     setError("");
     setResult(null);
@@ -508,6 +528,7 @@ export default function App() {
       if (active === "compress" && compressionMode === "target") {
         const targetBytes = Number(targetSizeKb) * 1024;
         const compressed = await renderImageToTargetSize(file, { ...options, quality: 1 }, targetBytes);
+        if (currentProcessId !== processingId.current || selectionId !== fileSelectionId.current) return;
         blob = compressed.blob;
         setCompressionMessage(compressed.targetReached
           ? "Target reached at " + Math.round(compressed.quality * 100) + "% quality."
@@ -515,12 +536,18 @@ export default function App() {
       } else {
         blob = await renderImage(file, options);
       }
+      if (currentProcessId !== processingId.current || selectionId !== fileSelectionId.current) return;
       setResult(blob);
       setResultPreview(URL.createObjectURL(blob));
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong while processing the image.");
+      if (currentProcessId === processingId.current && selectionId === fileSelectionId.current) {
+        setError(e instanceof Error ? e.message : "Something went wrong while processing the image.");
+      }
     } finally {
-      setBusy(false);
+      if (currentProcessId === processingId.current) {
+        processingActive.current = false;
+        setBusy(false);
+      }
     }
   };
 
@@ -617,10 +644,18 @@ export default function App() {
     canonical.href = tool ? window.location.origin + "/tools/" + toolSlugs[active as ToolId] + "/" : window.location.origin + "/";
   }, [active]);
   useEffect(() => {
-    if (active !== "metadata" || !file || dimensions.width < 1) return;
+    if (active !== "metadata" || !file) {
+      setExifLoading(false);
+      return;
+    }
+    if (dimensions.width < 1) return;
     let cancelled = false;
-    exifr.parse(file).then(data => { if (!cancelled) setExifData((data ?? null) as Record<string, unknown> | null); })
-      .catch(() => { if (!cancelled) setExifData(null); });
+    setExifData(null);
+    setExifLoading(true);
+    exifr.parse(file)
+      .then(data => { if (!cancelled) setExifData((data ?? null) as Record<string, unknown> | null); })
+      .catch(() => { if (!cancelled) setExifData(null); })
+      .finally(() => { if (!cancelled) setExifLoading(false); });
     return () => { cancelled = true; };
   }, [active, file, dimensions.width]);
 
@@ -790,7 +825,7 @@ export default function App() {
             {active === "grayscale" && <><p className="hint">Convert the image to grayscale while preserving its dimensions.</p><label htmlFor="pixeltool-field-28">Output format</label><select id="pixeltool-field-28" className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select></>}
             {active === "color" && <><p className="hint">Click a pixel in the preview to sample it. The palette below is generated from the whole image.</p>{sample && <div className="sample-result"><span style={{ background: sample.hex }}></span><div><b>{sample.hex}</b><small>RGB({sample.r}, {sample.g}, {sample.b}) · HSL({rgbToHsl(sample.r, sample.g, sample.b).h}, {rgbToHsl(sample.r, sample.g, sample.b).s}%, {rgbToHsl(sample.r, sample.g, sample.b).l}%)</small></div><button className="secondary-btn" onClick={() => copyText(sample.hex)}><Copy size={14}/>{copied ? "Copied" : "Copy HEX"}</button><button className="secondary-btn" onClick={() => copyText("rgb(" + sample.r + ", " + sample.g + ", " + sample.b + ")")}><Copy size={14}/>Copy RGB</button><button className="secondary-btn" onClick={() => { const hsl = rgbToHsl(sample.r, sample.g, sample.b); copyText("hsl(" + hsl.h + ", " + hsl.s + "%, " + hsl.l + "%)"); }}><Copy size={14}/>Copy HSL</button></div>}<div className="palette-panel"><div className="palette-heading"><b>Image color palette</b><button type="button" className="secondary-btn" onClick={() => copyText(palette.map(color => color.hex).join(", "))} disabled={palette.length === 0}><Copy size={13}/> Copy all</button></div>{palette.length > 0 ? <div className="palette-grid">{palette.map(color => <button type="button" key={color.hex} className="palette-color" onClick={() => copyText(color.hex)} title={"Copy " + color.hex + " · " + color.count + " pixels"}><span style={{ background: color.hex }}></span><b>{color.hex}</b></button>)}</div> : <p className="hint">Building a palette from the image…</p>}</div></>}
             {active === "metadata-cleaner" && <><p className="hint">Create a fresh copy by decoding and re-encoding the image in your browser. This removes the source file’s embedded camera metadata and GPS tags rather than copying the original binary file.</p><label htmlFor="pixeltool-field-29">Clean copy format</label><select id="pixeltool-field-29" className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select>{format !== "image/png" && <><label htmlFor="pixeltool-field-30">Output quality <b>{quality}%</b></label><input id="pixeltool-field-30" type="range" min="20" max="100" value={quality} onChange={e => setQuality(Number(e.target.value))}/></>}<p className="metadata-privacy">Your source file is not changed. The browser may write basic output metadata during re-encoding, but original EXIF/GPS camera tags are not copied by this workflow.</p></>}
-            {active === "metadata" && <div className="metadata-list"><div><span>File name</span><b>{file.name}</b></div><div><span>Format / MIME</span><b>{file.type}</b></div><div><span>File size</span><b>{formatBytes(file.size)}</b></div><div><span>Dimensions</span><b>{dimensions.width} × {dimensions.height} px</b></div><div><span>Last modified</span><b>{new Date(file.lastModified).toLocaleString()}</b></div>{exifData && Object.entries(exifData).filter(([key,value]) => ["Make","Model","DateTimeOriginal","CreateDate","ModifyDate","LensModel","ISO","FNumber","ExposureTime","FocalLength","Orientation","Software","GPSLatitude","GPSLongitude"].includes(key) && value != null).map(([key,value]) => <div key={key}><span>{key}</span><b>{Array.isArray(value) ? value.join(", ") : value instanceof Date ? value.toLocaleString() : String(value)}</b></div>)}<p className="metadata-privacy">EXIF can contain camera details and sometimes GPS coordinates. This information is read locally and never uploaded by PixelTools. Review sensitive fields before sharing this report.</p>{!exifData && <p className="hint">No readable EXIF data was found in this image. Some formats and apps strip camera metadata.</p>}<div className="metadata-actions"><button type="button" className="secondary-btn" onClick={saveMetadataReport}><ArrowDownToLine size={14}/> Download metadata JSON</button><button type="button" className="secondary-btn" onClick={() => copyText(JSON.stringify({fileName:file.name,mimeType:file.type,sizeBytes:file.size,width:dimensions.width,height:dimensions.height,lastModified:file.lastModified,exif:exifData},null,2))}><Copy size={14}/> Copy metadata JSON</button></div></div>}
+            {active === "metadata" && <div className="metadata-list"><div><span>File name</span><b>{file.name}</b></div><div><span>Format / MIME</span><b>{file.type}</b></div><div><span>File size</span><b>{formatBytes(file.size)}</b></div><div><span>Dimensions</span><b>{dimensions.width} × {dimensions.height} px</b></div><div><span>Last modified</span><b>{new Date(file.lastModified).toLocaleString()}</b></div>{exifData && Object.entries(exifData).filter(([key,value]) => ["Make","Model","DateTimeOriginal","CreateDate","ModifyDate","LensModel","ISO","FNumber","ExposureTime","FocalLength","Orientation","Software","GPSLatitude","GPSLongitude"].includes(key) && value != null).map(([key,value]) => <div key={key}><span>{key}</span><b>{Array.isArray(value) ? value.join(", ") : value instanceof Date ? value.toLocaleString() : String(value)}</b></div>)}<p className="metadata-privacy">EXIF can contain camera details and sometimes GPS coordinates. This information is read locally and never uploaded by PixelTools. Review sensitive fields before sharing this report.</p>{exifLoading ? <p className="hint">Reading local EXIF metadata…</p> : !exifData && <p className="hint">No readable EXIF data was found in this image. Some formats and apps strip camera metadata.</p>}<div className="metadata-actions"><button type="button" className="secondary-btn" onClick={saveMetadataReport}><ArrowDownToLine size={14}/> Download metadata JSON</button><button type="button" className="secondary-btn" onClick={() => copyText(JSON.stringify({fileName:file.name,mimeType:file.type,sizeBytes:file.size,width:dimensions.width,height:dimensions.height,lastModified:file.lastModified,exif:exifData},null,2))}><Copy size={14}/> Copy metadata JSON</button></div></div>}
             {active === "base64" && <><label htmlFor="pixeltool-field-31">Output type</label><select id="pixeltool-field-31" className="text-input" value={base64Mode} onChange={e => setBase64Mode(e.target.value as "data-url" | "raw")}><option value="data-url">Data URL (includes MIME prefix)</option><option value="raw">Raw Base64 only</option></select><label htmlFor="pixeltool-field-32">{base64Mode === "data-url" ? "Base64 data URL" : "Raw Base64 text"}</label><textarea id="pixeltool-field-32" className="base64-output" readOnly value={base64Output} placeholder="Encoding image…" rows={8}/><div className="button-row"><button className="secondary-btn" onClick={() => copyText(base64Output)} disabled={!base64Output}><Copy size={14}/>{copied ? "Copied" : "Copy Base64"}</button><button className="secondary-btn" onClick={saveBase64} disabled={!base64Output}><ArrowDownToLine size={14}/> Save .txt</button></div><p className="hint">Data URLs include the MIME type prefix. Raw Base64 contains only the encoded payload. Both are larger than the original binary file.</p></>}
             {["crop","rotate","flip","watermark","blur","grayscale"].includes(active ?? "") && format !== "image/png" && <><label htmlFor="pixeltool-field-33">Export quality <b>{quality}%</b></label><input id="pixeltool-field-33" type="range" min="20" max="100" value={quality} onChange={e => setQuality(Number(e.target.value))}/><div className="quick-sizes quality-presets">{[["small","Smaller",65],["balanced","Balanced",80],["best","Best quality",92]].map(([id,label,value]) => <button type="button" key={id} className={quality===Number(value) ? "size-chip selected" : "size-chip"} aria-pressed={quality===Number(value)} onClick={() => setQuality(Number(value))}>{label}</button>)}</div></>}
             {format === "image/jpeg" && !["color","metadata","base64","rounded"].includes(active ?? "") && <><label htmlFor="pixeltool-field-34">JPG background color</label><input id="pixeltool-field-34" className="text-input color-input" type="color" value={jpegBackground} onChange={e => setJpegBackground(e.target.value)}/><p className="hint">Transparent areas are filled with this color when exporting to JPG.</p></>}{error && <p className="error-msg" role="alert" aria-live="polite">{error}</p>}

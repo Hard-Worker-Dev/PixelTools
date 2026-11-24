@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
@@ -20,6 +20,56 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.getByRole("button", { name: /Image Cropper/ })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Image Compressor/ })).toBeNull();
     expect(screen.getByRole("status").textContent).toContain("1 available tool");
+  });
+
+  it("discards an in-flight processing result when the selected file is replaced", async () => {
+    let resolveBitmap!: (bitmap: ImageBitmap) => void;
+    const pendingBitmap = new Promise<ImageBitmap>(resolve => { resolveBitmap = resolve; });
+    const bitmapFactory = vi.fn(() => pendingBitmap);
+    vi.stubGlobal("createImageBitmap", bitmapFactory);
+    const context = {
+      fillStyle: "#000000", filter: "none", globalAlpha: 1, font: "", textAlign: "left",
+      textBaseline: "alphabetic", shadowColor: "", shadowBlur: 0,
+      save: vi.fn(), restore: vi.fn(), fillRect: vi.fn(), drawImage: vi.fn(),
+      translate: vi.fn(), rotate: vi.fn(), scale: vi.fn(), beginPath: vi.fn(),
+      roundRect: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(), arcTo: vi.fn(),
+      closePath: vi.fn(), clip: vi.fn(), fillText: vi.fn()
+    } as unknown as CanvasRenderingContext2D;
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(() => context);
+    let finishExport!: () => void;
+    const exportFinished = new Promise<void>(resolve => { finishExport = resolve; });
+    vi.spyOn(HTMLCanvasElement.prototype, "toBlob").mockImplementation((callback, type) => {
+      callback(new Blob(["processed-image"], { type: type ?? "image/png" }));
+      finishExport();
+    });
+
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const first = new File([buffer], "first.png", { type: "image/png" });
+    const second = new File([buffer], "second.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Compressor/ }));
+    const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [first] } });
+    await screen.findByAltText("Selected image preview");
+    fireEvent.click(screen.getByRole("button", { name: /Process image/ }));
+    expect(bitmapFactory).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByRole("button", { name: /Replace image/ }));
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [second] } });
+    await screen.findByText("second.png");
+    expect(screen.queryByText("Your image is ready")).toBeNull();
+
+    await act(async () => {
+      resolveBitmap({ width: 640, height: 480, close: vi.fn() } as unknown as ImageBitmap);
+      await exportFinished;
+      await new Promise(resolve => window.setTimeout(resolve, 0));
+    });
+    expect(screen.queryByText("Your image is ready")).toBeNull();
   });
 
   it("keeps roadmap ideas out of the public catalogue and distinguishes upcoming tools", () => {

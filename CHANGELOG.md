@@ -7,6 +7,8 @@ All notable PixelTools changes are documented here.
 - Show an accurate available-tool count separately from Coming Soon entries.
 - Replace the homepage illustration’s invented file-size reduction with a clearly labelled illustrative workspace.
 - Give the header brand link a real destination to the tool section.
+- Invalidate in-flight image work when a file is replaced or a workspace is cleared, preventing stale results from appearing against a new image.
+- Cancel stale Base64/EXIF reads and distinguish metadata loading from an image with no readable EXIF.
 
 ## Unreleased — release candidate 1.0.0-rc.2
 
