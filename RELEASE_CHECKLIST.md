@@ -14,8 +14,9 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [x] Component PR #20 commit `15174a8cf7814dfefef339cf7046a66fafc87a4f`: GitHub Actions run `45377493862` completed successfully.
 - [x] PR #20 Cloudflare Pages preview succeeded: https://685db8a9.pixeltools-9xe.pages.dev
 - [x] PR #20 Cloudflare Workers Build preview succeeded: https://4cb05fc3-pixeltools.zerotohero125crore.workers.dev
-- [ ] Integrated release branch CI (full dependency audit, production-only audit, TypeScript, Vitest and production build) — pending.
-- [ ] Integrated release branch Cloudflare Pages and Workers previews — pending.
+- [x] Integrated release branch CI passed on commit `684762b693d47c5d0cdbd62b1cf38eac47e89aa7`: GitHub Actions run `45380279699` passed both dependency audits, TypeScript, Vitest, production build and artifact upload.
+- [x] Integrated release branch Cloudflare Pages preview succeeded on commit `684762b693d47c5d0cdbd62b1cf38eac47e89aa7`: https://48f740c0.pixeltools-9xe.pages.dev
+- [x] Integrated release branch Cloudflare Workers preview succeeded on the same commit: https://217d7b66-pixeltools.zerotohero125crore.workers.dev
 - [x] Existing automated coverage is documented for all 14 implemented tool workspaces, all 11 image editing/export tools, Color Picker, Metadata Viewer and Base64 workflows. Reconfirm on the integrated branch.
 - [x] Static SEO, internal-link, sitemap and security-header contracts are included in the test suite. Reconfirm on the integrated branch.
 - [x] AI tools and roadmap entries are explicitly labelled Coming Soon; they are not represented as implemented functionality.
