@@ -74,10 +74,10 @@ describe("PixelTools ease-of-use workflows", () => {
 
   it("keeps roadmap ideas out of the public catalogue and distinguishes upcoming tools", () => {
     render(<App />);
-    expect(screen.getByRole("status").textContent).toContain("14 available tools");
+    expect(screen.getByRole("status").textContent).toContain("16 available tools");
     expect(screen.getByRole("status").textContent).toContain("2 coming soon");
     expect(screen.queryByRole("button", { name: /PDF to JPG/i })).toBeNull();
-    expect(screen.getAllByRole("option")).toHaveLength(4);
+    expect(screen.getAllByRole("option")).toHaveLength(6);
   });
 
   it("labels the homepage illustration and does not present invented processing results", () => {
@@ -85,6 +85,21 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.getByText("Illustrative preview")).toBeTruthy();
     expect(screen.queryByText(/−68%|768 KB|2\.4 MB/)).toBeNull();
     expect(screen.getAllByRole("link", { name: /pixeltools/i })[0].getAttribute("href")).toBe("/#tools");
+  });
+
+  it("opens the browser-local batch image conversion workspace", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /Batch Image Converter/ }));
+    expect(screen.getByRole("dialog", { name: "Batch Image Converter" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /Drop images here or browse/ })).toBeTruthy();
+  });
+
+  it("opens Image to PDF from its direct tool URL", () => {
+    window.history.replaceState({}, "", "/?tool=image-to-pdf");
+    render(<App />);
+    expect(screen.getByRole("dialog", { name: "Image to PDF" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /Drop images here or browse/ })).toBeTruthy();
   });
 
   it("filters the toolkit by category and explains empty results", async () => {

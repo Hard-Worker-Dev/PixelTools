@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import BatchImageTool from "./BatchImageTool";
+import ImageToPdfTool from "./ImageToPdfTool";
 import exifr from "exifr";
 import {
   ArrowDownToLine, ArrowRight, Check, Copy, FileImage, Image as ImageIcon,
@@ -12,9 +14,9 @@ import {
 type ToolId =
   | "compress" | "resize" | "crop" | "convert" | "rotate" | "flip"
   | "watermark" | "rounded" | "blur" | "grayscale" | "color"
-  | "metadata" | "base64" | "metadata-cleaner";
+  | "metadata" | "base64" | "metadata-cleaner" | "batch" | "image-to-pdf";
 
-const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; }> = [
+const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: "batch" | "pdf"; }> = [
   { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular" },
   { id: "resize", title: "Image Resizer", desc: "Set precise width and height in pixels.", icon: "▧", tag: "Quick" },
   { id: "crop", title: "Image Cropper", desc: "Crop to the exact rectangle you need.", icon: "▣", tag: "Precision" },
@@ -29,6 +31,8 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
   { id: "metadata", title: "Image Metadata Viewer", desc: "Inspect file details, type and image dimensions.", icon: "ⓘ", tag: "File details" },
   { id: "metadata-cleaner", title: "Image Metadata Cleaner", desc: "Export a fresh image copy without the source photo metadata.", icon: "⌁", tag: "Privacy" },
   { id: "base64", title: "Image to Base64", desc: "Create a Base64 data URL and copy it.", icon: "⌘", tag: "Developer" },
+  { id: "batch", title: "Batch Image Converter", desc: "Convert and optimize up to 30 images at once, then download them individually or as one ZIP.", icon: "▤", tag: "New", category: "batch" },
+  { id: "image-to-pdf", title: "Image to PDF", desc: "Combine JPG, PNG or WebP images into an ordered, multi-page A4 PDF.", icon: "▧", tag: "New", category: "pdf" },
   { id: "background", title: "Background Remover", desc: "AI-powered background removal.", icon: "✧", tag: "Coming soon", comingSoon: true },
   { id: "upscaler", title: "AI Image Upscaler", desc: "Increase image resolution with an AI model.", icon: "⤢", tag: "Coming soon", comingSoon: true }
 ];
@@ -47,7 +51,8 @@ const toolSlugs: Record<ToolId, string> = {
   convert: "image-converter", rotate: "image-rotator", flip: "image-flipper",
   watermark: "image-watermark", rounded: "rounded-corners", blur: "image-blur",
   grayscale: "grayscale-converter", color: "image-color-picker",
-  metadata: "image-metadata-viewer", base64: "image-to-base64", "metadata-cleaner": "image-metadata-cleaner"
+  metadata: "image-metadata-viewer", base64: "image-to-base64", "metadata-cleaner": "image-metadata-cleaner",
+  batch: "batch-image-converter", "image-to-pdf": "image-to-pdf"
 };
 
 function getInitialTool(): ToolId | null {
@@ -624,7 +629,7 @@ export default function App() {
   const filteredTools = tools.filter(tool => {
     const matchesSearch = (tool.title + " " + tool.desc).toLowerCase().includes(toolSearch.trim().toLowerCase());
     const id = String(tool.id);
-    const category = toolCategory === "all" || (toolCategory === "optimize" && ["compress","resize","convert"].includes(id)) || (toolCategory === "edit" && ["crop","rotate","flip","watermark","rounded","blur","grayscale"].includes(id)) || (toolCategory === "inspect" && ["color","metadata","base64","metadata-cleaner"].includes(id));
+    const category = toolCategory === "all" || (toolCategory === "optimize" && ["compress","resize","convert"].includes(id)) || (toolCategory === "edit" && ["crop","rotate","flip","watermark","rounded","blur","grayscale"].includes(id)) || (toolCategory === "inspect" && ["color","metadata","base64","metadata-cleaner"].includes(id)) || tool.category === toolCategory;
     return matchesSearch && category;
   });
   const visibleTools = filteredTools;
@@ -743,15 +748,15 @@ export default function App() {
       </section>
       <section className="trust-strip"><span><LockKeyhole size={16}/> Your images stay on your device</span><span><Check size={16}/> No sign-up required</span><span><Sparkles size={16}/> Always free</span></section>
       <section className="tools-section" id="tools">
-        <div className="section-heading"><div><div className="eyebrow">THE TOOLKIT</div><h2>Everything you need.<br/><span>Nothing you don't.</span></h2></div><p>Focused image utilities for everyday creative work. Choose a tool and get straight to work.</p></div>
+        <div className="section-heading"><div><div className="eyebrow">THE TOOLKIT</div><h2>Everything you need.<br/><span>Nothing you don't.</span></h2></div><p>Focused image and PDF utilities for everyday file work. Choose a tool and get straight to work.</p></div>
         <div className="tool-discovery">
           <label className="tool-search-label" htmlFor="tool-search">Find the right tool</label>
           <input id="tool-search" className="tool-search" type="search" placeholder="Search compressor, crop, watermark…" value={toolSearch} onChange={e => setToolSearch(e.target.value)} />
           <label className="tool-category-label" htmlFor="tool-category">Browse category</label>
           <select id="tool-category" className="tool-category-select" value={toolCategory} onChange={e => setToolCategory(e.target.value)}>
-            <option value="all">All available tools</option>
+            <option value="all">All tools</option>
             <option value="optimize">Quick filter: Optimize</option><option value="edit">Quick filter: Edit</option><option value="inspect">Quick filter: Inspect & data</option>
-            
+            <option value="batch">Batch conversion</option><option value="pdf">PDF creation</option>
           </select>
           <p className="tool-count" role="status">{toolCountMessage}</p>
         </div>
@@ -759,13 +764,14 @@ export default function App() {
         {filteredTools.length === 0 && <p className="empty-tools">No matching tools. Try another search or choose “All tools”.</p>}
       </section>
       <section className="privacy-section" id="privacy"><div className="privacy-icon"><ShieldCheck size={25}/></div><div><div className="eyebrow">YOUR PRIVACY MATTERS</div><h2>Your images are <span>yours.</span></h2><p>Working tools process your images directly in your browser. Your files are not uploaded to PixelTools servers, and there is no account to create. AI background removal and upscaling are not enabled yet.</p></div><div className="privacy-stamp"><LockKeyhole size={18}/><b>PRIVATE</b><small>By design</small></div></section>
-      <section className="how-section" id="how"><div className="eyebrow">THREE SIMPLE STEPS</div><h2>From upload to <span>done.</span></h2><div className="steps"><div><b>01</b><h3>Choose a tool</h3><p>Pick the image task you want to get done.</p></div><div><b>02</b><h3>Add your image</h3><p>Drop a file or browse your device. That's it.</p></div><div><b>03</b><h3>Download & go</h3><p>Process locally and save your finished image.</p></div></div></section>
+      <section className="how-section" id="how"><div className="eyebrow">THREE SIMPLE STEPS</div><h2>From upload to <span>done.</span></h2><div className="steps"><div><b>01</b><h3>Choose a tool</h3><p>Pick the image task you want to get done.</p></div><div><b>02</b><h3>Add your files</h3><p>Drop a file or browse your device. That's it.</p></div><div><b>03</b><h3>Download & go</h3><p>Process locally and save your finished result.</p></div></div></section>
     </main>
     <footer><a className="brand" href="/"><span className="brand-mark"><ImageIcon size={17}/></span>pixel<span>tools</span></a><p>Thoughtful image tools. Free for everyone.</p><nav className="footer-links"><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><small>© 2026 PixelTools. Made for the web.</small></footer>
 
     {active && <div className="modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) closeTool() }}>
       <section ref={dialogRef} className="tool-modal" role="dialog" aria-modal="true" aria-labelledby="tool-dialog-title" tabIndex={-1}>
         <div className="modal-head"><div><div className="eyebrow">PIXELTOOLS WORKSPACE</div><h2 id="tool-dialog-title">{toolName}</h2><p className="modal-subtitle">{tools.find(t => t.id === active)?.desc}</p></div><button className="icon-btn" aria-label="Close tool" onClick={closeTool}><X size={20}/></button></div>
+        {active === "image-to-pdf" ? <ImageToPdfTool/> : active === "batch" ? <BatchImageTool/> : <>
         <div className="workflow-steps" aria-label="Tool workflow"><span className={!file ? "current" : "done"}><b>1</b> Add image</span><span className={file ? "current" : ""}><b>2</b> Adjust options</span><span className={result ? "done current" : ""}><b>3</b> Download</span></div>
         {!file ? <button className="dropzone" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); selectFile(e.dataTransfer.files[0]); }}><span className="upload-icon"><UploadCloud size={28}/></span><b>Drop your image here</b><span>or click to browse files</span><small>JPG, PNG, WebP · Up to 25 MB</small></button> : <div className="workspace">
           <div className="preview-panel">
@@ -838,6 +844,7 @@ export default function App() {
         {error && !file && <p className="error-msg" role="alert" aria-live="polite">{error}</p>}
         <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={e => selectFile(e.target.files?.[0])}/>
         {active === "watermark" && <input ref={watermarkInputRef} type="file" accept="image/png,image/webp" hidden onChange={e => selectWatermarkImage(e.target.files?.[0])}/>}
+        </>}
         <div className="modal-foot"><LockKeyhole size={14}/> Files are processed locally in your browser <button onClick={closeTool}>Close</button></div>
       </section>
     </div>}
