@@ -15,10 +15,24 @@ afterEach(() => {
 });
 
 describe("PixelTools ease-of-use workflows", () => {
+  it("offers popular one-click shortcuts that open the matching workspace", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "Image to PDF", exact: true }));
+    expect(screen.getByRole("dialog", { name: "Image to PDF" })).toBeTruthy();
+  });
+
+  it("explains privacy, pricing and honest AI feature status on the homepage", () => {
+    render(<App />);
+    expect(screen.getByText(/selected images are processed in your browser/i)).toBeTruthy();
+    expect(screen.getByText(/no account, subscription or paywall/i)).toBeTruthy();
+    expect(screen.getByText(/marked Coming Soon/i)).toBeTruthy();
+  });
+
   it("lets a visitor search for an image tool", async () => {
     const user = userEvent.setup();
     render(<App />);
-    const search = screen.getByRole("searchbox", { name: "Find the right tool" });
+    const search = screen.getByRole("searchbox", { name: "What would you like to do?" });
     await user.type(search, "cropper");
     expect(screen.getByRole("button", { name: /Image Cropper/ })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Image Compressor/ })).toBeNull();
@@ -80,7 +94,7 @@ describe("PixelTools ease-of-use workflows", () => {
     expect(screen.getByRole("status").textContent).toContain("16 available tools");
     expect(screen.getByRole("status").textContent).toContain("2 coming soon");
     expect(screen.queryByRole("button", { name: /PDF to JPG/i })).toBeNull();
-    expect(screen.getAllByRole("option")).toHaveLength(6);
+    expect(screen.getByRole("group", { name: "Filter tools by category" }).querySelectorAll("button")).toHaveLength(6);
   });
 
   it("labels the homepage illustration and does not present invented processing results", () => {
@@ -108,10 +122,11 @@ describe("PixelTools ease-of-use workflows", () => {
   it("filters the toolkit by category and explains empty results", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.selectOptions(screen.getByRole("combobox", { name: "Browse category" }), "edit");
+    await user.click(screen.getByRole("button", { name: "Edit" }));
     expect(screen.getByRole("button", { name: /Image Cropper/ })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Image Compressor/ })).toBeNull();
-    await user.type(screen.getByRole("searchbox", { name: "Find the right tool" }), "not-a-real-tool");
+    expect(screen.getByRole("button", { name: "Edit" }).getAttribute("aria-pressed")).toBe("true");
+    await user.type(screen.getByRole("searchbox", { name: "What would you like to do?" }), "not-a-real-tool");
     expect(screen.getByText(/No matching tools/)).toBeTruthy();
   });
 

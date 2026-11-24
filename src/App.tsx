@@ -21,7 +21,7 @@ const tools: Array<{ id: string; title: string; desc: string; icon: string; tag:
   { id: "resize", title: "Image Resizer", desc: "Set precise width and height in pixels.", icon: "▧", tag: "Quick", category: "optimize" },
   { id: "crop", title: "Image Cropper", desc: "Crop to the exact rectangle you need.", icon: "▣", tag: "Precision", category: "edit" },
   { id: "convert", title: "Image Converter", desc: "Convert between JPG, PNG and WebP.", icon: "⇄", tag: "3 formats", category: "optimize" },
-  { id: "rotate", title: "Image Rotator", desc: "Rotate an image in 90-degree steps.", icon: "↻", tag: "Quick" },
+  { id: "rotate", title: "Image Rotator", desc: "Rotate an image in 90-degree steps.", icon: "↻", tag: "Quick", category: "edit" },
   { id: "flip", title: "Image Flipper", desc: "Mirror images horizontally or vertically.", icon: "⇋", tag: "Quick" },
   { id: "watermark", title: "Image Watermark", desc: "Add text or a transparent logo watermark with position and opacity controls.", icon: "✎", tag: "Custom", category: "edit" },
   { id: "rounded", title: "Rounded Corners", desc: "Create smooth rounded image corners.", icon: "▢", tag: "Transparent PNG", category: "edit" },
@@ -645,7 +645,6 @@ export default function App() {
   const base64Output = base64Mode === "data-url" ? base64Text : base64Text.slice(base64Text.indexOf(",") + 1);
   const filteredTools = tools.filter(tool => {
     const matchesSearch = (tool.title + " " + tool.desc).toLowerCase().includes(toolSearch.trim().toLowerCase());
-    const id = String(tool.id);
     const category = toolCategory === "all" || tool.category === toolCategory;
     return matchesSearch && category;
   });
