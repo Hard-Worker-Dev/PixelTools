@@ -457,3 +457,18 @@ html{scroll-padding-top:100px}body{color:var(--pt-ink);background:#fbfbfe}button
 }
 @media(max-width:380px){.tool-grid{grid-template-columns:1fr}.tool-card{min-height:190px}.hero-actions .primary-btn{width:100%}.hero-proof{display:grid;grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* Keep the sticky header anchored to the document and preserve tablet navigation. */
+.app-shell { overflow-x: clip; overflow-y: visible; }
+@media(max-width:700px) {
+  .topbar nav:not(.open),.header-cta { display:none; }
+  .mobile-menu { display:grid; place-items:center; width:42px; height:42px; border:1px solid #e7e9f1; border-radius:11px; color:#4d5570; background:#fff; }
+  .topbar nav.open {
+    display:flex; position:absolute; top:61px; left:16px; right:16px; z-index:25;
+    flex-direction:column; gap:2px; padding:8px; border:1px solid #e8eaf1;
+    border-radius:13px; background:#fff; box-shadow:0 18px 38px rgba(28,35,67,.13);
+  }
+  .topbar nav.open a { padding:12px; border-radius:8px; }
+  .topbar nav.open a:hover { background:#f7f6ff; }
+}
