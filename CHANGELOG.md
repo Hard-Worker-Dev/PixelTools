@@ -2,7 +2,14 @@
 
 All notable PixelTools changes are documented here.
 
-## Unreleased — release-readiness documentation
+## Unreleased — release candidate 1.0.0-rc.2
+
+### Release integration
+- Combined the verified release-audit work and Cloudflare Workers preview configuration into one candidate branch.
+- Corrected Dependabot configuration to avoid assigning a label that is not present in the repository.
+- Recorded component CI and preview evidence separately from integrated-candidate checks; no production merge or deployment is implied.
+
+## Release-readiness documentation
 
 ### Legal and privacy
 - Reworked the public Privacy Policy for the current Pakistan-focused release, including browser-local image processing, Cloudflare technical processing, metadata sensitivity and contact-channel limitations.
