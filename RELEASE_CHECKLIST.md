@@ -1,6 +1,6 @@
 # PixelTools Public Release Checklist
 
-**Candidate:** 1.0.0-rc.2 (integrated release branch; not final)  
+**Candidate:** 1.0.0-rc.2 (16-tool integration in review; not final)  
 **Release branch:** `release/v1.0.0-rc.2-2026-11-24`  
 **Production hostname:** https://pixeltools-9xe.pages.dev  
 **Repository:** https://github.com/Hard-Worker-Dev/PixelTools  
@@ -17,7 +17,10 @@ This checklist separates automated evidence from manual acceptance. A box must o
 - [x] Integrated release branch CI passed on commit `684762b693d47c5d0cdbd62b1cf38eac47e89aa7`: GitHub Actions run `45380279699` passed both dependency audits, TypeScript, Vitest, production build and artifact upload.
 - [x] Integrated release branch Cloudflare Pages preview succeeded on commit `684762b693d47c5d0cdbd62b1cf38eac47e89aa7`: https://48f740c0.pixeltools-9xe.pages.dev
 - [x] Integrated release branch Cloudflare Workers preview succeeded on the same commit: https://217d7b66-pixeltools.zerotohero125crore.workers.dev
-- [x] Existing automated coverage is documented for all 14 implemented tool workspaces, all 11 image editing/export tools, Color Picker, Metadata Viewer and Base64 workflows. Reconfirm on the integrated branch.
+- [x] Automated coverage for the original 14 image-tool workspaces is retained.
+- [x] Batch Image Converter and Image to PDF workspace tests and ZIP/PDF structure tests are included in the integrated candidate.
+- [ ] Fresh integrated CI must pass on the final candidate commit before automated release checks are accepted.
+- [ ] Independently verify downloaded image files, ZIP archive integrity and generated PDF content in external readers before production promotion.
 - [x] Static SEO, internal-link, sitemap and security-header contracts are included in the test suite. Reconfirm on the integrated branch.
 - [x] AI tools and roadmap entries are explicitly labelled Coming Soon; they are not represented as implemented functionality.
 - [x] The currently deployed production baseline is `main` commit `d861c44b86cbe5f99c8323d1bac4622132b68235`. It is not the integrated release candidate and has not been changed by this work.
@@ -37,8 +40,8 @@ This checklist separates automated evidence from manual acceptance. A box must o
 
 - [x] Fourteen image tools are the implemented working scope for this release.
 - [x] AI Background Remover and AI Upscaler remain Coming Soon.
-- [x] Thirty catalogue categories with 100 planned entries each (3,000 total) are disabled and labelled Coming Soon; they are roadmap entries, not working tools.
-- [ ] Implement and test roadmap entries only in separate, reviewed batches. They are not a Release 1.0.0 gate and must not be advertised as working.
+- [x] Keep the 3,000 proposed entries as an internal planning inventory only; do not generate public catalogue entries or SEO pages from them.
+- [ ] Integrate and verify any future roadmap additions separately; they are not a Release 1.0.0 requirement.
 
 ## Manual acceptance still required
 
@@ -71,3 +74,12 @@ This checklist separates automated evidence from manual acceptance. A box must o
 ## Release decision
 
 This integrated branch is a release candidate, not a final production release. Do not tag or announce `1.0.0` until the integrated CI/preview checks, manual browser/device/export acceptance, owner configuration, security review and legal review are complete. Production merge and deployment require explicit owner approval.
+
+
+## Release 1 tool integration — 2026-11-24
+
+- [x] Batch Image Converter and Image to PDF are integrated as tools 15 and 16 in the release-candidate branch, with dedicated workspace components, browser-local processing utilities, tool landing pages, and sitemap entries.
+- [ ] Fresh CI on the final integrated commit must pass before this candidate is accepted.
+- [ ] Independently open downloaded image outputs and PDFs; independently validate ZIP integrity and checksums.
+- [ ] Complete Chrome, Edge and Firefox coverage, plus physical Android Chrome and iPhone Safari checks for the two added tools.
+- [ ] Complete all other manual, legal, owner-configuration, production-host and rollback gates before final release.
