@@ -18,7 +18,7 @@ describe("PixelTools ease-of-use workflows", () => {
   it("offers popular one-click shortcuts that open the matching workspace", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.click(screen.getByRole("button", { name: "Image to PDF", exact: true }));
+    await user.click(screen.getByRole("heading", { name: "Image to PDF" }).closest("button")!);
     expect(screen.getByRole("dialog", { name: "Image to PDF" })).toBeTruthy();
   });
 
