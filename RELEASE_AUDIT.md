@@ -85,3 +85,10 @@ The RC2 candidate’s public UI previously generated 3,000 planned roadmap entri
 
 
 The follow-up also guards asynchronous image-processing jobs against file replacement and workspace closure, cancels stale Base64/EXIF reads, and adds an explicit EXIF loading state. A regression test exercises replacement during an in-flight image export.
+
+
+## Release 1 integration status — 2026-11-24
+
+- The RC2 candidate now includes Batch Image Converter and Image to PDF as tools 15 and 16, alongside the original 14 tools. Their components, browser-local processing utilities, tests, dedicated SEO landing pages and sitemap entries are present in the candidate branch.
+- A first CI run for the integration failed because an existing test used a partial-name regex that matched both “Image Converter” and “Batch Image Converter”. The regression test selector was changed to exact accessible-name matching. The corrected branch requires a fresh CI result before automated acceptance.
+- Independent export verification and physical browser/device checks for the two added tools remain open. Component tests and PDF/ZIP structure tests do not replace external-reader/archive validation.

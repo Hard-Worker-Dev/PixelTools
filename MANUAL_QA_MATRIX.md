@@ -8,9 +8,9 @@
 
 | Environment | Required coverage | Evidence |
 |---|---|---|
-| Chrome desktop (current stable) | All 14 tools; JPG, PNG, WebP | Browser/version, OS, screenshots, output files |
-| Edge desktop (current stable) | All 14 tools; JPG, PNG, WebP | Browser/version, OS, output files |
-| Firefox desktop (current stable) | All 14 tools; JPG, PNG, WebP | Browser/version, OS, output files |
+| Chrome desktop (current stable) | All 16 tools; JPG, PNG, WebP | Browser/version, OS, screenshots, output files |
+| Edge desktop (current stable) | All 16 tools; JPG, PNG, WebP | Browser/version, OS, output files |
+| Firefox desktop (current stable) | All 16 tools; JPG, PNG, WebP | Browser/version, OS, output files |
 | Android Chrome, physical device | Upload, tool controls, download/share, orientation | Device model, Android version, screenshots |
 | iPhone Safari, physical device | Upload, tool controls, download/share, orientation | Device model, iOS version, screenshots |
 | Tablet viewport and touch | Navigation, dialogs, crop gestures, controls | Viewport dimensions, device/browser |
@@ -50,6 +50,8 @@ Record SHA-256 hashes for source and output assets. Never use private user photo
 | Image Metadata Viewer | Inspect EXIF-bearing and metadata-free images | File details and available EXIF fields are accurate; GPS is clearly treated as sensitive |
 | Image to Base64 | Generate data URL and raw Base64; copy and save | Decoding output reproduces source bytes; data URL prefix only appears in data-URL mode |
 | Image Metadata Cleaner | Re-encode EXIF-bearing source to each supported output format | Independent EXIF inspection confirms source EXIF/GPS tags are not copied; document any encoder-added generic metadata |
+| Batch Image Converter | Process mixed JPG/PNG/WebP sets; test output formats, individual downloads, partial failures, stop control and ZIP export | Each output opens with correct MIME/extension; ZIP passes independent integrity validation; duplicate output names are unique; failed files are reported |
+| Image to PDF | Create one- and multi-page PDFs; reorder pages; test portrait/landscape inputs, transparency and quality settings | PDF opens in an independent reader; page count/order, A4 orientation, image fit and output limits are correct; transparent pixels render on white |
 
 ## Download and file integrity checks
 
@@ -102,4 +104,11 @@ Copy one record per environment and attach non-sensitive sample files or screens
 
 ## Release gate
 
-The manual gate passes only when every required environment and all 14 available tool workflows have recorded evidence, all export integrity checks pass, and blocking defects are fixed and retested. AI Background Remover and AI Upscaler are intentionally excluded from working-tool acceptance while marked Coming Soon.
+The manual gate passes only when every required environment and all 16 available tool workflows have recorded evidence, all export integrity checks pass, and blocking defects are fixed and retested. AI Background Remover and AI Upscaler are intentionally excluded from working-tool acceptance while marked Coming Soon.
+
+
+## Release 1 additional-tool boundary tests
+
+- Batch converter: test 30 files and 31 files, per-file and combined input limits, duplicate filenames, a corrupt image among valid files, stopping between files, ZIP output limit and independent archive CRC/integrity validation.
+- Image to PDF: test 20 pages and 21 pages, per-file/combined input limits, 120-megapixel combined limit, page reorder, invalid images, PDF output limit, transparency flattening to white and independent PDF-reader acceptance.
+- Close each workspace while work is in progress and confirm no misleading success state or stale results appear after reopening.
