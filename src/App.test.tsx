@@ -5,6 +5,8 @@ import userEvent from "@testing-library/user-event";
 import App from "./App";
 import exifr from "exifr";
 
+vi.mock("exifr", () => ({ default: { parse: vi.fn().mockResolvedValue(undefined) } }));
+
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
@@ -426,7 +428,7 @@ describe("PixelTools ease-of-use workflows", () => {
   it("hides GPS metadata by default and omits it from copied reports until opted in", async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText } });
-    vi.spyOn(exifr, "parse").mockResolvedValueOnce({
+    vi.mocked(exifr.parse).mockResolvedValueOnce({
       Make: "PixelTools Test Camera",
       GPSLatitude: 37.7749,
       GPSLongitude: -122.4194,
