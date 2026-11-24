@@ -1,6 +1,6 @@
 # PixelTools
 
-> Release candidate: **1.0.0-rc.1**. The public beta is deployed; see [release readiness](RELEASE_CHECKLIST.md) for remaining manual launch checks.
+> Release candidate: **1.0.0-rc.2**. The public beta is deployed; see [release readiness](RELEASE_CHECKLIST.md) for remaining manual launch checks.
 
 A premium, free online image toolkit. The product focuses on practical image workflows, clear controls and browser-local processing.
 
