@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ImageToPdfTool from "./ImageToPdfTool";
+import { createPdfFromImages } from "./lib/pdf";
 
 vi.mock("./lib/image", () => ({ formatBytes: (bytes: number) => bytes + " B" }));
 vi.mock("./lib/pdf", () => ({
@@ -43,6 +44,28 @@ describe("ImageToPdfTool", () => {
     expect(rows[1].textContent).toContain("first.jpg");
   });
 
+  it("stops PDF generation on request and does not expose a partial result", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<ImageToPdfTool />);
+    const input = container.querySelector<HTMLInputElement>('input[type="file"]');
+    fireEvent.change(input as HTMLInputElement, { target: { files: [
+      new File(["jpg"], "first.jpg", { type: "image/jpeg" }),
+      new File(["jpg"], "second.jpg", { type: "image/jpeg" })
+    ] } });
+    let receivedSignal: AbortSignal | undefined;
+    vi.mocked(createPdfFromImages).mockImplementationOnce((_files, _quality, _progress, signal) => {
+      receivedSignal = signal;
+      return new Promise<Blob>((_resolve, reject) => {
+        signal?.addEventListener("abort", () => reject(new DOMException("PDF creation was stopped.", "AbortError")), { once: true });
+      });
+    });
+    await user.click(screen.getByRole("button", { name: /Create PDF · 2 pages/ }));
+    await user.click(screen.getByRole("button", { name: "Stop after current page" }));
+    expect(receivedSignal?.aborted).toBe(true);
+    expect((await screen.findByRole("alert")).textContent).toContain("PDF creation stopped");
+    expect(screen.queryByText("Your PDF is ready")).toBeNull();
+  });
+
   it("rejects unsupported formats before PDF generation", () => {
     const { container } = render(<ImageToPdfTool />);
     const input = container.querySelector<HTMLInputElement>('input[type="file"]');
@@ -51,3 +74,4 @@ describe("ImageToPdfTool", () => {
     expect(screen.queryByRole("button", { name: /Create PDF/ })).toBeNull();
   });
 });
+

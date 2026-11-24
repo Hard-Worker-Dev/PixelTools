@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { buildPdfFromJpegs } from "./pdf";
+import { buildPdfFromJpegs, createPdfFromImages } from "./pdf";
 
 const text = new TextDecoder();
 
@@ -32,6 +32,13 @@ describe("PDF generation utilities", () => {
     expect(source.split("/Type /Page ").slice(1).length).toBe(2);
     expect(source).toContain("/MediaBox [0 0 841.89 595.28]");
     expect(source).toContain("/MediaBox [0 0 595.28 841.89]");
+  });
+
+  it("honors an already-aborted signal before decoding any image", async () => {
+    const controller = new AbortController();
+    controller.abort();
+    const image = { name: "sample.jpg", type: "image/jpeg", size: 100 } as File;
+    await expect(createPdfFromImages([image], 0.9, undefined, controller.signal)).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("rejects empty, excessive and invalid page data", () => {

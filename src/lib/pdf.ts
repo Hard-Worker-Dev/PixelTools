@@ -20,6 +20,10 @@ function pdfNumber(value: number): string {
   return Number(value.toFixed(3)).toString();
 }
 
+function throwIfAborted(signal?: AbortSignal): void {
+  if (signal?.aborted) throw new DOMException("PDF creation was stopped.", "AbortError");
+}
+
 function validatePage(page: PdfImagePage): void {
   if (page.bytes.length < 4 || page.bytes[0] !== 0xff || page.bytes[1] !== 0xd8 || page.bytes[page.bytes.length - 2] !== 0xff || page.bytes[page.bytes.length - 1] !== 0xd9 || !Number.isInteger(page.width) || !Number.isInteger(page.height) || page.width < 1 || page.height < 1) {
     throw new Error("Each PDF page needs valid JPEG bytes and positive integer dimensions.");
@@ -92,7 +96,8 @@ export function buildPdfFromJpegs(pages: PdfImagePage[]): Blob {
 export async function createPdfFromImages(
   files: File[],
   quality = 0.9,
-  onProgress?: (completed: number, total: number) => void
+  onProgress?: (completed: number, total: number) => void,
+  signal?: AbortSignal
 ): Promise<Blob> {
   if (files.length < 1 || files.length > 20) throw new Error("Choose between 1 and 20 images to create a PDF.");
   const supported = ["image/jpeg", "image/png", "image/webp"];
@@ -103,13 +108,16 @@ export async function createPdfFromImages(
     totalBytes += file.size;
   }
   if (totalBytes > 100 * 1024 * 1024) throw new Error("The combined source images cannot exceed 100 MB.");
+  throwIfAborted(signal);
 
   const pages: PdfImagePage[] = [];
   let totalPixels = 0;
   for (let index = 0; index < files.length; index += 1) {
+    throwIfAborted(signal);
     const file = files[index];
     const bitmap = await createImageBitmap(file);
     try {
+      throwIfAborted(signal);
       if (bitmap.width > 12000 || bitmap.height > 12000 || bitmap.width * bitmap.height > 60000000) {
         throw new Error(file.name + ": image exceeds the 12,000 px per-side or 60 megapixel safety limit.");
       }
@@ -126,11 +134,13 @@ export async function createPdfFromImages(
       const jpeg = await new Promise<Blob>((resolve, reject) => {
         canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error(file.name + ": could not encode this image as JPEG.")), "image/jpeg", Math.max(0.5, Math.min(1, quality)));
       });
+      throwIfAborted(signal);
       pages.push({ bytes: new Uint8Array(await jpeg.arrayBuffer()), width: bitmap.width, height: bitmap.height });
     } finally {
       bitmap.close();
     }
     onProgress?.(index + 1, files.length);
   }
+  throwIfAborted(signal);
   return buildPdfFromJpegs(pages);
 }

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDownToLine, ArrowDown, ArrowUp, Check, FileImage, LockKeyhole, Plus, UploadCloud, X } from "lucide-react";
 import { formatBytes } from "./lib/image";
 import { createPdfFromImages } from "./lib/pdf";
@@ -25,6 +25,16 @@ export default function ImageToPdfTool() {
   const [result, setResult] = useState<Blob | null>(null);
   const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   const addFiles = (picked: FileList | File[]) => {
     const next = [...files];
@@ -67,16 +77,25 @@ export default function ImageToPdfTool() {
     setError("");
     setResult(null);
     setProgress(0);
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
     try {
       const pdf = await createPdfFromImages(files, quality / 100, completed => {
-        setProgress(Math.round((completed / files.length) * 100));
-      });
+        if (mountedRef.current) setProgress(Math.round((completed / files.length) * 100));
+      }, controller.signal);
+      if (!mountedRef.current || controller.signal.aborted) return;
       if (pdf.type !== "application/pdf" || pdf.size < 100) throw new Error("The generated PDF did not pass the basic output check.");
       setResult(pdf);
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Could not create the PDF. Try different images or a smaller batch.");
+      if (!mountedRef.current) return;
+      if (reason instanceof Error && reason.name === "AbortError") {
+        setError("PDF creation stopped. No partial PDF was saved. Your images remain available.");
+      } else {
+        setError(reason instanceof Error ? reason.message : "Could not create the PDF. Try different images or a smaller batch.");
+      }
     } finally {
-      setBusy(false);
+      if (abortControllerRef.current === controller) abortControllerRef.current = null;
+      if (mountedRef.current) setBusy(false);
     }
   };
 
@@ -96,6 +115,7 @@ export default function ImageToPdfTool() {
     <div className="pdf-quality"><label htmlFor="pdf-quality">Image quality <b>{quality}%</b></label><input id="pdf-quality" type="range" min="50" max="100" value={quality} disabled={busy} onChange={event => { setQuality(Number(event.target.value)); setResult(null); }}/><p>Higher quality keeps photos sharper but creates a larger PDF. Each page automatically uses A4 portrait or landscape with margins. Combined input is limited to 120 megapixels.</p></div>
     {files.length > 0 && <button type="button" className="primary-btn process-btn" disabled={busy} onClick={createPdf}>{busy ? "Creating PDF · " + progress + "%" : result ? "Create PDF again" : "Create PDF · " + files.length + " page" + (files.length === 1 ? "" : "s")}</button>}
     {busy && <div className="pdf-progress" role="status" aria-live="polite"><div><span>Preparing PDF pages locally</span><b>{progress}%</b></div><div><i style={{ width: progress + "%" }}/></div></div>}
+    {busy && <button type="button" className="secondary-btn" onClick={() => abortControllerRef.current?.abort()}>Stop after current page</button>}
     {error && <p className="error-msg" role="alert">{error}</p>}
     {result && <section className="pdf-result" role="status" aria-live="polite"><div><Check size={18}/><b>Your PDF is ready</b><span>{files.length} pages · {formatBytes(result.size)}</span></div><p>All pages are in the order shown above. Your source images remain unchanged.</p><button type="button" className="download-btn" onClick={() => downloadPdf(result)}><ArrowDownToLine size={16}/> Download PDF</button></section>}
     <div className="pdf-privacy"><LockKeyhole size={14}/> Images are converted locally in your browser. No uploads or account required.</div>
