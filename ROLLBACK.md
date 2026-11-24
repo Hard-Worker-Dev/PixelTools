@@ -2,7 +2,7 @@
 
 **Cloudflare Pages project:** `pixeltools`  
 **Production hostname:** https://pixeltools-9xe.pages.dev  
-**Current Git release candidate:** `1.0.0-rc.1`
+**Current Git release candidate:** `1.0.0-rc.2`
 
 Use this procedure only when a production deployment causes a confirmed user-facing issue. Do not deliberately roll back the live site as a test during normal operation.
 
@@ -46,8 +46,8 @@ API reference: [Roll back a Pages deployment](https://developers.cloudflare.com/
 ## Current recovery points
 
 - Backup branch: `backup/public-beta-2026-10-30`
-- Release branch: `release/1.0.0-rc.1`
-- Main candidate commit at the time these branches were created: `33be72b2f6c97ac08f0e90144394db83e9979b57`
+- Release branch: `release/v1.0.0-rc.2-2026-11-24`
+- Production main baseline commit before the current release candidate branch was created: `d861c44b86cbe5f99c8323d1bac4622132b68235`
 
 These Git branches preserve source history. Cloudflare Pages production rollback still uses a successful production deployment from the Cloudflare deployment history.
 

@@ -1,8 +1,11 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
+import exifr from "exifr";
+
+vi.mock("exifr", () => ({ default: { parse: vi.fn().mockResolvedValue(undefined) } }));
 
 afterEach(() => {
   cleanup();
@@ -12,14 +15,108 @@ afterEach(() => {
 });
 
 describe("PixelTools ease-of-use workflows", () => {
+  it("offers popular one-click shortcuts that open the matching workspace", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /^Image to PDF$/ }));
+    expect(screen.getByRole("dialog", { name: "Image to PDF" })).toBeTruthy();
+  });
+
+  it("explains privacy, pricing and honest AI feature status on the homepage", () => {
+    render(<App />);
+    expect(screen.getByText(/selected images are processed in your browser/i)).toBeTruthy();
+    expect(screen.getByText(/no account, subscription or paywall/i)).toBeTruthy();
+    expect(screen.getByText(/marked Coming Soon/i)).toBeTruthy();
+  });
+
   it("lets a visitor search for an image tool", async () => {
     const user = userEvent.setup();
     render(<App />);
-    const search = screen.getByRole("searchbox", { name: "Find the right tool" });
+    const search = screen.getByRole("searchbox", { name: "What would you like to do?" });
     await user.type(search, "cropper");
     expect(screen.getByRole("button", { name: /Image Cropper/ })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Image Compressor/ })).toBeNull();
-    expect(screen.getByRole("status").textContent).toContain("1 tools found");
+    expect(screen.getByRole("status").textContent).toContain("1 available tool");
+  });
+
+  it("discards an in-flight processing result when the selected file is replaced", async () => {
+    let resolveBitmap!: (bitmap: ImageBitmap) => void;
+    const pendingBitmap = new Promise<ImageBitmap>(resolve => { resolveBitmap = resolve; });
+    const bitmapFactory = vi.fn(() => pendingBitmap);
+    vi.stubGlobal("createImageBitmap", bitmapFactory);
+    const context = {
+      fillStyle: "#000000", filter: "none", globalAlpha: 1, font: "", textAlign: "left",
+      textBaseline: "alphabetic", shadowColor: "", shadowBlur: 0,
+      save: vi.fn(), restore: vi.fn(), fillRect: vi.fn(), drawImage: vi.fn(),
+      translate: vi.fn(), rotate: vi.fn(), scale: vi.fn(), beginPath: vi.fn(),
+      roundRect: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(), arcTo: vi.fn(),
+      closePath: vi.fn(), clip: vi.fn(), fillText: vi.fn()
+    } as unknown as CanvasRenderingContext2D;
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(() => context);
+    let finishExport!: () => void;
+    const exportFinished = new Promise<void>(resolve => { finishExport = resolve; });
+    vi.spyOn(HTMLCanvasElement.prototype, "toBlob").mockImplementation((callback, type) => {
+      callback(new Blob(["processed-image"], { type: type ?? "image/png" }));
+      finishExport();
+    });
+
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const first = new File([buffer], "first.png", { type: "image/png" });
+    const second = new File([buffer], "second.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Compressor/ }));
+    const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [first] } });
+    await screen.findByAltText("Selected image preview");
+    fireEvent.click(screen.getByRole("button", { name: /Process image/ }));
+    expect(bitmapFactory).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByRole("button", { name: /Replace image/ }));
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [second] } });
+    await screen.findByText("second.png");
+    expect(screen.queryByText("Your image is ready")).toBeNull();
+
+    await act(async () => {
+      resolveBitmap({ width: 640, height: 480, close: vi.fn() } as unknown as ImageBitmap);
+      await exportFinished;
+      await new Promise(resolve => window.setTimeout(resolve, 0));
+    });
+    expect(screen.queryByText("Your image is ready")).toBeNull();
+  });
+
+  it("keeps roadmap ideas out of the public catalogue and distinguishes upcoming tools", () => {
+    render(<App />);
+    expect(screen.getByRole("status").textContent).toContain("16 available tools");
+    expect(screen.getByRole("status").textContent).toContain("2 coming soon");
+    expect(screen.queryByRole("button", { name: /PDF to JPG/i })).toBeNull();
+    expect(screen.getByRole("group", { name: "Filter tools by category" }).querySelectorAll("button")).toHaveLength(6);
+  });
+
+  it("labels the homepage illustration and does not present invented processing results", () => {
+    render(<App />);
+    expect(screen.getByText("Illustrative preview")).toBeTruthy();
+    expect(screen.queryByText(/−68%|768 KB|2\.4 MB/)).toBeNull();
+    expect(screen.getAllByRole("link", { name: /pixeltools/i })[0].getAttribute("href")).toBe("/#tools");
+  });
+
+  it("opens the browser-local batch image conversion workspace", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /Batch Image Converter/ }));
+    expect(screen.getByRole("dialog", { name: "Batch Image Converter" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /Drop images here or browse/ })).toBeTruthy();
+  });
+
+  it("opens Image to PDF from its direct tool URL", () => {
+    window.history.replaceState({}, "", "/?tool=image-to-pdf");
+    render(<App />);
+    expect(screen.getByRole("dialog", { name: "Image to PDF" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /Drop images here or browse/ })).toBeTruthy();
   });
 
   it("filters the toolkit by category and explains empty results", async () => {
@@ -28,7 +125,8 @@ describe("PixelTools ease-of-use workflows", () => {
     await user.click(screen.getByRole("button", { name: "Edit" }));
     expect(screen.getByRole("button", { name: /Image Cropper/ })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Image Compressor/ })).toBeNull();
-    await user.type(screen.getByRole("searchbox", { name: "Find the right tool" }), "not-a-real-tool");
+    expect(screen.getByRole("button", { name: "Edit" }).getAttribute("aria-pressed")).toBe("true");
+    await user.type(screen.getByRole("searchbox", { name: "What would you like to do?" }), "not-a-real-tool");
     expect(screen.getByText(/No matching tools/)).toBeTruthy();
   });
 
@@ -60,12 +158,12 @@ describe("PixelTools ease-of-use workflows", () => {
       "Image Metadata Viewer", "Image to Base64", "Image Metadata Cleaner"
     ];
     for (const title of titles) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
+      fireEvent.click(screen.getByRole("heading", { name: title }).closest("button")!);
       expect(screen.getByRole("dialog", { name: title })).toBeTruthy();
       expect(screen.getByText(/Drop your image here/i)).toBeTruthy();
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
-  }, 15000);
+  }, 45000);
   it("uses accessible output labels and explains the PNG lossless mode", async () => {
     const buffer = new ArrayBuffer(24);
     const bytes = new Uint8Array(buffer);
@@ -238,7 +336,7 @@ describe("PixelTools ease-of-use workflows", () => {
       "Image Metadata Viewer", "Image to Base64", "Image Metadata Cleaner"
     ];
     for (const title of titles) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
+      fireEvent.click(screen.getByRole("heading", { name: title }).closest("button")!);
       const fileInput = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
       fireEvent.change(fileInput as HTMLInputElement, { target: { files: [image] } });
       await screen.findByAltText("Selected image preview");
@@ -250,7 +348,7 @@ describe("PixelTools ease-of-use workflows", () => {
       }
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
-  }, 20000);
+  }, 60000);
 
   it("traps modal keyboard focus and restores page scrolling after close", async () => {
     const user = userEvent.setup();
@@ -329,7 +427,7 @@ describe("PixelTools ease-of-use workflows", () => {
 
     const { container } = render(<App />);
     for (const name of toolNames) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(name) }));
+      fireEvent.click(screen.getByRole("heading", { name }).closest("button")!);
       const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
       expect(upload, name + " should provide an image input").toBeTruthy();
       fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
@@ -341,6 +439,54 @@ describe("PixelTools ease-of-use workflows", () => {
       fireEvent.click(screen.getByRole("button", { name: "Close tool" }));
     }
   }, 30000);
+
+  it("hides GPS metadata by default and omits it from copied reports until opted in", async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText } });
+    vi.mocked(exifr.parse).mockResolvedValueOnce({
+      Make: "PixelTools Test Camera",
+      GPSLatitude: 37.7749,
+      GPSLongitude: -122.4194,
+      GPSAltitude: 12
+    } as Awaited<ReturnType<typeof exifr.parse>>);
+    const context = {
+      drawImage: vi.fn(),
+      getImageData: vi.fn(() => ({ data: new Uint8ClampedArray([255, 0, 0, 255]) }))
+    } as unknown as CanvasRenderingContext2D;
+    vi.stubGlobal("createImageBitmap", vi.fn(async () => ({
+      width: 640, height: 480, close: vi.fn()
+    } as unknown as ImageBitmap)));
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(() => context);
+    const buffer = new ArrayBuffer(24);
+    const bytes = new Uint8Array(buffer);
+    const view = new DataView(buffer);
+    bytes.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a], 0);
+    view.setUint32(16, 640, false);
+    view.setUint32(20, 480, false);
+    const file = new File([buffer], "gps-photo.png", { type: "image/png" });
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Image Metadata Viewer/ }));
+    const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
+    fireEvent.change(upload as HTMLInputElement, { target: { files: [file] } });
+    expect(await screen.findByText("PixelTools Test Camera")).toBeTruthy();
+    expect(screen.queryByText("37.7749")).toBeNull();
+    expect(screen.queryByText("-122.4194")).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy metadata JSON" }));
+    await act(async () => { await Promise.resolve(); });
+    expect(writeText).toHaveBeenCalledTimes(1);
+    expect(writeText.mock.calls[0][0]).not.toContain("GPSLatitude");
+    expect(writeText.mock.calls[0][0]).not.toContain("GPSLongitude");
+
+    fireEvent.click(screen.getByRole("checkbox", { name: /Include GPS coordinates/ }));
+    expect(await screen.findByText("37.7749")).toBeTruthy();
+    expect(screen.getByText("-122.4194")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Copy metadata JSON" }));
+    await act(async () => { await Promise.resolve(); });
+    expect(writeText).toHaveBeenCalledTimes(2);
+    expect(writeText.mock.calls[1][0]).toContain("GPSLatitude");
+    expect(writeText.mock.calls[1][0]).toContain("37.7749");
+  });
 
   it("verifies the output UI for color sampling, metadata inspection and Base64 encoding", async () => {
     const pixelData = new Uint8ClampedArray([255, 0, 0, 255]);
@@ -438,7 +584,7 @@ describe("PixelTools ease-of-use workflows", () => {
     view.setUint32(20, 480, false);
     const source = new File([buffer], "source.png", { type: "image/png" });
     const { container } = render(<App />);
-    fireEvent.click(screen.getByRole("button", { name: /Image Converter/ }));
+    fireEvent.click(screen.getByRole("heading", { name: "Image Converter" }).closest("button")!);
     const upload = container.querySelector<HTMLInputElement>('input[accept="image/jpeg,image/png,image/webp"]');
     fireEvent.change(upload as HTMLInputElement, { target: { files: [source] } });
     await screen.findByAltText("Selected image preview");

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import BatchImageTool from "./BatchImageTool";
+import ImageToPdfTool from "./ImageToPdfTool";
 import exifr from "exifr";
 import {
   ArrowDownToLine, ArrowRight, Check, Copy, FileImage, Image as ImageIcon,
@@ -12,26 +14,37 @@ import {
 type ToolId =
   | "compress" | "resize" | "crop" | "convert" | "rotate" | "flip"
   | "watermark" | "rounded" | "blur" | "grayscale" | "color"
-  | "metadata" | "base64" | "metadata-cleaner";
+  | "metadata" | "base64" | "metadata-cleaner" | "batch" | "image-to-pdf";
 
-const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean }> = [
-  { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular" },
-  { id: "resize", title: "Image Resizer", desc: "Set precise width and height in pixels.", icon: "▧", tag: "Quick" },
-  { id: "crop", title: "Image Cropper", desc: "Crop to the exact rectangle you need.", icon: "▣", tag: "Precision" },
-  { id: "convert", title: "Image Converter", desc: "Convert between JPG, PNG and WebP.", icon: "⇄", tag: "3 formats" },
-  { id: "rotate", title: "Image Rotator", desc: "Rotate an image in 90-degree steps.", icon: "↻", tag: "Quick" },
-  { id: "flip", title: "Image Flipper", desc: "Mirror images horizontally or vertically.", icon: "⇋", tag: "Quick" },
-  { id: "watermark", title: "Image Watermark", desc: "Add text or a transparent logo watermark with position and opacity controls.", icon: "✎", tag: "Custom" },
-  { id: "rounded", title: "Rounded Corners", desc: "Create smooth rounded image corners.", icon: "▢", tag: "Transparent PNG" },
-  { id: "blur", title: "Image Blur", desc: "Apply adjustable blur to the full image.", icon: "◌", tag: "Creative" },
-  { id: "grayscale", title: "Grayscale Converter", desc: "Convert an image to monochrome.", icon: "◐", tag: "One click" },
-  { id: "color", title: "Image Color Picker", desc: "Click any pixel to inspect its color value.", icon: "◉", tag: "Pixel sampling" },
-  { id: "metadata", title: "Image Metadata Viewer", desc: "Inspect file details, type and image dimensions.", icon: "ⓘ", tag: "File details" },
-  { id: "metadata-cleaner", title: "Image Metadata Cleaner", desc: "Export a fresh image copy without the source photo metadata.", icon: "⌁", tag: "Privacy" },
-  { id: "base64", title: "Image to Base64", desc: "Create a Base64 data URL and copy it.", icon: "⌘", tag: "Developer" },
+const tools: Array<{ id: string; title: string; desc: string; icon: string; tag: string; comingSoon?: boolean; category?: "optimize" | "edit" | "inspect" | "batch" | "pdf"; }> = [
+  { id: "compress", title: "Image Compressor", desc: "Reduce file size with adjustable output quality.", icon: "◈", tag: "Popular", category: "optimize" },
+  { id: "resize", title: "Image Resizer", desc: "Set precise width and height in pixels.", icon: "▧", tag: "Quick", category: "optimize" },
+  { id: "crop", title: "Image Cropper", desc: "Crop to the exact rectangle you need.", icon: "▣", tag: "Precision", category: "edit" },
+  { id: "convert", title: "Image Converter", desc: "Convert between JPG, PNG and WebP.", icon: "⇄", tag: "3 formats", category: "optimize" },
+  { id: "rotate", title: "Image Rotator", desc: "Rotate an image in 90-degree steps.", icon: "↻", tag: "Quick", category: "edit" },
+  { id: "flip", title: "Image Flipper", desc: "Mirror images horizontally or vertically.", icon: "⇋", tag: "Quick", category: "edit" },
+  { id: "watermark", title: "Image Watermark", desc: "Add text or a transparent logo watermark with position and opacity controls.", icon: "✎", tag: "Custom", category: "edit" },
+  { id: "rounded", title: "Rounded Corners", desc: "Create smooth rounded image corners.", icon: "▢", tag: "Transparent PNG", category: "edit" },
+  { id: "blur", title: "Image Blur", desc: "Apply adjustable blur to the full image.", icon: "◌", tag: "Creative", category: "edit" },
+  { id: "grayscale", title: "Grayscale Converter", desc: "Convert an image to monochrome.", icon: "◐", tag: "One click", category: "edit" },
+  { id: "color", title: "Image Color Picker", desc: "Click any pixel to inspect its color value.", icon: "◉", tag: "Pixel sampling", category: "inspect" },
+  { id: "metadata", title: "Image Metadata Viewer", desc: "Inspect file details, type and image dimensions.", icon: "ⓘ", tag: "File details", category: "inspect" },
+  { id: "metadata-cleaner", title: "Image Metadata Cleaner", desc: "Export a fresh image copy without the source photo metadata.", icon: "⌁", tag: "Privacy", category: "inspect" },
+  { id: "base64", title: "Image to Base64", desc: "Create a Base64 data URL and copy it.", icon: "⌘", tag: "Developer", category: "inspect" },
+  { id: "batch", title: "Batch Image Converter", desc: "Convert and optimize up to 30 images at once, then download them individually or as one ZIP.", icon: "▤", tag: "New", category: "batch" },
+  { id: "image-to-pdf", title: "Image to PDF", desc: "Combine JPG, PNG or WebP images into an ordered, multi-page A4 PDF.", icon: "▧", tag: "New", category: "pdf" },
   { id: "background", title: "Background Remover", desc: "AI-powered background removal.", icon: "✧", tag: "Coming soon", comingSoon: true },
   { id: "upscaler", title: "AI Image Upscaler", desc: "Increase image resolution with an AI model.", icon: "⤢", tag: "Coming soon", comingSoon: true }
 ];
+
+const toolCategories = [
+  { id: "all", label: "All tools" },
+  { id: "optimize", label: "Optimize" },
+  { id: "edit", label: "Edit" },
+  { id: "inspect", label: "Inspect & data" },
+  { id: "batch", label: "Batch" },
+  { id: "pdf", label: "PDF" }
+] as const;
 
 function readAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -47,7 +60,8 @@ const toolSlugs: Record<ToolId, string> = {
   convert: "image-converter", rotate: "image-rotator", flip: "image-flipper",
   watermark: "image-watermark", rounded: "rounded-corners", blur: "image-blur",
   grayscale: "grayscale-converter", color: "image-color-picker",
-  metadata: "image-metadata-viewer", base64: "image-to-base64", "metadata-cleaner": "image-metadata-cleaner"
+  metadata: "image-metadata-viewer", base64: "image-to-base64", "metadata-cleaner": "image-metadata-cleaner",
+  batch: "batch-image-converter", "image-to-pdf": "image-to-pdf"
 };
 
 function getInitialTool(): ToolId | null {
@@ -73,6 +87,8 @@ export default function App() {
   const [toolCategory, setToolCategory] = useState("all");
   const [resultPreview, setResultPreview] = useState("");
   const [exifData, setExifData] = useState<Record<string, unknown> | null>(null);
+  const [exifLoading, setExifLoading] = useState(false);
+  const [showGpsLocation, setShowGpsLocation] = useState(false);
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [format, setFormat] = useState<ImageFormat>("image/webp");
@@ -108,6 +124,8 @@ export default function App() {
   const dialogRef = useRef<HTMLElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const fileSelectionId = useRef(0);
+  const processingId = useRef(0);
+  const processingActive = useRef(false);
   const watermarkSelectionId = useRef(0);
   const cropSelectionRef = useRef<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
   const cropDragging = useRef(false);
@@ -125,13 +143,19 @@ export default function App() {
   }, [watermarkImagePreview]);
 
   useEffect(() => {
-    if (active === "base64" && file && dimensions.width > 0) {
-      readAsDataUrl(file).then(setBase64Text).catch(e => setError(e instanceof Error ? e.message : "Could not encode this image."));
-    }
+    if (active !== "base64" || !file || dimensions.width < 1) return;
+    let cancelled = false;
+    readAsDataUrl(file)
+      .then(value => { if (!cancelled) setBase64Text(value); })
+      .catch(e => { if (!cancelled) setError(e instanceof Error ? e.message : "Could not encode this image."); });
+    return () => { cancelled = true; };
   }, [active, file, dimensions.width]);
 
   const clear = () => {
     fileSelectionId.current += 1;
+    processingId.current += 1;
+    processingActive.current = false;
+    setBusy(false);
     watermarkSelectionId.current += 1;
     setFile(null);
     setResult(null);
@@ -152,6 +176,8 @@ export default function App() {
     cropSelectionRef.current = null;
     setCropSelection(null);
     setExifData(null);
+    setExifLoading(false);
+    setShowGpsLocation(false);
     if (inputRef.current) inputRef.current.value = "";
   };
 
@@ -386,6 +412,12 @@ export default function App() {
       return;
     }
     const selectionId = ++fileSelectionId.current;
+    processingId.current += 1;
+    processingActive.current = false;
+    setBusy(false);
+    setExifData(null);
+    setExifLoading(active === "metadata");
+    setShowGpsLocation(false);
     setFile(picked);
     setDimensions({ width: 0, height: 0 });
     setResult(null);
@@ -400,6 +432,7 @@ export default function App() {
       if (imageWidth > 12000 || imageHeight > 12000 || imageWidth * imageHeight > 60000000) {
         setFile(null);
         setDimensions({ width: 0, height: 0 });
+        setExifLoading(false);
         setError("This image is too large to process safely. Maximum dimensions are 12,000 px per side and 60 megapixels total.");
         return;
       }
@@ -416,12 +449,16 @@ export default function App() {
       setFile(null);
       setPreview("");
       setDimensions({ width: 0, height: 0 });
+      setExifLoading(false);
       setError(e instanceof Error ? e.message : "Could not read this image. Try exporting it as JPG, PNG or WebP.");
     });
   };
 
   const process = async () => {
-    if (!file || !active) return;
+    if (!file || !active || processingActive.current) return;
+    const selectionId = fileSelectionId.current;
+    const currentProcessId = ++processingId.current;
+    processingActive.current = true;
     setBusy(true);
     setError("");
     setResult(null);
@@ -508,6 +545,7 @@ export default function App() {
       if (active === "compress" && compressionMode === "target") {
         const targetBytes = Number(targetSizeKb) * 1024;
         const compressed = await renderImageToTargetSize(file, { ...options, quality: 1 }, targetBytes);
+        if (currentProcessId !== processingId.current || selectionId !== fileSelectionId.current) return;
         blob = compressed.blob;
         setCompressionMessage(compressed.targetReached
           ? "Target reached at " + Math.round(compressed.quality * 100) + "% quality."
@@ -515,12 +553,18 @@ export default function App() {
       } else {
         blob = await renderImage(file, options);
       }
+      if (currentProcessId !== processingId.current || selectionId !== fileSelectionId.current) return;
       setResult(blob);
       setResultPreview(URL.createObjectURL(blob));
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong while processing the image.");
+      if (currentProcessId === processingId.current && selectionId === fileSelectionId.current) {
+        setError(e instanceof Error ? e.message : "Something went wrong while processing the image.");
+      }
     } finally {
-      setBusy(false);
+      if (currentProcessId === processingId.current) {
+        processingActive.current = false;
+        setBusy(false);
+      }
     }
   };
 
@@ -574,9 +618,14 @@ export default function App() {
     window.setTimeout(() => URL.revokeObjectURL(url), 1500);
   };
 
+  const exifForOutput = exifData && !showGpsLocation
+    ? Object.fromEntries(Object.entries(exifData).filter(([key]) => !/^GPS/i.test(key)))
+    : exifData;
+  const hasGpsMetadata = !!exifData && Object.keys(exifData).some(key => /^GPS/i.test(key));
+
   const saveMetadataReport = () => {
     if (!file) return;
-    const report = { fileName: file.name, mimeType: file.type, sizeBytes: file.size, width: dimensions.width, height: dimensions.height, lastModified: new Date(file.lastModified).toISOString(), exif: exifData ?? null };
+    const report = { fileName: file.name, mimeType: file.type, sizeBytes: file.size, width: dimensions.width, height: dimensions.height, lastModified: new Date(file.lastModified).toISOString(), exif: exifForOutput ?? null };
     const baseName = file.name.replace(/\.[^.]+$/, "") || "image";
     downloadTextFile(baseName + "-metadata.json", JSON.stringify(report, null, 2));
   };
@@ -596,10 +645,13 @@ export default function App() {
   const base64Output = base64Mode === "data-url" ? base64Text : base64Text.slice(base64Text.indexOf(",") + 1);
   const filteredTools = tools.filter(tool => {
     const matchesSearch = (tool.title + " " + tool.desc).toLowerCase().includes(toolSearch.trim().toLowerCase());
-    const id = String(tool.id);
-    const category = toolCategory === "all" || (toolCategory === "optimize" && ["compress","resize","convert"].includes(id)) || (toolCategory === "edit" && ["crop","rotate","flip","watermark","rounded","blur","grayscale"].includes(id)) || (toolCategory === "inspect" && ["color","metadata","base64","metadata-cleaner"].includes(id));
+    const category = toolCategory === "all" || tool.category === toolCategory;
     return matchesSearch && category;
   });
+  const visibleTools = filteredTools;
+  const availableToolCount = filteredTools.filter(tool => !tool.comingSoon).length;
+  const comingSoonToolCount = filteredTools.length - availableToolCount;
+  const toolCountMessage = `${availableToolCount} available ${availableToolCount === 1 ? "tool" : "tools"}${comingSoonToolCount > 0 ? ` · ${comingSoonToolCount} coming soon` : ""}`;
 
   useEffect(() => {
     const tool = tools.find(item => item.id === active);
@@ -613,10 +665,18 @@ export default function App() {
     canonical.href = tool ? window.location.origin + "/tools/" + toolSlugs[active as ToolId] + "/" : window.location.origin + "/";
   }, [active]);
   useEffect(() => {
-    if (active !== "metadata" || !file || dimensions.width < 1) return;
+    if (active !== "metadata" || !file) {
+      setExifLoading(false);
+      return;
+    }
+    if (dimensions.width < 1) return;
     let cancelled = false;
-    exifr.parse(file).then(data => { if (!cancelled) setExifData((data ?? null) as Record<string, unknown> | null); })
-      .catch(() => { if (!cancelled) setExifData(null); });
+    setExifData(null);
+    setExifLoading(true);
+    exifr.parse(file)
+      .then(data => { if (!cancelled) setExifData((data ?? null) as Record<string, unknown> | null); })
+      .catch(() => { if (!cancelled) setExifData(null); })
+      .finally(() => { if (!cancelled) setExifLoading(false); });
     return () => { cancelled = true; };
   }, [active, file, dimensions.width]);
 
@@ -680,9 +740,10 @@ export default function App() {
   const informationalTool = active === "color" || active === "metadata" || active === "base64";
 
   return <div className="app-shell">
+    <a className="skip-link" href="#tools">Skip to tools</a>
     <header className="topbar">
-      <a className="brand" href="#" onClick={closeTool}><span className="brand-mark"><ImageIcon size={19}/></span>pixel<span>tools</span></a>
-      <nav className={mobileMenuOpen ? "open" : ""}><a href="#tools" onClick={() => setMobileMenuOpen(false)}>All tools</a><a href="#how" onClick={() => setMobileMenuOpen(false)}>How it works</a><a href="#privacy" onClick={() => setMobileMenuOpen(false)}>Privacy</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+      <a className="brand" href="/#tools" onClick={closeTool}><span className="brand-mark"><ImageIcon size={19}/></span>pixel<span>tools</span></a>
+      <nav aria-label="Main navigation" className={mobileMenuOpen ? "open" : ""}><a href="#tools" onClick={() => setMobileMenuOpen(false)}>Tools</a><a href="#how" onClick={() => setMobileMenuOpen(false)}>How it works</a><a href="#privacy" onClick={() => setMobileMenuOpen(false)}>Privacy</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
       <a className="header-cta" href="#tools">Explore tools <ArrowRight size={15}/></a>
       <button className="mobile-menu" aria-label="Toggle menu" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(v => !v)}><Menu size={21}/></button>
     </header>
@@ -691,42 +752,42 @@ export default function App() {
         <div className="hero-copy">
           <div className="eyebrow"><Sparkles size={14}/> YOUR CREATIVE WORKFLOW, SIMPLIFIED</div>
           <h1>Image work,<br/><span>made simple.</span></h1>
-          <p className="hero-lead">The little image toolkit that does a lot. Compress, resize and convert your images in a few clicks — completely free.</p>
-          <div className="hero-actions"><a className="primary-btn" href="#tools">Explore image tools <ArrowRight size={17}/></a><div className="trust-note"><ShieldCheck size={17}/> Private by design</div></div>
-          <div className="hero-stats"><div><strong>100%</strong><span>Free to use</span></div><div><strong>0</strong><span>Uploads to servers</span></div><div><strong>Fast</strong><span>Browser processing</span></div></div>
+          <p className="hero-lead">Everything you need for everyday image work — from quick compression and precise edits to batch conversion and PDF creation. Free to use, with image processing that stays in your browser.</p>
+          <div className="hero-actions"><a className="primary-btn" href="#tools">Explore all tools <ArrowRight size={17}/></a><a className="secondary-hero-link" href="#how">See how it works</a></div>
+          <div className="hero-proof"><span><ShieldCheck size={16}/> Browser-based processing</span><span><Check size={16}/> No account required</span><span><Sparkles size={16}/> Free to use</span></div>
+          <div className="hero-quick-tools" aria-label="Popular tools"><span>Popular:</span><button type="button" onClick={() => chooseTool("compress")}>Compress image</button><button type="button" onClick={() => chooseTool("resize")}>Resize image</button><button type="button" onClick={() => chooseTool("convert")}>Convert format</button><button type="button" onClick={() => chooseTool("image-to-pdf")}>Image to PDF</button></div>
         </div>
         <div className="hero-art">
           <div className="art-glow"></div>
           <div className="floating-card card-back"><div className="mini-toolbar"><i></i><i></i><i></i></div><div className="abstract-image"><div className="sun"></div><div className="mountain m1"></div><div className="mountain m2"></div></div><div className="fake-lines"><i></i><i></i></div></div>
-          <div className="floating-card card-front"><div className="file-row"><span className="file-icon"><FileImage size={19}/></span><div><b>summer-photo.webp</b><small>Image ready to optimize</small></div><Check size={17} className="check"/></div><div className="progress-label"><span>File size reduced</span><b>−68%</b></div><div className="progress"><i></i></div><div className="size-row"><span>2.4 MB</span><ArrowRight size={14}/><b>768 KB</b></div></div>
+          <div className="floating-card card-front"><div className="file-row"><span className="file-icon"><FileImage size={19}/></span><div><b>PixelTools workspace</b><small>Illustrative preview</small></div><Check size={17} className="check"/></div><div className="progress-label"><span>Choose a tool</span><b>Process locally</b></div><div className="size-row"><span>Compress · Resize · Convert</span><ArrowRight size={14}/><b>Download</b></div></div>
           <div className="sparkle s1">✳</div><div className="sparkle s2">✦</div>
         </div>
       </section>
       <section className="trust-strip"><span><LockKeyhole size={16}/> Your images stay on your device</span><span><Check size={16}/> No sign-up required</span><span><Sparkles size={16}/> Always free</span></section>
       <section className="tools-section" id="tools">
-        <div className="section-heading"><div><div className="eyebrow">THE TOOLKIT</div><h2>Everything you need.<br/><span>Nothing you don't.</span></h2></div><p>Focused image utilities for everyday creative work. Choose a tool and get straight to work.</p></div>
+        <div className="section-heading"><div><div className="eyebrow">THE TOOLKIT</div><h2>Find the right tool.<br/><span>Get straight to work.</span></h2></div><p>Sixteen focused tools for image editing, optimization, batch workflows and PDFs. Search by task or browse a category.</p></div>
         <div className="tool-discovery">
-          <label className="tool-search-label" htmlFor="tool-search">Find the right tool</label>
-          <input id="tool-search" className="tool-search" type="search" placeholder="Search compressor, crop, watermark…" value={toolSearch} onChange={e => setToolSearch(e.target.value)} />
-          <div className="tool-filters" role="group" aria-label="Filter image tools">
-            {[
-              ["all","All tools"],["optimize","Optimize"],["edit","Edit"],["inspect","Inspect & data"]
-            ].map(([value,label]) => <button type="button" key={value} className={toolCategory === value ? "filter-chip active" : "filter-chip"} aria-pressed={toolCategory === value} onClick={() => setToolCategory(value)}>{label}</button>)}
-          </div>
-          <p className="tool-count" role="status">{filteredTools.length} tools found</p>
+          <label className="tool-search-label" htmlFor="tool-search">What would you like to do?</label>
+          <input id="tool-search" className="tool-search" type="search" placeholder="Try “compress”, “watermark” or “PDF”…" value={toolSearch} onChange={e => setToolSearch(e.target.value)} />
+          <div className="tool-filters" role="group" aria-label="Filter tools by category">{toolCategories.map(category => <button type="button" key={category.id} className={toolCategory === category.id ? "filter-chip active" : "filter-chip"} aria-pressed={toolCategory === category.id} onClick={() => setToolCategory(category.id)}>{category.label}</button>)}</div>
+          <p className="tool-count" role="status" aria-live="polite">{toolCountMessage}</p>
         </div>
-        <div className="tool-grid">{filteredTools.map(tool => <button className={tool.comingSoon ? "tool-card disabled" : "tool-card"} key={tool.id} disabled={!!tool.comingSoon} onClick={() => !tool.comingSoon && chooseTool(tool.id as ToolId)}><div className="tool-card-top"><span className="tool-icon">{tool.icon}</span><span className={tool.comingSoon ? "tool-tag coming" : "tool-tag"}>{tool.tag}</span></div><h3>{tool.title}</h3><p>{tool.desc}</p><span className="tool-link">{tool.comingSoon ? "In development" : "Open tool"} {!tool.comingSoon && <ArrowRight size={15}/>}</span></button>)}</div>
-        {filteredTools.length === 0 && <p className="empty-tools">No matching tools. Try another search or choose “All tools”.</p>}
+        <div className="tool-grid">{visibleTools.map(tool => <button className={tool.comingSoon ? "tool-card disabled" : "tool-card"} key={tool.id} disabled={!!tool.comingSoon} onClick={() => !tool.comingSoon && chooseTool(tool.id as ToolId)}><div className="tool-card-top"><span className="tool-icon" aria-hidden="true">{tool.icon}</span><span className={tool.comingSoon ? "tool-tag coming" : "tool-tag"}>{tool.tag}</span></div><h3>{tool.title}</h3><p>{tool.desc}</p><span className="tool-link">{tool.comingSoon ? "In development" : "Open tool"} {!tool.comingSoon && <ArrowRight size={15}/>}</span></button>)}</div>
+        {filteredTools.length === 0 && <div className="empty-tools"><p>No matching tools found. Try a broader search or reset the filters.</p><button type="button" className="text-action" onClick={() => { setToolSearch(""); setToolCategory("all"); }}>Clear filters</button></div>}
       </section>
+      <section className="benefits-section" aria-labelledby="benefits-title"><div className="section-heading"><div><div className="eyebrow">MADE FOR EVERYDAY WORK</div><h2 id="benefits-title">Simple tools.<br/><span>Thoughtful details.</span></h2></div><p>Useful controls without the clutter. PixelTools is designed to make common file tasks feel straightforward.</p></div><div className="benefit-grid"><article className="benefit-card"><span><LockKeyhole size={20}/></span><h3>Private by default</h3><p>Your selected images are processed in your browser, not uploaded to a PixelTools image-processing server.</p></article><article className="benefit-card"><span><Check size={20}/></span><h3>Clear, practical controls</h3><p>Preview your work, adjust the settings that matter and download a result in a format you understand.</p></article><article className="benefit-card"><span><Sparkles size={20}/></span><h3>Free and straightforward</h3><p>No account, subscription or paywall for the tools that are currently available.</p></article></div></section>
       <section className="privacy-section" id="privacy"><div className="privacy-icon"><ShieldCheck size={25}/></div><div><div className="eyebrow">YOUR PRIVACY MATTERS</div><h2>Your images are <span>yours.</span></h2><p>Working tools process your images directly in your browser. Your files are not uploaded to PixelTools servers, and there is no account to create. AI background removal and upscaling are not enabled yet.</p></div><div className="privacy-stamp"><LockKeyhole size={18}/><b>PRIVATE</b><small>By design</small></div></section>
-      <section className="how-section" id="how"><div className="eyebrow">THREE SIMPLE STEPS</div><h2>From upload to <span>done.</span></h2><div className="steps"><div><b>01</b><h3>Choose a tool</h3><p>Pick the image task you want to get done.</p></div><div><b>02</b><h3>Add your image</h3><p>Drop a file or browse your device. That's it.</p></div><div><b>03</b><h3>Download & go</h3><p>Process locally and save your finished image.</p></div></div></section>
+      <section className="how-section" id="how"><div className="eyebrow">THREE SIMPLE STEPS</div><h2>From upload to <span>done.</span></h2><div className="steps"><div><b>01</b><h3>Choose a tool</h3><p>Pick the image task you want to get done.</p></div><div><b>02</b><h3>Add your files</h3><p>Drop a file or browse your device. That's it.</p></div><div><b>03</b><h3>Download & go</h3><p>Process locally and save your finished result.</p></div></div></section>
+      <section className="faq-section" aria-labelledby="faq-title"><div className="eyebrow">GOOD TO KNOW</div><h2 id="faq-title">A few quick answers.</h2><div className="faq-list"><details><summary>Are my images uploaded to PixelTools?</summary><p>No. Current image tools process selected files in your browser. The image-processing workflow does not upload your selected image to a PixelTools server. The hosting provider may still process routine technical request and security data; see the Privacy Policy.</p></details><details><summary>Is PixelTools free to use?</summary><p>Yes. The current release has no subscription, paid gate or advertisements.</p></details><details><summary>Which image formats are supported?</summary><p>The current image workflows accept JPG, PNG and WebP. Individual tools explain their available output formats and limitations.</p></details><details><summary>Are the AI tools available?</summary><p>Background Remover and AI Image Upscaler are marked Coming Soon. They are not advertised as working tools until their processing pipelines are implemented and tested.</p></details></div></section>
     </main>
     <footer><a className="brand" href="/"><span className="brand-mark"><ImageIcon size={17}/></span>pixel<span>tools</span></a><p>Thoughtful image tools. Free for everyone.</p><nav className="footer-links"><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><small>© 2026 PixelTools. Made for the web.</small></footer>
 
     {active && <div className="modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) closeTool() }}>
       <section ref={dialogRef} className="tool-modal" role="dialog" aria-modal="true" aria-labelledby="tool-dialog-title" tabIndex={-1}>
         <div className="modal-head"><div><div className="eyebrow">PIXELTOOLS WORKSPACE</div><h2 id="tool-dialog-title">{toolName}</h2><p className="modal-subtitle">{tools.find(t => t.id === active)?.desc}</p></div><button className="icon-btn" aria-label="Close tool" onClick={closeTool}><X size={20}/></button></div>
-        <div className="workflow-steps" aria-label="Tool workflow"><span className={!file ? "current" : "done"}><b>1</b> Add image</span><span className={file ? "current" : ""}><b>2</b> Adjust options</span><span className={result ? "done current" : ""}><b>3</b> Download</span></div>
+        {active === "image-to-pdf" ? <ImageToPdfTool/> : active === "batch" ? <BatchImageTool/> : <>
+        {!["image-to-pdf", "batch"].includes(active) && <div className="workflow-steps" aria-label="Tool workflow"><span className={!file ? "current" : "done"}><b>1</b> Add image</span><span className={file ? "current" : ""}><b>2</b> Adjust options</span><span className={result ? "done current" : ""}><b>3</b> Download</span></div>}
         {!file ? <button className="dropzone" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); selectFile(e.dataTransfer.files[0]); }}><span className="upload-icon"><UploadCloud size={28}/></span><b>Drop your image here</b><span>or click to browse files</span><small>JPG, PNG, WebP · Up to 25 MB</small></button> : <div className="workspace">
           <div className="preview-panel">
             {preview ? <div className={active === "crop" ? "preview-image-frame crop-mode" : "preview-image-frame"} onPointerDown={active === "crop" ? cropPointerDown : undefined} onPointerMove={active === "crop" ? cropPointerMove : undefined} onPointerUp={active === "crop" ? cropPointerUp : undefined} onPointerCancel={() => { cropDragging.current = false; }}><img src={preview} alt="Selected image preview" onClick={active === "color" ? sampleColor : undefined} onKeyDown={active === "color" ? async e => { if ((e.key === "Enter" || e.key === " ") && file) { e.preventDefault(); try { setSample(await sampleImageColor(file, 0.5, 0.5)); } catch { setError("Could not sample the center pixel."); } } } : undefined} tabIndex={active === "color" ? 0 : undefined} role={active === "color" ? "button" : undefined} aria-label={active === "color" ? "Sample image color. Click or press Enter to read the center pixel." : undefined} className={active === "color" ? "sample-cursor" : ""}/>{active === "crop" && cropSelection && <div className="crop-selection-overlay" aria-hidden="true" style={{left: Math.min(cropSelection.x1,cropSelection.x2)*100 + "%", top: Math.min(cropSelection.y1,cropSelection.y2)*100 + "%", width: Math.abs(cropSelection.x2-cropSelection.x1)*100 + "%", height: Math.abs(cropSelection.y2-cropSelection.y1)*100 + "%"}}/>}</div> : <p className="hint">Checking image dimensions and preparing a safe preview…</p>}
@@ -785,7 +846,7 @@ export default function App() {
             {active === "grayscale" && <><p className="hint">Convert the image to grayscale while preserving its dimensions.</p><label htmlFor="pixeltool-field-28">Output format</label><select id="pixeltool-field-28" className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select></>}
             {active === "color" && <><p className="hint">Click a pixel in the preview to sample it. The palette below is generated from the whole image.</p>{sample && <div className="sample-result"><span style={{ background: sample.hex }}></span><div><b>{sample.hex}</b><small>RGB({sample.r}, {sample.g}, {sample.b}) · HSL({rgbToHsl(sample.r, sample.g, sample.b).h}, {rgbToHsl(sample.r, sample.g, sample.b).s}%, {rgbToHsl(sample.r, sample.g, sample.b).l}%)</small></div><button className="secondary-btn" onClick={() => copyText(sample.hex)}><Copy size={14}/>{copied ? "Copied" : "Copy HEX"}</button><button className="secondary-btn" onClick={() => copyText("rgb(" + sample.r + ", " + sample.g + ", " + sample.b + ")")}><Copy size={14}/>Copy RGB</button><button className="secondary-btn" onClick={() => { const hsl = rgbToHsl(sample.r, sample.g, sample.b); copyText("hsl(" + hsl.h + ", " + hsl.s + "%, " + hsl.l + "%)"); }}><Copy size={14}/>Copy HSL</button></div>}<div className="palette-panel"><div className="palette-heading"><b>Image color palette</b><button type="button" className="secondary-btn" onClick={() => copyText(palette.map(color => color.hex).join(", "))} disabled={palette.length === 0}><Copy size={13}/> Copy all</button></div>{palette.length > 0 ? <div className="palette-grid">{palette.map(color => <button type="button" key={color.hex} className="palette-color" onClick={() => copyText(color.hex)} title={"Copy " + color.hex + " · " + color.count + " pixels"}><span style={{ background: color.hex }}></span><b>{color.hex}</b></button>)}</div> : <p className="hint">Building a palette from the image…</p>}</div></>}
             {active === "metadata-cleaner" && <><p className="hint">Create a fresh copy by decoding and re-encoding the image in your browser. This removes the source file’s embedded camera metadata and GPS tags rather than copying the original binary file.</p><label htmlFor="pixeltool-field-29">Clean copy format</label><select id="pixeltool-field-29" className="text-input" value={format} onChange={e => setFormat(e.target.value as ImageFormat)}><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select>{format !== "image/png" && <><label htmlFor="pixeltool-field-30">Output quality <b>{quality}%</b></label><input id="pixeltool-field-30" type="range" min="20" max="100" value={quality} onChange={e => setQuality(Number(e.target.value))}/></>}<p className="metadata-privacy">Your source file is not changed. The browser may write basic output metadata during re-encoding, but original EXIF/GPS camera tags are not copied by this workflow.</p></>}
-            {active === "metadata" && <div className="metadata-list"><div><span>File name</span><b>{file.name}</b></div><div><span>Format / MIME</span><b>{file.type}</b></div><div><span>File size</span><b>{formatBytes(file.size)}</b></div><div><span>Dimensions</span><b>{dimensions.width} × {dimensions.height} px</b></div><div><span>Last modified</span><b>{new Date(file.lastModified).toLocaleString()}</b></div>{exifData && Object.entries(exifData).filter(([key,value]) => ["Make","Model","DateTimeOriginal","CreateDate","ModifyDate","LensModel","ISO","FNumber","ExposureTime","FocalLength","Orientation","Software","GPSLatitude","GPSLongitude"].includes(key) && value != null).map(([key,value]) => <div key={key}><span>{key}</span><b>{Array.isArray(value) ? value.join(", ") : value instanceof Date ? value.toLocaleString() : String(value)}</b></div>)}<p className="metadata-privacy">EXIF can contain camera details and sometimes GPS coordinates. This information is read locally and never uploaded by PixelTools. Review sensitive fields before sharing this report.</p>{!exifData && <p className="hint">No readable EXIF data was found in this image. Some formats and apps strip camera metadata.</p>}<div className="metadata-actions"><button type="button" className="secondary-btn" onClick={saveMetadataReport}><ArrowDownToLine size={14}/> Download metadata JSON</button><button type="button" className="secondary-btn" onClick={() => copyText(JSON.stringify({fileName:file.name,mimeType:file.type,sizeBytes:file.size,width:dimensions.width,height:dimensions.height,lastModified:file.lastModified,exif:exifData},null,2))}><Copy size={14}/> Copy metadata JSON</button></div></div>}
+            {active === "metadata" && <div className="metadata-list"><div><span>File name</span><b>{file.name}</b></div><div><span>Format / MIME</span><b>{file.type}</b></div><div><span>File size</span><b>{formatBytes(file.size)}</b></div><div><span>Dimensions</span><b>{dimensions.width} × {dimensions.height} px</b></div><div><span>Last modified</span><b>{new Date(file.lastModified).toLocaleString()}</b></div>{exifData && Object.entries(exifData).filter(([key,value]) => ["Make","Model","DateTimeOriginal","CreateDate","ModifyDate","LensModel","ISO","FNumber","ExposureTime","FocalLength","Orientation","Software","GPSLatitude","GPSLongitude"].includes(key) && value != null && (showGpsLocation || !/^GPS/i.test(key))).map(([key,value]) => <div key={key}><span>{key}</span><b>{Array.isArray(value) ? value.join(", ") : value instanceof Date ? value.toLocaleString() : String(value)}</b></div>)}<p className="metadata-privacy">EXIF can contain camera details and GPS coordinates. GPS fields are hidden by default and omitted from copied or downloaded reports unless you explicitly include them.</p>{hasGpsMetadata && <label className="check-label metadata-gps-toggle"><input type="checkbox" checked={showGpsLocation} onChange={event => setShowGpsLocation(event.target.checked)}/> Include GPS coordinates (sensitive location information)</label>}{exifLoading ? <p className="hint">Reading local EXIF metadata…</p> : !exifData && <p className="hint">No readable EXIF data was found in this image. Some formats and apps strip camera metadata.</p>}<div className="metadata-actions"><button type="button" className="secondary-btn" onClick={saveMetadataReport}><ArrowDownToLine size={14}/> Download metadata JSON</button><button type="button" className="secondary-btn" onClick={() => copyText(JSON.stringify({fileName:file.name,mimeType:file.type,sizeBytes:file.size,width:dimensions.width,height:dimensions.height,lastModified:file.lastModified,exif:exifForOutput},null,2))}><Copy size={14}/> Copy metadata JSON</button></div></div>}
             {active === "base64" && <><label htmlFor="pixeltool-field-31">Output type</label><select id="pixeltool-field-31" className="text-input" value={base64Mode} onChange={e => setBase64Mode(e.target.value as "data-url" | "raw")}><option value="data-url">Data URL (includes MIME prefix)</option><option value="raw">Raw Base64 only</option></select><label htmlFor="pixeltool-field-32">{base64Mode === "data-url" ? "Base64 data URL" : "Raw Base64 text"}</label><textarea id="pixeltool-field-32" className="base64-output" readOnly value={base64Output} placeholder="Encoding image…" rows={8}/><div className="button-row"><button className="secondary-btn" onClick={() => copyText(base64Output)} disabled={!base64Output}><Copy size={14}/>{copied ? "Copied" : "Copy Base64"}</button><button className="secondary-btn" onClick={saveBase64} disabled={!base64Output}><ArrowDownToLine size={14}/> Save .txt</button></div><p className="hint">Data URLs include the MIME type prefix. Raw Base64 contains only the encoded payload. Both are larger than the original binary file.</p></>}
             {["crop","rotate","flip","watermark","blur","grayscale"].includes(active ?? "") && format !== "image/png" && <><label htmlFor="pixeltool-field-33">Export quality <b>{quality}%</b></label><input id="pixeltool-field-33" type="range" min="20" max="100" value={quality} onChange={e => setQuality(Number(e.target.value))}/><div className="quick-sizes quality-presets">{[["small","Smaller",65],["balanced","Balanced",80],["best","Best quality",92]].map(([id,label,value]) => <button type="button" key={id} className={quality===Number(value) ? "size-chip selected" : "size-chip"} aria-pressed={quality===Number(value)} onClick={() => setQuality(Number(value))}>{label}</button>)}</div></>}
             {format === "image/jpeg" && !["color","metadata","base64","rounded"].includes(active ?? "") && <><label htmlFor="pixeltool-field-34">JPG background color</label><input id="pixeltool-field-34" className="text-input color-input" type="color" value={jpegBackground} onChange={e => setJpegBackground(e.target.value)}/><p className="hint">Transparent areas are filled with this color when exporting to JPG.</p></>}{error && <p className="error-msg" role="alert" aria-live="polite">{error}</p>}
@@ -798,6 +859,7 @@ export default function App() {
         {error && !file && <p className="error-msg" role="alert" aria-live="polite">{error}</p>}
         <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={e => selectFile(e.target.files?.[0])}/>
         {active === "watermark" && <input ref={watermarkInputRef} type="file" accept="image/png,image/webp" hidden onChange={e => selectWatermarkImage(e.target.files?.[0])}/>}
+        </>}
         <div className="modal-foot"><LockKeyhole size={14}/> Files are processed locally in your browser <button onClick={closeTool}>Close</button></div>
       </section>
     </div>}
